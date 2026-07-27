@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "_comment": "The gm spec for workflows-in-skills. This repo IS a workflow definition: point a project or a whole user at it and gm runs THIS workflow instead of its compiled defaults. Everything here was extracted from the live rs-plugkit defaults (fsm-vendor generated fsm/graph.json and fsm/predicates.md; prose/*.md are the real compiled instruction sources), so pointing at this repo unmodified reproduces stock gm behaviour exactly -- it is a starting point to edit, not an approximation to drift from.",
+
+  "instructions": {
+    "_comment": "Per-state prose. Each key maps to a state's prose_key in fsm/graph.json, plus 'entry' (served every turn, every phase) and 'browser'. crate::prose::resolve picks project-vendored .gm/instructions/<key>.md first, then this repo's cached copy, then the compiled default -- so overriding one key here leaves every other key on its default.",
+    "dir": "prose",
+    "keys": ["entry", "plan", "execute", "emit", "verify", "consolidate", "browser", "update_docs"]
+  },
+
+  "fsm": {
+    "_comment": "The whole state machine as data: states, edges, the gates guarding each transition, and policy (allowlists, thresholds, terminal phase). Replacing graph.json is how a genuinely different workflow -- different phases, different order, different gates -- is established without touching Rust. gates.predicate may only name a predicate from fsm/predicates.md, which is GENERATED from the same registry the code dispatches on, so a graph cannot silently reference a gate condition that does not exist. A condition outside that registry needs a jit hook (hooks/) instead.",
+    "graph": "fsm/graph.json",
+    "predicates_reference": "fsm/predicates.md",
+    "hooks_dir": "hooks"
+  },
+
+  "messages": {
+    "_comment": "Operator-editable text for gate denials and residual-scan findings, resolved through the same per-key chain as prose. Changing a denial message never changes when the gate fires -- only what the agent is told.",
+    "gates_dir": "gates",
+    "residual_dir": "residual"
+  },
+
+  "index": {
+    "_comment": "Codeinsight/code-index behaviour. Budgets exist because one oversized file must never be able to stall the whole pass or starve the supervisor heartbeat.",
+    "enabled": true,
+    "wall_budget_ms": 45000,
+    "max_chunks_per_file_per_pass": 64,
+    "max_file_bytes": 262144
+  },
+
+  "memory": {
+    "_comment": "The RAG/recall pipeline. embed_dim is load-bearing: changing it invalidates every stored vector, which is why a dim change routes through the explicit drop-if-mismatch path rather than being applied silently to a populated store.",
+    "enabled": true,
+    "embed_dim": 384,
+    "namespaces": ["default", "codeinsight"],
+    "recall_limit": 8
+  },
+
+  "cache": {
+    "_comment": "Budgets for the shared cache layer. Per-namespace so one greedy consumer cannot evict another's entries.",
+    "enabled": true,
+    "max_entries_per_namespace": 5000,
+    "max_bytes_per_namespace": 33554432,
+    "default_ttl_ms": null
+  },
+
+  "sync": {
+    "_comment": "How often a repo-backed config tier re-checks its remote. The check is a cheap remote-ref probe; a full fetch only happens when the sha actually moved, so raising the debounce saves bandwidth and lowering it speeds propagation.",
+    "debounce_ms": 300000,
+    "shallow": true
+  }
+}
