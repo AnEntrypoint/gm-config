@@ -91,6 +91,13 @@ function filesIn (dir) {
   return readdirSync(dir).sort()
 }
 
+function undeclaredProseKeys (instructionsRoot, shape) {
+  const declared = new Set(shape.proseKeys)
+  return markdownFilesIn(instructionsRoot)
+    .map(name => name.slice(0, -'.md'.length))
+    .filter(key => !declared.has(key))
+}
+
 function planSnapshot (instructionsRoot, shape) {
   const planned = []
   const missing = []
@@ -173,6 +180,15 @@ const instructionsRoot = options.materialized
   : materializeCompiledDefaults()
 
 if (!existsSync(instructionsRoot)) fail(`no materialized instructions directory at ${instructionsRoot}`)
+
+const unclaimed = undeclaredProseKeys(instructionsRoot, shape)
+if (unclaimed.length > 0) {
+  fail(
+    `the compiled defaults carry prose key(s) gm.config.json does not declare: ${unclaimed.join(', ')}. ` +
+    'Add them to instructions.keys so they enter the snapshot; leaving them undeclared would drop them ' +
+    'silently while every run still reported the snapshot level.'
+  )
+}
 
 const planned = planSnapshot(instructionsRoot, shape)
 
