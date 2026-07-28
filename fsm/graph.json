@@ -1,4 +1,6 @@
 {
+  "schema_version": 2,
+  "min_plugkit_version": null,
   "states": [
     {
       "key": "PLAN",
@@ -172,7 +174,31 @@
       "wait",
       "sleep"
     ],
+    "longgap_refresh_verbs": [
+      "instruction",
+      "transition",
+      "phase-status",
+      "prd-add",
+      "prd-resolve",
+      "prd-list",
+      "mutable-add",
+      "mutable-resolve",
+      "mutable-list"
+    ],
+    "fresh_prompt_resets_phase": true,
+    "shell_verbs": [
+      "bash",
+      "sh",
+      "shell",
+      "zsh",
+      "powershell",
+      "ps1",
+      "pwsh",
+      "cmd"
+    ],
+    "deny_shell_git": true,
     "gate_repeat_escalate_threshold": 3,
+    "hook_timeout_ms": 15000,
     "longgap_threshold_ms": 300000,
     "require_witness_evidence": true,
     "prd_closed_statuses": [
@@ -190,6 +216,7 @@
     "mutables_default_status": "unknown",
     "mutables_witness_status": "witnessed",
     "mutables_require_witness_evidence": true,
-    "cas_max_attempts": 5
+    "cas_max_attempts": 5,
+    "deviation_severity": {}
   }
 }
