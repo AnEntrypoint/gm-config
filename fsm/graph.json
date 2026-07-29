@@ -57,7 +57,14 @@
         "prd-all-closed",
         "mutables-all-resolved",
         "claim-audit-clean",
-        "submodules-clean"
+        "submodules-clean",
+        "no-synthetic-test-files",
+        "no-admit-deferral-markers",
+        "no-secrets-in-diff",
+        "no-unchecked-panics-in-diff",
+        "no-hedge-language-in-diff",
+        "no-graphical-symbols-in-diff",
+        "idempotent-dispatch-replay-safe"
       ]
     },
     {
@@ -150,6 +157,55 @@
       "hook": null,
       "hook_mode": "predicate-only",
       "message": "transition rejected: submodule pointer drift -- one or more of gm's tracked submodule gitlinks (agentplug, rs-plugkit, rs-codeinsight, rs-search, agentplug-bert, agentplug-libsql, agentplug-treesitter) no longer match that submodule's own real HEAD. `git add <drifted-path>` for each, then git_commit/git_finalize to update gm's own pointer before re-attempting."
+    },
+    {
+      "name": "no-synthetic-test-files",
+      "predicate": "no-synthetic-test-files",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: standing test file(s) introduced in the working diff -- VERIFY doctrine forbids them; verification is a live exec_js/browser witness against real code, never a suite. Remove the file(s) and re-attempt with a live witness."
+    },
+    {
+      "name": "no-admit-deferral-markers",
+      "predicate": "no-admit-deferral-markers",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: an admit/deferral marker (TODO/FIXME/XXX/HACK/unimplemented!/todo!/'not (yet) implemented') landed in the working diff -- a marker stands in for a complete proof. Finish the work or remove the marker, then re-attempt."
+    },
+    {
+      "name": "no-secrets-in-diff",
+      "predicate": "no-secrets-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a line in the working diff matches a high-confidence secret shape (API key, private key header, inline-password connection string, bearer literal). Route the secret through an env var or secret store, never a tracked literal, then re-attempt."
+    },
+    {
+      "name": "no-unchecked-panics-in-diff",
+      "predicate": "no-unchecked-panics-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a new non-test line panics, throws, or unwraps with no visible handling -- the exception model requires every raised error handled or explicitly propagated, never left to crash uncaught. Propagate (Result/catch) or remove, then re-attempt."
+    },
+    {
+      "name": "no-hedge-language-in-diff",
+      "predicate": "no-hedge-language-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a hedge/deferral phrase in touched prose stands in for a decision ('todo later', 'in a future session', 'as a stopgap', 'good enough for now', 'left as an exercise', 'out of scope for this'). Commit to the real answer or remove the hedge, then re-attempt."
+    },
+    {
+      "name": "no-graphical-symbols-in-diff",
+      "predicate": "no-graphical-symbols-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a decorative non-ASCII glyph landed in tracked source/prose (arrow, box-drawing, star, bullet, check/cross, emoji). Convert to its plain-ASCII equivalent, then re-attempt."
+    },
+    {
+      "name": "idempotent-dispatch-replay-safe",
+      "predicate": "idempotent-dispatch-replay-safe",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: the same (id, hash) dispatch audit tuple was recorded with two different outcomes this stop window -- a replayed dispatch must reach the same result (f-compose-f-equals-f), never a second different mutation. Resolve the divergence, then re-attempt."
     }
   ],
   "policy": {
