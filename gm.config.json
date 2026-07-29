@@ -5,7 +5,7 @@
   "instructions": {
     "_comment": "Per-state prose. Each key maps to a state's prose_key in fsm/graph.json, plus 'entry' (served every turn, every phase) and 'browser'. crate::prose::resolve picks project-vendored .gm/instructions/<key>.md first, then this repo's cached copy, then the compiled default -- so overriding one key here leaves every other key on its default. This keys list is also what scripts/sync-from-plugkit.mjs iterates when regenerating the snapshot: a compiled key missing from it fails the sync loudly rather than being dropped silently.",
     "dir": "prose",
-    "keys": ["entry", "plan", "execute", "emit", "verify", "consolidate", "browser", "update_docs"]
+    "keys": ["entry", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "plan", "execute", "verify", "consolidate", "browser", "update_docs"]
   },
 
   "fsm": {

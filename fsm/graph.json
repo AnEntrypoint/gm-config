@@ -3,28 +3,43 @@
   "min_plugkit_version": null,
   "states": [
     {
-      "key": "PLAN",
-      "prose_key": "plan",
-      "skill": "gm-execute"
+      "key": "SPECIFY",
+      "prose_key": "specify",
+      "skill": "gm-prove"
     },
     {
-      "key": "EXECUTE",
-      "prose_key": "execute",
+      "key": "PROVE",
+      "prose_key": "prove",
       "skill": "gm-emit"
     },
     {
       "key": "EMIT",
       "prose_key": "emit",
-      "skill": "gm-verify"
+      "skill": "gm-state"
     },
     {
-      "key": "VERIFY",
-      "prose_key": "verify",
-      "skill": "gm-consolidate"
+      "key": "STATE",
+      "prose_key": "state",
+      "skill": "gm-conc"
     },
     {
-      "key": "CONSOLIDATE",
-      "prose_key": "consolidate",
+      "key": "CONC",
+      "prose_key": "conc",
+      "skill": "gm-sec"
+    },
+    {
+      "key": "SEC",
+      "prose_key": "sec",
+      "skill": "gm-res"
+    },
+    {
+      "key": "RES",
+      "prose_key": "res",
+      "skill": "gm-decide"
+    },
+    {
+      "key": "DECIDE",
+      "prose_key": "decide",
       "skill": "gm-complete"
     },
     {
@@ -35,55 +50,54 @@
   ],
   "edges": [
     {
-      "from": "PLAN",
-      "to": "EXECUTE",
+      "from": "SPECIFY",
+      "to": "PROVE",
       "gates": []
     },
     {
-      "from": "EXECUTE",
+      "from": "PROVE",
       "to": "EMIT",
-      "gates": []
+      "gates": [
+        "mutables-all-resolved"
+      ]
     },
     {
       "from": "EMIT",
-      "to": "VERIFY",
-      "gates": []
+      "to": "STATE",
+      "gates": [
+        "no-synthetic-test-files",
+        "no-graphical-symbols-in-diff",
+        "no-admit-deferral-markers"
+      ]
     },
     {
-      "from": "VERIFY",
-      "to": "CONSOLIDATE",
+      "from": "STATE",
+      "to": "CONC",
       "gates": [
-        "residual-scan-fired",
-        "prd-all-closed",
-        "mutables-all-resolved",
-        "claim-audit-clean",
-        "submodules-clean",
-        "no-synthetic-test-files",
-        "no-admit-deferral-markers",
-        "no-secrets-in-diff",
-        "no-unchecked-panics-in-diff",
-        "no-hedge-language-in-diff",
-        "no-graphical-symbols-in-diff",
         "idempotent-dispatch-replay-safe"
       ]
     },
     {
-      "from": "EXECUTE",
-      "to": "PLAN",
+      "from": "CONC",
+      "to": "SEC",
       "gates": []
     },
     {
-      "from": "EMIT",
-      "to": "PLAN",
-      "gates": []
+      "from": "SEC",
+      "to": "RES",
+      "gates": [
+        "no-secrets-in-diff"
+      ]
     },
     {
-      "from": "VERIFY",
-      "to": "PLAN",
-      "gates": []
+      "from": "RES",
+      "to": "DECIDE",
+      "gates": [
+        "no-unchecked-panics-in-diff"
+      ]
     },
     {
-      "from": "CONSOLIDATE",
+      "from": "DECIDE",
       "to": "COMPLETE",
       "gates": [
         "prd-all-closed",
@@ -92,8 +106,70 @@
         "residual-scan-fired",
         "ci-validated-fresh",
         "browser-witness-coverage",
-        "submodules-clean"
+        "submodules-clean",
+        "claim-audit-clean",
+        "no-hedge-language-in-diff"
       ]
+    },
+    {
+      "from": "PROVE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "EMIT",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "STATE",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "STATE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "CONC",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "CONC",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "SEC",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "SEC",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "RES",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "RES",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "PROVE",
+      "gates": []
     },
     {
       "from": "COMPLETE",
@@ -107,7 +183,7 @@
       "predicate": "residual-scan-fired",
       "hook": null,
       "hook_mode": "predicate-only",
-      "message": "transition to CONSOLIDATE rejected: residual-scan not fired in this stop window -- dispatch `residual-scan` before CONSOLIDATE."
+      "message": "transition rejected: residual-scan not fired in this stop window -- dispatch `residual-scan` before DECIDE -> COMPLETE."
     },
     {
       "name": "prd-all-closed",
@@ -149,7 +225,7 @@
       "predicate": "claim-audit-clean",
       "hook": null,
       "hook_mode": "predicate-only",
-      "message": "transition to CONSOLIDATE rejected: claim-audit not fired in this stop window, or a prior fire found a stale claim -- dispatch `claim-audit` to scan AGENTS.md for shipped/validated/fixed claims referencing a commit hash and verify each hash actually exists in this repo's git log; resolve any stale finding before re-attempting."
+      "message": "transition rejected: claim-audit not fired in this stop window, or a prior fire found a stale claim -- dispatch `claim-audit` to scan AGENTS.md for shipped/validated/fixed claims referencing a commit hash and verify each hash actually exists in this repo's git log; resolve any stale finding before re-attempting."
     },
     {
       "name": "submodules-clean",
@@ -170,7 +246,7 @@
       "predicate": "no-admit-deferral-markers",
       "hook": null,
       "hook_mode": "predicate-only",
-      "message": "transition rejected: an admit/deferral marker (TODO/FIXME/XXX/HACK/unimplemented!/todo!/'not (yet) implemented') landed in the working diff -- a marker stands in for a complete proof. Finish the work or remove the marker, then re-attempt."
+      "message": "transition rejected: an admit/deferral marker (colon-form TODO/FIXME/XXX/HACK, todo!/unimplemented!, 'not (yet) implemented') landed in a source file in the working diff -- a marker stands in for a complete proof. Finish the work or remove the marker, then re-attempt."
     },
     {
       "name": "no-secrets-in-diff",
@@ -267,7 +343,7 @@
       "resolved"
     ],
     "reject_duplicate_witness": true,
-    "initial_phase": "PLAN",
+    "initial_phase": "SPECIFY",
     "terminal_phase": "COMPLETE",
     "mutables_default_status": "unknown",
     "mutables_witness_status": "witnessed",
