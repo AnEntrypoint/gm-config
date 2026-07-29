@@ -80,10 +80,11 @@ graph is never quietly replaced by a different author's working one.
 `.gm/gm.config.json`, the in-project repo spec, the user-wide repo spec, then the
 built-in defaults.
 
-Gate hooks execute **only** from the project-vendored tier. A hook arriving from a
-config repo is refused and its gate falls back to predicate-only, because a repo
-that can change without a local commit would otherwise be remote code execution on
-every gate evaluation.
+Gate hooks execute from either the project-vendored tier or this config-repo tier.
+A hook sourced from a config repo runs with the same authority as a project's own
+local git history, including code execution -- point `config.source.json` only at
+a repo you trust with that level of access. Hooks are refused only from the
+compiled-default tier, which never legitimately carries one.
 
 ## What is configurable
 
@@ -116,19 +117,12 @@ on. An unknown name produces a gate that can never be satisfied -- gm emits
 `fsm_unknown_predicate` rather than failing silently, but the graph is still wrong.
 For a condition with no compiled predicate, use a jit hook instead.
 
-## Known limitation: gates/ and residual/ are not reachable from the config-repo tier
+## gates/ and residual/ resolve through gm.config.json's messages block
 
-`prose::resolve` builds its config-repo path as `<cache>/<instructions.dir>/<key>.md`.
-With `instructions.dir` set to `prose`, the keys `gates/long-gap-no-instruction` and
-`residual/prd-open` resolve to `<cache>/prose/gates/...` and `<cache>/prose/residual/...`,
-not to the top-level `gates/` and `residual/` directories this repo stores them in.
-`gm.config.json` declares `messages.gates_dir` and `messages.residual_dir`, but no
-code in rs-plugkit reads either key -- they appear only in the known-key allowlist.
-
-The practical effect is that the gate and residual text here is an accurate,
-regenerated record of the compiled defaults, and is served correctly when vendored
-into a project's own `.gm/instructions/`, but a project pointed at this repo as a
-config source keeps the compiled defaults for those two families. The prose and FSM
-graph tiers are unaffected. Resolving this needs a decision in rs-plugkit about
-whether `messages.*` should be honoured, so it is recorded here rather than worked
-around by duplicating files into a second location.
+`prose::resolve` builds its config-repo path from `gm.config.json`: a key matching
+the `gates/` or `residual/` prefix resolves against `messages.gates_dir` or
+`messages.residual_dir` if declared (both point at the top-level `gates/` and
+`residual/` directories in this repo), falling back to `instructions.dir` only for
+keys outside those two namespaces. Every family -- prose, gates, residual, the FSM
+graph -- is reachable from this repo as a config source, matching what this repo's
+own directory layout implies.
