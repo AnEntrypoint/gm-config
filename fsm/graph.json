@@ -106,6 +106,7 @@
         "residual-scan-fired",
         "ci-validated-fresh",
         "browser-witness-coverage",
+        "app-loads-witnessed",
         "submodules-clean",
         "claim-audit-clean",
         "no-hedge-language-in-diff"
@@ -219,6 +220,13 @@
       "hook": null,
       "hook_mode": "predicate-only",
       "message": "transition rejected: client-edit-no-witness -- one or more client-side files edited this session lack a matching browser-witness. Dispatch `browser` to page.evaluate the invariant each edit establishes, then re-attempt."
+    },
+    {
+      "name": "app-loads-witnessed",
+      "predicate": "app-loads-witnessed",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: this project declares a browser entrypoint (.gm/browser-config.json present) but no same-turn `browser` dispatch recorded a healthy app-loads witness. Absence of file edits is never grounds to skip this -- a confirmation/audit turn asserting the app works is itself a claim, and that claim needs the same live witness a code-change turn needs. Dispatch `browser` against the real running app, confirm it loads with zero console/page errors, then re-attempt."
     },
     {
       "name": "claim-audit-clean",
