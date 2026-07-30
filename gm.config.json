@@ -3,9 +3,9 @@
   "_comment": "The gm spec for workflows-in-skills. This repo IS a workflow definition: point a project or a whole user at it and gm runs THIS workflow instead of its compiled defaults. Everything here was extracted from the live rs-plugkit defaults (fsm-vendor generated fsm/graph.json and fsm/predicates.md; prose/*.md are the real compiled instruction sources), so pointing at this repo unmodified reproduces stock gm behaviour exactly -- it is a starting point to edit, not an approximation to drift from.",
 
   "instructions": {
-    "_comment": "Per-state prose. Each key maps to a state's prose_key in fsm/graph.json, plus 'entry' (served every turn, every phase) and 'browser'. crate::prose::resolve picks project-vendored .gm/instructions/<key>.md first, then this repo's cached copy, then the compiled default -- so overriding one key here leaves every other key on its default. This keys list is also what scripts/sync-from-plugkit.mjs iterates when regenerating the snapshot: a compiled key missing from it fails the sync loudly rather than being dropped silently.",
+    "_comment": "Per-state prose. Each key maps to a state's prose_key in fsm/graph.json, plus 'entry' (served every turn, every phase) and 'browser'. crate::prose::resolve picks project-vendored .gm/instructions/<key>.md first, then this repo's cached copy, then the compiled default -- so overriding one key here leaves every other key on its default. This repo is edited directly; rs-plugkit pulls from it at runtime (crate::config::resolve, refreshed on the debounce below) rather than a build step generating this repo's content.",
     "dir": "prose",
-    "keys": ["entry", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "plan", "execute", "verify", "consolidate", "browser", "update_docs"]
+    "keys": ["entry", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "browser", "update_docs"]
   },
 
   "fsm": {
