@@ -90,7 +90,7 @@ compiled-default tier, which never legitimately carries one.
 | `fsm/predicates.md` | Generated reference of the gate predicates a graph may name. |
 | `gates/*.md`, `residual/*.md` | Operator-editable denial and residual-scan message text. |
 | `hooks/*.js` | Jit gate hooks, for conditions no compiled predicate covers. |
-| `gm.config.json` | Index budgets, RAG/embedding settings, cache budgets, sync debounce. |
+| `gm.config.json` | Index budgets, RAG/embedding settings, BM25+vector scoring, vector table/index names, pipeline budgets, instruction-payload shape, browser-witness extensions, discipline-note limits, claim-audit markers, cache budgets, sync debounce. |
 
 A genuinely different workflow -- different phases, different order, different
 gates -- is established by replacing `fsm/graph.json` and the matching prose.
