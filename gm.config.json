@@ -40,6 +40,16 @@
     "default_k": 10
   },
 
+  "embed": {
+    "_comment": "Embedding-pipeline tuning, distinct from memory.embed_dim (which is compile-time coupled to the baked-in model weights and must never be changed independently of them). These are pure tuning knobs safe to override.",
+    "max_tokens": 512,
+    "query_cache_cap_entries": 64,
+    "query_cache_ttl_ms": 600000,
+    "max_subbatch_items": 32,
+    "max_subbatch_items_times_max_len_budget": 16384,
+    "plain_cache_max_text": 4096
+  },
+
   "scoring": {
     "_comment": "BM25 + vector fusion tuning. recency_floor/cos_floor/dedup_jaccard_threshold/half_life_ms govern recall's cosine-x-recency scoring; bm25_k1/bm25_b/fusion_rrf_k/fusion_identifier_boost govern codesearch's BM25+vector fusion.",
     "bm25_k1": 1.2,
@@ -52,9 +62,28 @@
     "half_life_ms": 2592000000
   },
 
-  "rssearch": { "_comment": "Recall's vector table/index names. Only [A-Za-z_][A-Za-z0-9_]* is accepted -- validated before use since names are interpolated into SQL.", "table": "rssearch_vectors", "index": "rssearch_vectors_vec" },
-  "git_commits": { "_comment": "Git-history-aware search's vector table/index names.", "table": "git_commit_vectors", "index": "git_commit_vectors_vec" },
+  "rssearch": {
+    "_comment": "Recall's vector table/index names, plus its migration-pass tuning. Table/index names accept only [A-Za-z_][A-Za-z0-9_]* -- validated before use since names are interpolated into SQL.",
+    "table": "rssearch_vectors",
+    "index": "rssearch_vectors_vec",
+    "migrate_budget_ms": 2000,
+    "migrate_reported_failures": 5
+  },
+  "git_commits": {
+    "_comment": "Git-history-aware search's vector table/index names, plus its embed-pass tuning.",
+    "table": "git_commit_vectors",
+    "index": "git_commit_vectors_vec",
+    "embed_budget_ms": 30000,
+    "min_embeds_per_pass": 8,
+    "diff_char_cap": 4000,
+    "log_window": 500
+  },
   "code_chunks": { "_comment": "Codesearch's vector table/index names.", "table": "code_chunks", "index": "code_chunks_vec" },
+
+  "code_index": {
+    "_comment": "Codesearch/codeinsight indexing tuning beyond the index.* budgets above.",
+    "prune_enumeration_cap": 20000
+  },
 
   "pipeline": {
     "_comment": "Background exec/task pipeline budgets.",
