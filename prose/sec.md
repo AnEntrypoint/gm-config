@@ -12,6 +12,12 @@ Security & Robustness
 * STRIDE Threat Model (Loren Kohnfelder & Praerit Garg)
 * Postel's Law (Jon Postel)
 * Principle of Least Privilege (Jerome Saltzer & Michael Schroeder)
+* LINDDUN Privacy Threat Model (KU Leuven)
+* Constitutional AI (Anthropic)
+* Guardrails (NVIDIA / General Convention)
+* IEC 61508 SIL Levels (IEC)
+* Regulated Environment (Compliance Convention)
+* Red-Teaming (General Convention)
 
 ## Sweeps
 

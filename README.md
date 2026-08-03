@@ -99,6 +99,27 @@ fork directly and point `.gm/config.source.json` at it, per "How gm consumes
 this repo" above -- forking is the only reason to diverge, since this copy is
 never overwritten from anywhere else.
 
+## Named-technique catalogues and their source
+
+Each phase's "Preferences (named, narrow)" section in `prose/*.md` catalogues
+the named techniques, principles and authors that scope that phase's judgment
+calls. The catalogues were substantially expanded from
+[AnEntrypoint/engage](https://github.com/AnEntrypoint/engage)'s `SKILL.md`
+Unified Anchor Workflow, a ~150-technique-across-8-phases reference graph.
+
+The expansion folded engage's named anchors into gm's existing 9-phase
+SPECIFY -> PROVE -> EMIT -> STATE -> CONC -> SEC -> RES -> DECIDE -> COMPLETE
+FSM as an enrichment of each phase's own preferences list, rather than
+adopting engage's control-flow graph (its own phase set, gate shape and
+loop-back edges) wholesale. Reason: gm's gates and predicates
+(`mutables-all-resolved`, `no-synthetic-test-files`, `idempotent-dispatch-replay-safe`,
+and the rest) are compiled Rust, evaluated against this exact 9-state shape --
+swapping in a different graph wholesale would break that wiring rather than
+extend it. A project wanting engage's actual control-flow graph instead of gm's
+can still do so by replacing `fsm/graph.json` per "What is configurable" above;
+this repo's own default stays on gm's proven 9-phase shape with the enriched
+catalogues.
+
 ## Two ways an override silently does nothing
 
 **A dropped placeholder.** Several defaults carry `{token}` placeholders that the

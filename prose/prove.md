@@ -12,6 +12,14 @@ Execution Policy Guardrails
 
 * Chain-of-Thought Reasoning (Wei et al., Google 2022)
 
+Agentic Reasoning Loops
+
+* ReAct (Yao et al. 2022)
+* Reflexion (Shinn et al. 2023)
+* Self-Consistency (Wang et al. 2022)
+* Tree of Thoughts (Yao et al. 2023)
+* Chain-of-Verification (Chern et al. 2023)
+
 ## Mutable-gate (hard rule)
 
 Drain every pending mutable to resolved before EMIT. Zero-tolerance -- the PROVE -> EMIT edge carries the compiled `mutables-all-resolved` gate, so the FSM itself refuses the transition with ANY mutable in `unknown`/pending status. Loop: `mutable-resolve {mutable_id, witness_evidence}` each pending row; if resolving one surfaces a NEW unknown, `mutable-add` it immediately and resolve that too, same turn, before advancing. The gate is structural, not advisory: pending mutable = PROVE not done, full stop, regardless of how much other work landed.

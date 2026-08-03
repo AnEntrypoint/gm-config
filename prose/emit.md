@@ -18,6 +18,59 @@ Code Quality
 * Code Smells (Kent Beck & Martin Fowler)
 * Cohesion Criteria (Larry Constantine & Edward Yourdon)
 * IOSP (Integration Operation Segregation Principle - Ralf Westphal)
+* Programming as Theory Building (Peter Naur)
+* Effective Go (The Go Team)
+* Effective Java (Joshua Bloch)
+* Effective Python (Python Community)
+
+Structural Architecture
+
+* Conway's Law (Melvin Conway)
+* Team Topologies (Matthew Skelton & Manuel Pais)
+* GRASP (Craig Larman)
+* SOLID-DIP (Robert C. Martin)
+* Hexagonal Architecture (Alistair Cockburn)
+* arc42 (Peter Hruschka & Gernot Starke)
+* CAP Theorem (Eric Brewer)
+* PACELC (Daniel Abadi)
+* Fallacies of Distributed Computing (Peter Deutsch et al.)
+* Event-Driven Architecture (Distributed Systems Convention)
+* Twelve-Factor App (Adam Wiggins)
+* Walking Skeleton (Alistair Cockburn)
+* DAG Orchestration (Airflow/Dagster Convention)
+* Schema Evolution (Martin Fowler / General Convention)
+* Feature Flags (LaunchDarkly Convention)
+* Design System Tokens (Brad Frost)
+
+Design Patterns and Boundaries (Design by Contract lives at STATE's Correctness & Reliability heading)
+
+* GoF-Facade (Gamma, Helm, Johnson & Vlissides)
+* GoF-Adapter (Gamma, Helm, Johnson & Vlissides)
+* GoF-Chain of Responsibility (Gamma, Helm, Johnson & Vlissides)
+* GoF-Observer (Gamma, Helm, Johnson & Vlissides)
+* GoF-Strategy (Gamma, Helm, Johnson & Vlissides)
+* Idempotency Keys (Stripe Convention)
+* Saga Pattern (Hector Garcia-Molina & Kenneth Salem)
+* Backpressure (Reactive Streams Convention)
+* Reactive Signals (Angular/SolidJS Convention)
+* BEM Methodology (Yandex)
+
+Workflow and Delivery
+
+* Conventional Commits (Community Specification)
+* GitHub Flow (GitHub)
+* Kanban (Toyota / David J. Anderson)
+
+Agentic Tooling and Retrieval
+
+* Prompt Engineering (General Convention)
+* RAG (Lewis et al. 2020)
+* Chunking Strategies (RAG Convention)
+* Hybrid Search (RAG Convention)
+* Re-ranking (RAG Convention)
+* Context Budgeting (Anthropic)
+* Cost-Aware Model Routing (Anthropic)
+* Tool-Use Action Space Design (Anthropic / OpenAI)
 
 ## Scope: file mutation ONLY (hard rule)
 
