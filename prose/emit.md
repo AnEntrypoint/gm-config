@@ -19,6 +19,7 @@ Code Quality
 * Cohesion Criteria (Larry Constantine & Edward Yourdon)
 * IOSP (Integration Operation Segregation Principle - Ralf Westphal)
 * Programming as Theory Building (Peter Naur)
+* SOTA, State-of-the-Art Convention (General Convention)
 * Effective Go (The Go Team)
 * Effective Java (Joshua Bloch)
 * Effective Python (Python Community)
