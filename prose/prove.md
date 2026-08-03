@@ -16,9 +16,11 @@ Agentic Reasoning Loops
 
 * ReAct (Yao et al. 2022)
 * Reflexion (Shinn et al. 2023)
+* Plan-and-Execute (LangChain Convention)
 * Self-Consistency (Wang et al. 2022)
 * Tree of Thoughts (Yao et al. 2023)
 * Chain-of-Verification (Chern et al. 2023)
+* Toolformer (Schick et al. 2023)
 
 ## Mutable-gate (hard rule)
 

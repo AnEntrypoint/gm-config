@@ -11,6 +11,7 @@ L1 baseline + L2 covering family. You loaded prior memory on entry via `instruct
 Architecture & Design
 
 * SOLID Principles (Robert C. Martin)
+* SOLID-SRP, Single Responsibility Principle (Robert C. Martin)
 * Clean Architecture (Robert C. Martin)
 * Vertical Slice Architecture (Jimmy Bogard)
 * Separation of Concerns (Edsger W. Dijkstra)
