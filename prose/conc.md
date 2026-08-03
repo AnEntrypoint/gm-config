@@ -14,6 +14,8 @@ Performance & Algorithmic Efficiency
 * Zero-Cost Abstractions (Bjarne Stroustrup)
 * Allocation Minimization & Cache Locality
 
+Distributed-systems anchors (CAP Theorem, PACELC, Fallacies of Distributed Computing) live at EMIT's Structural Architecture heading -- one canonical location per AGENTS.md's canon-distribution rule.
+
 ## Sweeps
 
 Every sweep is witnessed live, same turn -- a pass that depends on the interleaving you happened to get is not a pass.

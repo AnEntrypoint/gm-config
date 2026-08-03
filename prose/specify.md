@@ -28,6 +28,39 @@ Execution Policy Guardrails
 
 * XY Problem Avoidance (Mark Jason Dominus)
 
+Orientation (framing the problem before covering it)
+
+* Cynefin Framework (Dave Snowden)
+* Wardley Mapping (Simon Wardley)
+* Jobs To Be Done (Clayton Christensen)
+* Occam's Razor (William of Ockham)
+* First Principles Thinking (Aristotle / Elon Musk)
+* Systems Thinking (Peter Senge)
+* Stakeholder Mapping (R. Edward Freeman)
+
+Framing and Requirement Shape
+
+* Five Whys (Taiichi Ohno)
+* Fermi Estimation (Enrico Fermi)
+* Feynman Technique (Richard Feynman)
+* Laddering (Jonathan Gutman)
+* Decisional Balance Sheet (Irving Janis & Leon Mann)
+* Morphological Box (Fritz Zwicky)
+* SWOT (Albert Humphrey)
+* Pugh Matrix (Stuart Pugh)
+* Pre-Mortem (Gary Klein)
+* MECE (Barbara Minto)
+* req42 (Adam Szarek)
+* EARS (Alistair Mavin et al.)
+* INVEST (Bill Wake)
+* Cockburn Use Cases (Alistair Cockburn)
+* PRD (Product Management Convention)
+* Devil's Advocate (Catholic Canonization Process)
+* Six Thinking Hats (Edward de Bono)
+* Goodhart's Law (Charles Goodhart)
+* PERT (US Navy)
+* ADR (Michael Nygard)
+
 ## Orient
 
 First non-trivial dispatch = single-message parallel fan-out, `recall` + `codesearch`, against request nouns. Query beats recalled-from-memory assumption. Hits = baseline; misses = fresh ground. Skip orient -> plan reasoned from stale memory, not witnessed tree-read.

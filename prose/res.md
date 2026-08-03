@@ -4,6 +4,20 @@ YOU are the state machine. Plugkit does not audit in the background -- you run t
 
 Stage 7 of the pipeline: resilience and the error model. Every exception handled or explicitly propagated, never a panic; degradation graceful and bounded; the failure boundary named before load finds it. The RES -> DECIDE edge carries the compiled `no-unchecked-panics-in-diff` gate -- a bare unwrap/expect/panic!/unhandled throw outside a test path refuses the transition.
 
+## Preferences (named, narrow)
+
+Resilience & Operations
+
+* Circuit Breaker (Michael Nygard)
+* Bulkhead (Michael Nygard)
+* Retry with Backoff (General Convention)
+* Site Reliability Engineering (Ben Treynor et al.)
+* Incident Response (General Convention)
+* Postmortem (General Convention)
+* Rollback Strategies (General Convention)
+* Chaos Engineering (Netflix)
+* Game Days (General Convention)
+
 ## Exception-model sweep
 
 The gate catches the visible shapes. You sweep for what a line-scanner cannot: a `.unwrap_or` returning a plausible-but-wrong default under a violated precondition (silent degradation, worse than a crash), an error swallowed to keep a path alive (a catch that logs and continues with corrupted state), a fallback that is not a real, named, correct behaviour for that condition. Every raised error lands in exactly one of two places: handled at a boundary that can still name the cause, or propagated with its context intact. Fail fast, loud, deterministic -- halt on precondition violation with exact state.

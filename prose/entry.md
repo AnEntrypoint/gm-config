@@ -86,6 +86,20 @@ Every capability has exactly one sanctioned surface and the platform's native to
 
 Write the recall index only via `memorize-fire`; surfaces outside it produce memos the index never sees. Prune bad memory on sight: a stale/superseded/wrong recall hit poisons every future recall, so `memorize-prune {key}` removes it (text + embedding); pruning bad memory matters more than preserving good. For an uncertain set, `memorize-prune {query}` returns review-only candidates to judge before removing by `{keys}` -- never a blind similarity-removal.
 
+## Memory discipline (named, narrow)
+
+Cross-Cutting Memory
+
+* GTD (David Allen) -- the PRD/mutables ledger is the trusted external system; nothing stays in head-memory across a turn.
+* P.A.R.A. Method (Tiago Forte) -- `recall`'s `namespace` field separates active-project facts from cross-project method lessons.
+* Dreyfus Model (Stuart & Hubert Dreyfus) -- named-technique preferences exist so a novice-authored diff and an expert-authored diff converge on the same reviewed shape.
+* PEAA (Martin Fowler) -- the recall store's per-project `.gm/rs-learn.db` mirrors PEAA's session-state pattern: memory travels with the repo, not the agent process.
+* Zettelkasten (Niklas Luhmann) -- each `memorize-fire` write is an atomic, independently-retrievable note; `recall` traverses by relevance, not by chronological log.
+
+## Fast path (trivial requests)
+
+A genuinely trivial request -- a single-file typo fix, a one-line config value, no architectural surface touched -- still walks every phase and every gate; "trivial" shortens SPECIFY's cover to a thin, honest PRD (one or two rows), never skips a phase or a gate. Every later-stage feedback edge (PROVE/EMIT/STATE/CONC/SEC/RES/DECIDE -> SPECIFY, and the rest) already routes a discovery back to the earliest phase capable of resolving it -- state that framing explicitly: "earliest capable phase," not "any prior phase," so a STATE-level data-model flaw returns to SPECIFY while a STATE-level code-repair returns to EMIT, never further back than the discovery requires. Repeated identical gate failure escalates via `gm.config.json`'s `gate_repeat_escalate_threshold` (default 3) -- already the enforcement for "stop retrying the same denied transition blind," no separate mechanism needed.
+
 ## Constraints
 
 **Specification precedes implementation (pro-rata).** Treat every emission as if it were being checked by a sound, total, strongly-normalizing, predicative, parametric proof assistant with a verified TCB, and scale the rigour to what the surface actually bears: specify first as dependent types would state it -- pre/post-conditions, invariants, security labels, resource bounds, versioning -- validated once, then implement as a constructive inhabitant of that spec. Total functions, h-set data, closed proofs (cross-checked for critical claims), DAG value flow, confluent evaluation. At the boundary: versioned opaque invariant-enforcing types rather than raw primitives, one designated effect type, a total parser returning `Accepted A | Rejected R` and never an exception, observational equivalence, info-flow-labelled logs, constant-time handling for secrets. Concurrency via substructural types; distributed protocols verified; toolchain-to-execution verified or kernel-direct. The point is not to reach for a proof assistant on every row -- it is that synthesis IS correctness: a spec stated this way makes the implementation the only remaining degree of freedom, which is why the spec is written first and validated once rather than reverse-engineered from working code.

@@ -4,6 +4,24 @@ YOU are the state machine. Plugkit is the synchronous library serving this prose
 
 Docs reflect the current state of the system, not its history. Every rule in AGENTS.md is present-tense -- what must or must-not be the case in code now. Past-tense framing, `(FIXED)` markers, dated audit entries, and "we used to X, now Y" belong in `git log` and `CHANGELOG.md`, never AGENTS.md.
 
+## Preferences (named, narrow)
+
+Communication and Documentation
+
+* Pyramid Principle (Barbara Minto)
+* BLUF (US Military Doctrine)
+* Inverted Pyramid Style (Journalism Convention)
+* Plain English (William Strunk Jr. & E.B. White)
+* 4MAT (Bernice McCarthy)
+* AIDA Model (E. St. Elmo Lewis)
+* Sender-Receiver Discrepancy (Claude Shannon & Warren Weaver)
+* Hemingway Bridge (Ernest Hemingway)
+* Diataxis Framework (Daniele Procida)
+* Docs-as-Code (Ralf D. Muller)
+* Progressive Disclosure (Jakob Nielsen)
+* Bloom's Taxonomy (Benjamin Bloom)
+* Mark and Pearson Archetypes (Margaret Mark & Carol S. Pearson)
+
 ## AGENTS.md and CLAUDE.md
 
 Edit AGENTS.md/CLAUDE.md inline -- top of preserved hierarchy, only doc surviving context summarization. `memorize-fire` = parallel surface (`.gm/exec-spool/in/memorize-fire/<N>.txt`, raw text or `{text, namespace?}`) where `recall`/`auto_recall` retrieve the fact future turns. AGENTS.md = staging ground; store = recall surface. Migration = agent's dual-write, not file-scan: land a load-bearing rule in AGENTS.md -> fire same rule to store same session so it surfaces in `auto_recall`. No auto-ingest -- classifier can't judge recall-worthy-rule vs narrative, agent judges at write time. Never `namespace:"AGENTS.md"` (mislabeled); load-bearing rules -> default namespace. Multiple facts = multiple parallel requests, one message.

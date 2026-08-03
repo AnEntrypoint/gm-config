@@ -20,6 +20,12 @@ Execution Policy Guardrails
 
 * Idempotency (RFC 9110)
 
+Sweep Methodology (thinking behind the live witness, never a license to author a standing test file)
+
+* Fagan Inspection (Michael Fagan)
+* Property-Based Testing (Koen Claessen & John Hughes)
+* Mutation Testing (Richard Lipton)
+
 ## Sweeps
 
 Every sweep is witnessed by a live `exec_js` run, same turn -- a signature read is not the witness; the run is.
