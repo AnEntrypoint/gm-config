@@ -51,11 +51,12 @@
   },
 
   "scoring": {
-    "_comment": "BM25 + vector fusion tuning. recency_floor/cos_floor/dedup_jaccard_threshold/half_life_ms govern recall's cosine-x-recency scoring; bm25_k1/bm25_b/fusion_rrf_k/fusion_identifier_boost govern codesearch's BM25+vector fusion.",
+    "_comment": "BM25 + vector fusion tuning. recency_floor/cos_floor/dedup_jaccard_threshold/half_life_ms govern recall's cosine-x-recency scoring; bm25_k1/bm25_b/fusion_rrf_k/fusion_identifier_boost/fusion_vector_list_weight govern codesearch's BM25+vector RRF fusion -- the two fusion_* weights are the per-list multipliers fed into fuse_n_cfg, vector list first, BM25 list second.",
     "bm25_k1": 1.2,
     "bm25_b": 0.75,
     "fusion_rrf_k": 60.0,
     "fusion_identifier_boost": 2.0,
+    "fusion_vector_list_weight": 1.0,
     "recency_floor": 0.4,
     "cos_floor": 0.0,
     "dedup_jaccard_threshold": 0.7,
