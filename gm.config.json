@@ -37,7 +37,24 @@
     "recall_limit": 8,
     "pool_multiplier": 5,
     "pool_floor": 20,
-    "default_k": 10
+    "default_k": 10,
+    "tencentdb_backend": {
+      "_comment": "Opt-in TencentDB-Agent-Memory-compatible storage backend for memorize/recall/memorize-fire/memorize-prune. Disabled by default -- every project sees zero behavior change until explicitly enabled. Content is stored as raw files (never as inline text in the index row, unlike rssearch_vectors above); the index table only holds a pointer plus the embedding. vectors_db_dims is independent of memory.embed_dim above -- gm's own 384-dim embedder never writes into this table; this dimension matches whichever TencentDB-compatible embedding provider produced the content being indexed (768 for the default local embeddinggemma-300m provider). Sync-pass budgets are shared with the existing memories corpus sync -- see the top-level memory_sync block below, not duplicated here.",
+      "enabled": false,
+      "data_dir": ".gm/tencentdb-memory",
+      "vectors_db_dims": 768,
+      "namespaces": []
+    }
+  },
+
+  "memory_sync": {
+    "_comment": "Budgets bounding a memory_md sync pass (crate::ragconfig::MemorySyncBudgetConfig, read by memory_md.rs::sync_index). A sync that cannot finish inside embed_budget_ms/total_budget_ms per pass records a ':partial' digest and converges across repeated recall/memorize-prune dispatches rather than blocking a single dispatch -- raising these is the fix for a large corpus (hundreds of files) converging too slowly. Previously compiled-in constants (1500/2000ms); now config-driven so an operator can raise them without a rebuild.",
+    "embed_budget_ms": 1500,
+    "total_budget_ms": 2000,
+    "rekey_rows_deadline_ms": 1800,
+    "shadow_abort_threshold": 5,
+    "rekey_batch_max": 25,
+    "rename_batch_chunk": 60
   },
 
   "embed": {
