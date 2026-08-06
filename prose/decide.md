@@ -72,7 +72,7 @@ Verification is thinking run rather than reasoned: "is this correct?" is execute
 
 Before accepting an empty scan, re-apply "every possible" to the closing PRD: every resolved row's skipped variant, every touched adjacent surface, every validation proving a row in practice not claim -- each hit is `prd-add` + re-execution. Clean scan on a short PRD for a long-horizon prompt is a false negative.
 
-**Every `git status --porcelain` entry triaged this turn -- "pre-existing" is not a stop excuse.** Dirty worktree: commit (real work), managed-gitignore-block it (transient runtime emission), or revert (junk). `.gm/disciplines/` tracked; new memorize-fire `mem-*.json` committed.
+**Every `git status --porcelain` entry triaged this turn -- "pre-existing" is not a stop excuse.** Dirty worktree: commit (real work), managed-gitignore-block it (transient runtime emission), or revert (junk). `.gm/disciplines/` tracked; new memorize-fire `mem-*.md` committed.
 
 ## Browser-witness coverage
 
