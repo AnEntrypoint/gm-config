@@ -56,7 +56,7 @@ A supervisor respawns the watcher under fresh code on `wrapper.drift`/`version.d
 
 ## State
 
-`cwd/.gm/`: `prd.yml`, `mutables.yml`, `exec-spool/{in,out}/`, `gm-fired-<sessionId>`, `rs-learn.db`, `disciplines/<ns>/`, `code-search/`. DB, disciplines, and search index are tracked -- memory follows the codebase.
+`cwd/.gm/`: `prd.yml`, `mutables.yml`, `exec-spool/{in,out}/`, `gm-fired-<sessionId>`, `gm.db` (shared libsql: memory index, code index, git-history index), `memories/*.md` (durable memory corpus), `disciplines/<ns>/`. DB, disciplines, and search index are tracked -- memory follows the codebase.
 
 ## Spool ABI
 
@@ -86,6 +86,8 @@ Every capability has exactly one sanctioned surface and the platform's native to
 
 Write the recall index only via `memorize-fire`; surfaces outside it produce memos the index never sees. Prune bad memory on sight: a stale/superseded/wrong recall hit poisons every future recall, so `memorize-prune {key}` removes it (text + embedding); pruning bad memory matters more than preserving good. For an uncertain set, `memorize-prune {query}` returns review-only candidates to judge before removing by `{keys}` -- never a blind similarity-removal.
 
+By default `memorize`/`recall`/`memorize-fire`/`memorize-prune` write markdown files at `.gm/memories/<key>.md` (the durable store) with a lean cache index at `.gm/gm.db`'s `rssearch_vectors` table. A project can opt a namespace into a second, file-pointer-only backend (`memory.tencentdb_backend` in `gm.config.json`, disabled by default) -- its index rows carry only a path pointer plus the embedding, never inline text, and its embedding dimension is independently configurable (not gm's fixed 384-dim model). Same verb surface either way; the backend selection is transparent and config-gated.
+
 ## Memory discipline (named, narrow)
 
 Cross-Cutting Memory
@@ -93,7 +95,7 @@ Cross-Cutting Memory
 * GTD (David Allen) -- the PRD/mutables ledger is the trusted external system; nothing stays in head-memory across a turn.
 * P.A.R.A. Method (Tiago Forte) -- `recall`'s `namespace` field separates active-project facts from cross-project method lessons.
 * Dreyfus Model (Stuart & Hubert Dreyfus) -- named-technique preferences exist so a novice-authored diff and an expert-authored diff converge on the same reviewed shape.
-* PEAA (Martin Fowler) -- the recall store's per-project `.gm/rs-learn.db` mirrors PEAA's session-state pattern: memory travels with the repo, not the agent process.
+* PEAA (Martin Fowler) -- the recall store's per-project `.gm/gm.db` (a shared libsql database, memory alongside code/git-history indexes) mirrors PEAA's session-state pattern: memory travels with the repo, not the agent process.
 * Zettelkasten (Niklas Luhmann) -- each `memorize-fire` write is an atomic, independently-retrievable note; `recall` traverses by relevance, not by chronological log.
 
 ## Fast path (trivial requests)
