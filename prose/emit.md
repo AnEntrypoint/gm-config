@@ -73,6 +73,42 @@ Agentic Tooling and Retrieval
 * Cost-Aware Model Routing (Anthropic)
 * Tool-Use Action Space Design (Anthropic / OpenAI)
 
+Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
+
+```mermaid
+flowchart LR
+  dry["DRY (Andy Hunt)"]
+  single_level_of_abstraction_principle["SLAP (Kent Beck)"]
+  kiss_principle["KISS Principle (Kelly Johnson)"]
+  yagni["YAGNI (Ron Jeffries)"]
+  conways_law["Conway's Law (Melvin Conway)"]
+  cohesion_criteria["Cohesion Criteria (Larry Constantine)"]
+  gof_observer_pattern["GoF-Observer (Gamma Helm Johnson Vlissides)"]
+  gof_strategy_pattern["GoF-Strategy (Gamma Helm Johnson Vlissides)"]
+  conventional_commits["Conventional Commits (Community Specification)"]
+  github_flow["GitHub Flow (GitHub)"]
+  walking_skeleton["Walking Skeleton (Alistair Cockburn)"]
+  hexagonal_architecture["Hexagonal Architecture (Alistair Cockburn)"]
+  fallacies_of_distributed_computing["Fallacies of Distributed Computing (Peter Deutsch)"]
+  cap_theorem["CAP Theorem (Eric Brewer)"]
+  event_driven_architecture["Event-Driven Architecture (Distributed Systems Convention)"]
+  dry -.-> single_level_of_abstraction_principle
+  dry -.-> kiss_principle
+  dry -.-> yagni
+  kiss_principle -.-> yagni
+  conways_law -.-> cohesion_criteria
+  gof_observer_pattern -.-> gof_strategy_pattern
+  conventional_commits -.-> github_flow
+  walking_skeleton -.-> hexagonal_architecture
+  fallacies_of_distributed_computing -.-> cap_theorem
+  fallacies_of_distributed_computing -.-> event_driven_architecture
+  fallacies_of_distributed_computing -.-> hexagonal_architecture
+  cap_theorem -.-> event_driven_architecture
+  event_driven_architecture -.-> hexagonal_architecture
+```
+
+Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anchor, not invented.
+
 ## Scope: file mutation ONLY (hard rule)
 
 EMIT's precondition: mutables already resolved -- PROVE's job, done before arrival. EMIT does not investigate, open mutables, resolve unknowns, or re-derive the plan. A mutable surfacing here is PROVE leaking into EMIT: `mutable-add` it, `transition to=PROVE` immediately -- never resolve inline, never write around it. EMIT's sole verb-of-work is Write/Edit of changes SPECIFY/PROVE already decided; narrower is correct, wider is drift.
