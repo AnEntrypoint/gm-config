@@ -19,6 +19,25 @@ Security & Robustness
 * Regulated Environment (Compliance Convention)
 * Red-Teaming (General Convention)
 
+Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
+
+```mermaid
+flowchart LR
+  owasp_top_10["OWASP Top 10 (OWASP Foundation)"]
+  regulated_environment["Regulated Environment (Compliance Convention)"]
+  iec_61508_sil_levels["IEC 61508 SIL Levels (IEC)"]
+  stride["STRIDE Threat Model (Loren Kohnfelder)"]
+  linddun["LINDDUN Privacy Threat Model (KU Leuven)"]
+  owasp_top_10 -.-> regulated_environment
+  owasp_top_10 -.-> iec_61508_sil_levels
+  stride -.-> owasp_top_10
+  stride -.-> regulated_environment
+  linddun -.-> owasp_top_10
+  linddun -.-> regulated_environment
+```
+
+Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anchor, not invented.
+
 ## Sweeps
 
 Every sweep is witnessed live, same turn -- never assume the escape works.

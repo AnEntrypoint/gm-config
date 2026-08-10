@@ -31,6 +31,27 @@ Sweep Methodology (thinking behind the live witness, never a license to author a
 * Testing Pyramid (Mike Cohn) -- the shape-preference (favor a fast, direct witness over a slow, indirect one) survives even though gm has no test-file layer to put it in
 * Page Object Model (Selenium / Martin Fowler) -- the encapsulation idea (name the page's affordances once) applies to a `browser` verb session's reusable `page.evaluate` snippets, never to a page-object test class
 
+Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
+
+```mermaid
+flowchart LR
+  property_based_testing["Property-Based Testing (Koen Claessen)"]
+  mutation_testing["Mutation Testing (Richard Lipton)"]
+  testing_pyramid["Testing Pyramid (Mike Cohn)"]
+  red_green_tdd["Red/Green TDD (Kent Beck)"]
+  tdd_chicago_school["TDD Chicago School (Chicago/Detroit Tradition)"]
+  fagan_inspection["Fagan Inspection (Michael Fagan)"]
+  property_based_testing -.-> mutation_testing
+  property_based_testing -.-> testing_pyramid
+  mutation_testing -.-> testing_pyramid
+  red_green_tdd -.-> tdd_chicago_school
+  testing_pyramid -.-> tdd_chicago_school
+  fagan_inspection -.-> mutation_testing
+  fagan_inspection -.-> testing_pyramid
+```
+
+Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anchor, not invented. Make Illegal States Unrepresentable (Minsky) has no catalogued `:related:` edge as of this writing -- one of the 6 techniques this project's prose names ahead of the public catalog (see CONC and RES for the other 5).
+
 ## Sweeps
 
 Every sweep is witnessed by a live `exec_js` run, same turn -- a signature read is not the witness; the run is.

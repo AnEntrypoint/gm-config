@@ -22,6 +22,26 @@ Communication and Documentation
 * Bloom's Taxonomy (Benjamin Bloom)
 * Mark and Pearson Archetypes (Margaret Mark & Carol S. Pearson)
 
+Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
+
+```mermaid
+flowchart LR
+  pyramid_principle["Pyramid Principle (Barbara Minto)"]
+  bluf["BLUF (US Military Doctrine)"]
+  inverted_pyramid_style["Inverted Pyramid Style (Journalism Convention)"]
+  plain_english_strunk_white["Plain English (William Strunk Jr)"]
+  docs_as_code["Docs-as-Code (Ralf D. Muller)"]
+  diataxis_framework["Diataxis Framework (Daniele Procida)"]
+  pyramid_principle -.-> bluf
+  pyramid_principle -.-> inverted_pyramid_style
+  bluf -.-> inverted_pyramid_style
+  bluf -.-> plain_english_strunk_white
+  docs_as_code -.-> diataxis_framework
+  diataxis_framework -.-> inverted_pyramid_style
+```
+
+Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anchor, not invented.
+
 ## AGENTS.md and CLAUDE.md
 
 Edit AGENTS.md/CLAUDE.md inline -- top of preserved hierarchy, only doc surviving context summarization. `memorize-fire` = parallel surface (`.gm/exec-spool/in/memorize-fire/<N>.txt`, raw text or `{text, namespace?}`) where `recall`/`auto_recall` retrieve the fact future turns. AGENTS.md = staging ground; store = recall surface. Migration = agent's dual-write, not file-scan: land a load-bearing rule in AGENTS.md -> fire same rule to store same session so it surfaces in `auto_recall`. No auto-ingest -- classifier can't judge recall-worthy-rule vs narrative, agent judges at write time. Never `namespace:"AGENTS.md"` (mislabeled); load-bearing rules -> default namespace. Multiple facts = multiple parallel requests, one message.

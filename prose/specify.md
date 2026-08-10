@@ -62,6 +62,59 @@ Framing and Requirement Shape
 * PERT (US Navy)
 * ADR (Michael Nygard)
 
+Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
+
+```mermaid
+flowchart LR
+  solid_principles["SOLID Principles (Robert C. Martin)"]
+  clean_architecture["Clean Architecture (Robert C. Martin)"]
+  cynefin_framework["Cynefin Framework (Dave Snowden)"]
+  wardley_mapping["Wardley Mapping (Simon Wardley)"]
+  five_whys["Five Whys (Taiichi Ohno)"]
+  xy_problem["XY Problem Avoidance (Mark Jason Dominus)"]
+  first_principles_thinking["First Principles Thinking (Aristotle)"]
+  mece["MECE (Barbara Minto)"]
+  morphological_box["Morphological Box (Fritz Zwicky)"]
+  spike_solution["Spike Solution (Kent Beck)"]
+  pugh_matrix["Pugh Matrix (Stuart Pugh)"]
+  solid_srp["SOLID-SRP (Robert C. Martin)"]
+  occams_razor["Occam's Razor (William of Ockham)"]
+  devils_advocate["Devil's Advocate (Catholic Canonization Process)"]
+  feynman_technique["Feynman Technique (Richard Feynman)"]
+  swot["SWOT (Albert Humphrey)"]
+  invest["INVEST (Bill Wake)"]
+  moscow["MoSCoW (Dai Clegg)"]
+  ears_requirements["EARS (Alistair Mavin)"]
+  cockburn_use_cases["Cockburn Use Cases (Alistair Cockburn)"]
+  pert["PERT (US Navy)"]
+  vertical_slice_architecture["Vertical Slice Architecture (Jimmy Bogard)"]
+  thin_vertical_slice["Thin Vertical Slice (Alistair Cockburn)"]
+  solid_principles -.-> clean_architecture
+  cynefin_framework -.-> wardley_mapping
+  five_whys -.-> xy_problem
+  five_whys -.-> first_principles_thinking
+  mece -.-> morphological_box
+  spike_solution -.-> pugh_matrix
+  solid_srp -.-> solid_principles
+  occams_razor -.-> five_whys
+  occams_razor -.-> mece
+  occams_razor -.-> devils_advocate
+  first_principles_thinking -.-> feynman_technique
+  wardley_mapping -.-> swot
+  invest -.-> moscow
+  ears_requirements -.-> cockburn_use_cases
+  ears_requirements -.-> invest
+  pert -.-> moscow
+  morphological_box -.-> pugh_matrix
+  swot -.-> pugh_matrix
+  swot -.-> moscow
+  devils_advocate -.-> five_whys
+  vertical_slice_architecture -.-> clean_architecture
+  thin_vertical_slice -.-> vertical_slice_architecture
+```
+
+Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anchor, not invented.
+
 ## Orient
 
 First non-trivial dispatch = single-message parallel fan-out, `recall` + `codesearch`, against request nouns. Query beats recalled-from-memory assumption. Hits = baseline; misses = fresh ground. Skip orient -> plan reasoned from stale memory, not witnessed tree-read.
