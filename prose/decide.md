@@ -64,6 +64,8 @@ Every claim of correctness is proven by a live `exec_js`/`browser` dispatch witn
 
 **Documenting a hard row instead of implementing it is a false completion, not a resolution.** `prd-resolve` refuses two identical/near-identical `witness_evidence` strings across different PRD ids (`deviation.prd-resolve-duplicate-witness`). A row that looks out of reach this turn is a row to build a way IN -- name the real fix and its path (drive the crashing tool's protocol directly, spawn your own instance, open the cross-repo change, script the credential path) and execute it; a design doc describing the fix is not the fix.
 
+**`prd-defer` is for a row confirmed real, correctly scoped, and genuinely cross-session -- never for one that is merely hard.** Use it only after investigating enough to state WHY this specific row needs its own dedicated session (a different subsystem than the current fix, a flaky repro that needs sustained isolated debugging, work gated on a credential/service this session cannot provision) -- `{"id":..,"reason":"<the concrete why, and what session/path would resolve it>"}`. The same deviation gate `prd-add` runs on `blockedBy` blocks bare deferral language ('later', 'next session', 'punt') here too: a reason has to name substance or the dispatch is refused. This does not relax "everything is fixable" -- it only prevents CONSOLIDATE's hard PRD-empty gate from forcing a false resolve on work a different, focused session should own. A row deferred this way stays visible in `prd-list` for the next session to pick up; it does not vanish.
+
 ## Push and worktree-clean
 
 `git_push` is the only admissible push surface, any repo, any cwd -- runs `[worktree-clean]` porcelain probe internally, refuses dirty. `git_finalize {message}` bundles add -> commit -> probe -> push. Sibling push: `git_push {repo:"<abs>", branch:"<branch>"}`. Raw `git` shell body gated `deviation.bash-git-bypass`. A dirty tree at this stage is yours to resolve now: commit real work, revert junk, or fold transient emission into the managed gitignore block -- never carry it forward as "pre-existing."
@@ -100,7 +102,12 @@ Chain enters COMPLETE only when your `transition` returns COMPLETE phase; on-dis
 
 ## Feedback
 
-DECIDE's findings flow back into specification -- the graph's DECIDE -> SPECIFY edge is the empirical fitness loop: tool diagnostics, strategy refinements, and every witnessed gap between spec and reality become `prd-add` rows at SPECIFY, never lessons held in prose. A chain that learned something and did not route it back has not finished deciding.
+DECIDE's findings flow back to the earliest phase capable of resolving them -- two distinct edges, not one:
+
+- **DECIDE -> SPECIFY**: a witnessed gap between spec and reality (the row's stated pre/post-condition was itself wrong, incomplete, or missed a case the adversarial sweep found). Route via `prd-add`, never a lesson held in prose.
+- **DECIDE -> PROVE**: an obligation that discharged cleanly at PROVE (witness accepted) but the adversarial sweep here found a live case where it does not hold. This is a proof that was accepted on insufficient evidence, not a spec error -- re-open the specific `mutable` (`mutable-add` with the same id if reachable, else a fresh one naming the surviving gap) and `transition to=PROVE` to re-derive a witness that actually covers the failing case, rather than patching the code and re-running the same insufficient PROVE-time check.
+
+A chain that learned something and did not route it to the correct edge has not finished deciding -- routing a proof-obligation failure to SPECIFY when PROVE is the owning phase re-specifies a row that was already correctly specified, wasting a cycle instead of fixing the actual gap (an under-tested proof).
 
 ## Dispatch
 

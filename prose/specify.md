@@ -165,6 +165,8 @@ Unknowns -> `.gm/mutables.yml` via `mutable-add`, `status: unknown`, witness = `
 
 **Rows are cut so that a correct implementation is the only remaining degree of freedom.** A row whose statement still admits several materially different shapes has not been planned, only named -- push the representation decision (what the data looks like, which invariant the type makes unrepresentable, where the boundary sits) into the row itself, at SPECIFY, where re-cutting is still cheap. Deferring that choice to EMIT is how a row silently becomes a redesign mid-transform.
 
+**Every row states its pre/post-conditions and invariants at cut time -- this is a requirement on the row, not a description of good practice.** A row missing them is not yet cut: name what must hold on entry (precondition), what must hold across every reachable state the row's mutation touches (invariant), and what must hold on exit (postcondition) before the row is admitted to the PRD. This is what PROVE discharges as proof obligations -- a row arriving at PROVE with none stated forces a `transition to=SPECIFY` bounce, which is strictly more expensive than stating them once here. A row whose pre/post-conditions are "it works" or "handles the input correctly" has not stated them; restate concretely or the row stays open.
+
 ## Dispatch
 
 Verbs: `recall`, `codesearch`, `prd-add`, `mutable-add`, `mutable-resolve`, `transition`. Plugkit holds phase on disk; you advance it by writing `transition`.
