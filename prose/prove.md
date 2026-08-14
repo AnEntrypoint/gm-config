@@ -4,6 +4,15 @@ YOU are the state machine. Plugkit is the synchronous library serving this prose
 
 Stage 2 of the pipeline: types and proofs. Every mutable is a proof obligation; every unknown is an unproven lemma. PROVE's job is to discharge them all -- a spec with an admitted obligation is not a spec, and EMIT is gated on it.
 
+**State the spec before writing the code that inhabits it.** Treat each PRD row's implementation as a proof search over the row's own stated pre/post-conditions and invariants (SPECIFY's Constraints paragraph already requires the row carry these) -- the spec is the goal, the code is the constructive witness. When a spec is stated this way, a correct implementation becomes the only remaining degree of freedom; PROVE exists to close that goal before EMIT ever writes an inhabitant. A row entering PROVE with no stated pre/post-condition or invariant is a `transition to=SPECIFY`, not a PROVE-time guess at what the spec should have said.
+
+**Obligation kinds.** Every proof obligation raised at PROVE falls into one of five kinds, and `mutable-add` names which:
+- `precondition` -- what must hold on entry (input shape, caller invariant, resource availability).
+- `invariant` -- what must hold across every reachable state of a mutation sequence.
+- `postcondition` -- what must hold on exit (output shape, side-effect completeness).
+- `resource-bound` -- a worst-case time/size/memory bound the path must not exceed.
+- `type-shape` -- an invalid-state-unrepresentable data representation the implementation must inhabit, not merely satisfy at runtime.
+
 L3 distance + audit: real input -> real code -> real output, witnessed.
 
 ## Preferences (named, narrow)
@@ -27,6 +36,8 @@ Agentic Reasoning Loops
 Drain every pending mutable to resolved before EMIT. Zero-tolerance -- the PROVE -> EMIT edge carries the compiled `mutables-all-resolved` gate, so the FSM itself refuses the transition with ANY mutable in `unknown`/pending status. Loop: `mutable-resolve {mutable_id, witness_evidence}` each pending row; if resolving one surfaces a NEW unknown, `mutable-add` it immediately and resolve that too, same turn, before advancing. The gate is structural, not advisory: pending mutable = PROVE not done, full stop, regardless of how much other work landed.
 
 Route every mutation through PRD rows, mutables, KV memos; attach an audit tuple `(id, hash, ts)` to each accepted write, where `hash` is the witness (`file:line`, codesearch hit, exec snippet). `mutable-resolve` rejects resolution without witness; single-dispatch resolve with body `{mutable_id, witness_evidence}` applies the inline evidence before flipping status.
+
+**Witness shape follows obligation kind, never generic prose.** A `precondition` is discharged by an entry-boundary check or an `exec_js` probe run against the real boundary with an out-of-bound input, showing the guard actually fires. An `invariant` is discharged by a mutation sequence run live where the property is checked after each step, not asserted once at the end. A `postcondition` is discharged by running the real path and reading its real output against the stated shape. A `resource-bound` is discharged by a profiled run (`exec_js opts.profile:true`) against an input sized at or past the stated bound. A `type-shape` is discharged by showing the invalid state has no constructor in the chosen representation, not by a runtime check that rejects it after construction. `witness_evidence` names which kind was discharged and how; a generic "verified" or "looks correct" witness on any kind is rejected as unwitnessed.
 
 **No admit, no deferral.** A resolution whose witness says "deferred"/"pending next session"/"awaits recovery" is an admitted proof obligation labeled discharged -- the same false-completion class as a mock standing in for real code. The obligation is discharged by a real answer with real evidence, or it stays open and the chain stays in PROVE.
 

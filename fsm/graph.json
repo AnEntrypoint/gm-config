@@ -58,7 +58,8 @@
       "from": "PROVE",
       "to": "EMIT",
       "gates": [
-        "mutables-all-resolved"
+        "mutables-all-resolved",
+        "mutables-all-typed"
       ]
     },
     {
@@ -283,6 +284,13 @@
       "hook": null,
       "hook_mode": "predicate-only",
       "message": "transition rejected: a decorative non-ASCII glyph landed in tracked source/prose (arrow, box-drawing, star, bullet, check/cross, emoji). Convert to its plain-ASCII equivalent, then re-attempt."
+    },
+    {
+      "name": "mutables-all-typed",
+      "predicate": "mutables-all-typed",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a mutable in .gm/mutables.yml is missing a valid obligation_kind (precondition|invariant|postcondition|resource-bound|type-shape) -- every PROVE-stage unknown is a typed proof obligation, not an undifferentiated note. mutable-add {id, obligation_kind, ...} to classify it, then re-attempt."
     },
     {
       "name": "idempotent-dispatch-replay-safe",
