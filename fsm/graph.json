@@ -75,26 +75,31 @@
       "from": "STATE",
       "to": "CONC",
       "gates": [
-        "idempotent-dispatch-replay-safe"
+        "idempotent-dispatch-replay-safe",
+        "state-obligations-ready"
       ]
     },
     {
       "from": "CONC",
       "to": "SEC",
-      "gates": []
+      "gates": [
+        "conc-obligations-ready"
+      ]
     },
     {
       "from": "SEC",
       "to": "RES",
       "gates": [
-        "no-secrets-in-diff"
+        "no-secrets-in-diff",
+        "sec-obligations-ready"
       ]
     },
     {
       "from": "RES",
       "to": "DECIDE",
       "gates": [
-        "no-unchecked-panics-in-diff"
+        "no-unchecked-panics-in-diff",
+        "res-obligations-ready"
       ]
     },
     {
@@ -171,6 +176,26 @@
     {
       "from": "DECIDE",
       "to": "PROVE",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "CONC",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "SEC",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "RES",
       "gates": []
     },
     {
@@ -290,7 +315,35 @@
       "predicate": "mutables-all-typed",
       "hook": null,
       "hook_mode": "predicate-only",
-      "message": "transition rejected: a mutable in .gm/mutables.yml is missing a valid obligation_kind (precondition|invariant|postcondition|resource-bound|type-shape) -- every PROVE-stage unknown is a typed proof obligation, not an undifferentiated note. mutable-add {id, obligation_kind, ...} to classify it, then re-attempt."
+      "message": "transition rejected: a pending PROVE-kind mutable is missing a valid obligation_kind (precondition|invariant|postcondition|resource-bound|type-shape) or is blocked on an unresolved depends_on id -- every PROVE-stage unknown is a typed, dependency-tracked proof obligation. mutable-add {id, obligation_kind, depends_on?, ...} to classify or add the missing dependency, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "state-obligations-ready",
+      "predicate": "state-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending STATE-kind mutable (totality|ownership|replay|effect-boundary) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new STATE sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "conc-obligations-ready",
+      "predicate": "conc-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending CONC-kind mutable (happens-before|disjointness|contention) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new CONC sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "sec-obligations-ready",
+      "predicate": "sec-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending SEC-kind mutable (secrets|injection|identity-authority|message-timing) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new SEC sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "res-obligations-ready",
+      "predicate": "res-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending RES-kind mutable (exception-model|partial-failure|degradation|crucible) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new RES sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
     },
     {
       "name": "idempotent-dispatch-replay-safe",

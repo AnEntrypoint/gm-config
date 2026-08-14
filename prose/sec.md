@@ -40,7 +40,7 @@ Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anc
 
 ## Sweeps
 
-Every sweep is witnessed live, same turn -- never assume the escape works.
+Every sweep is witnessed live, same turn -- never assume the escape works. Each finding is also a typed, dependency-linked obligation: `mutable-add {id, obligation_kind: "secrets"|"injection"|"identity-authority"|"message-timing", depends_on?: [...]}` for each thing this sweep must prove, then `mutable-resolve` with the live witness. The SEC -> RES edge's `sec-obligations-ready` gate refuses on any pending SEC-kind row that is untyped or blocked, naming the specific offender.
 
 **Secrets.** The gate catches the common accidental-commit shapes. You sweep for what a shape-list cannot: secrets at lower entropy, secrets in config/prose/fixtures, secrets reachable via a committed path. Every secret routes through an env var or a secret store, never a tracked literal, never a tracked path to a literal. Grep the full diff for the shapes yourself before transitioning, not just trust the gate.
 

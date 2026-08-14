@@ -18,7 +18,7 @@ Distributed-systems anchors (CAP Theorem, PACELC, Fallacies of Distributed Compu
 
 ## Sweeps
 
-Every sweep is witnessed live, same turn -- a pass that depends on the interleaving you happened to get is not a pass.
+Every sweep is witnessed live, same turn -- a pass that depends on the interleaving you happened to get is not a pass. Each finding is also a typed, dependency-linked obligation: `mutable-add {id, obligation_kind: "happens-before"|"disjointness"|"contention", depends_on?: [...]}` for each thing this sweep must prove, then `mutable-resolve` with the live witness. A CONC-kind row may legitimately `depends_on` a STATE-kind row (a contention bound assumes an ownership invariant already holds) -- the DAG is store-wide, not phase-scoped. The CONC -> SEC edge's `conc-obligations-ready` gate refuses on any pending CONC-kind row that is untyped or blocked, naming the specific offender.
 
 **Happens-before.** Every new concurrent access is ordered by an explicit sync point (await, lock, channel, atomic, message boundary) or provably touches disjoint state. TOCTOU is the canonical violation: every single-instance/lock guard is atomic (O_EXCL, atomic rename, CAS), never check-then-act. Witness by interleaving the two calls under `exec_js` with a deterministic seed and asserting the outcome is ordering-invariant.
 
