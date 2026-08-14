@@ -54,7 +54,7 @@ Edges sourced from `llm-coding/Semantic-Anchors`'s own `:related:` field per anc
 
 ## Sweeps
 
-Every sweep is witnessed by a live `exec_js` run, same turn -- a signature read is not the witness; the run is.
+Every sweep is witnessed by a live `exec_js` run, same turn -- a signature read is not the witness; the run is. Each sweep finding is also a typed, dependency-linked obligation: before this stage's transition, `mutable-add {id, obligation_kind: "totality"|"ownership"|"replay"|"effect-boundary", depends_on?: [...]}` for each thing this sweep must prove, then `mutable-resolve` it with the live witness as `witness_evidence` -- the same DAG mechanics PROVE uses for its own five kinds, scoped to these four. A STATE-kind row can `depends_on` an already-resolved row from any earlier phase (e.g. a replay obligation depending on a PROVE-stage invariant already proven); the STATE -> CONC edge's `state-obligations-ready` gate refuses on any pending STATE-kind row that is untyped or blocked, naming the specific offender.
 
 **Totality.** Every new function returns on every input path. Feed the edge inputs live (zero-length, max-size, null/undefined, wrong type, boundary-adjacent-invalid) and witness a defined result each time.
 

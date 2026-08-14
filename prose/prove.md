@@ -13,6 +13,14 @@ Stage 2 of the pipeline: types and proofs. Every mutable is a proof obligation; 
 - `resource-bound` -- a worst-case time/size/memory bound the path must not exceed.
 - `type-shape` -- an invalid-state-unrepresentable data representation the implementation must inhabit, not merely satisfy at runtime.
 
+These five kinds belong to PROVE. STATE, CONC, SEC, and RES each own their own kind set for their own sweeps (see each phase's own prose) -- the same dependency-DAG mechanics described below apply at every phase boundary, not just this one.
+
+**Obligations form a dependency DAG, not a flat list.** A mutable can declare `depends_on: [ids]` naming other mutable ids it requires resolved first -- Lean's lemma-depends-on-lemma relationship, expressed as data. `mutable-add` rejects an addition that would introduce a cycle in the depends_on graph, naming the full cycle path in the refusal. `mutable-resolve` refuses to resolve a row while any id in its own `depends_on` is still pending, naming the specific blocking id(s) -- resolve dependencies first, always, never around them. A dependency can cross phase boundaries: a CONC-kind row can legitimately `depends_on` a STATE-kind row (e.g. a contention bound assumes an ownership invariant already holds) -- the DAG is store-wide, not phase-scoped, matching how a Lean proof freely reuses a lemma proved in an earlier section.
+
+**Composition via `supplies`.** A row can declare `supplies: "<description>"` naming what its own postcondition hands to a dependent row's precondition -- a lightweight typed handoff recorded in both rows' text (not a formal type check) so a reader can trace how obligations chain into each other, not just that they happen to be ordered.
+
+**Structural validation for `resource-bound`, where feasible.** A `resource-bound` row can additionally declare a numeric `bound` field. `mutable-resolve` then accepts an optional `measured_value` in its body -- if `measured_value` exceeds `bound`, resolution is refused with the specific numbers named, never silently accepted on a prose claim alone. This is a real mechanical check layered on top of the prose `witness_evidence`, not a replacement for it -- full Lean-kernel proof-term checking is not achievable here, but a numeric threshold IS mechanically checkable, so it is checked. Other obligation kinds (precondition/invariant/postcondition/type-shape) have no equally cheap mechanical check and stay witness-evidence-only.
+
 L3 distance + audit: real input -> real code -> real output, witnessed.
 
 ## Preferences (named, narrow)
@@ -33,7 +41,7 @@ Agentic Reasoning Loops
 
 ## Mutable-gate (hard rule)
 
-Drain every pending mutable to resolved before EMIT. Zero-tolerance -- the PROVE -> EMIT edge carries the compiled `mutables-all-resolved` gate, so the FSM itself refuses the transition with ANY mutable in `unknown`/pending status. Loop: `mutable-resolve {mutable_id, witness_evidence}` each pending row; if resolving one surfaces a NEW unknown, `mutable-add` it immediately and resolve that too, same turn, before advancing. The gate is structural, not advisory: pending mutable = PROVE not done, full stop, regardless of how much other work landed.
+Drain every pending mutable to resolved before EMIT. Zero-tolerance -- the PROVE -> EMIT edge carries the compiled `mutables-all-resolved` AND `mutables-all-typed` gates: the first refuses on ANY pending row regardless of kind, the second refuses specifically on a pending PROVE-kind row (precondition/invariant/postcondition/resource-bound/type-shape) that is either untyped or blocked on an unresolved `depends_on` id -- and names the exact blocking row. Resolve in dependency order: a row whose `depends_on` are all resolved is ready; a row with unresolved deps is not yet reachable, resolve its dependencies first. Loop: `mutable-resolve {mutable_id, witness_evidence}` each ready row; if resolving one surfaces a NEW unknown, `mutable-add` it immediately (with `obligation_kind` and `depends_on` if it has prerequisites) and resolve that too, same turn, before advancing. The gate is structural, not advisory: pending mutable = PROVE not done, full stop, regardless of how much other work landed.
 
 Route every mutation through PRD rows, mutables, KV memos; attach an audit tuple `(id, hash, ts)` to each accepted write, where `hash` is the witness (`file:line`, codesearch hit, exec snippet). `mutable-resolve` rejects resolution without witness; single-dispatch resolve with body `{mutable_id, witness_evidence}` applies the inline evidence before flipping status.
 

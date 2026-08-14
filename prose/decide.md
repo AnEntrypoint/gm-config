@@ -102,12 +102,13 @@ Chain enters COMPLETE only when your `transition` returns COMPLETE phase; on-dis
 
 ## Feedback
 
-DECIDE's findings flow back to the earliest phase capable of resolving them -- two distinct edges, not one:
+DECIDE's findings flow back to the earliest phase capable of resolving them -- three distinct edges, not one:
 
 - **DECIDE -> SPECIFY**: a witnessed gap between spec and reality (the row's stated pre/post-condition was itself wrong, incomplete, or missed a case the adversarial sweep found). Route via `prd-add`, never a lesson held in prose.
-- **DECIDE -> PROVE**: an obligation that discharged cleanly at PROVE (witness accepted) but the adversarial sweep here found a live case where it does not hold. This is a proof that was accepted on insufficient evidence, not a spec error -- re-open the specific `mutable` (`mutable-add` with the same id if reachable, else a fresh one naming the surviving gap) and `transition to=PROVE` to re-derive a witness that actually covers the failing case, rather than patching the code and re-running the same insufficient PROVE-time check.
+- **DECIDE -> PROVE**: an obligation that discharged cleanly at some phase (witness accepted) but the adversarial sweep here found a live case where it does not hold. This is a proof that was accepted on insufficient evidence, not a spec error -- re-open the specific `mutable` (`mutable-add` with the same id if reachable, else a fresh one naming the surviving gap) and `transition to=PROVE` to re-derive a witness that actually covers the failing case, rather than patching the code and re-running the same insufficient check. Default target when the blocking obligation's owning phase is unclear or is PROVE itself.
+- **DAG-structural failure**: a cycle found late in the dependency graph, or a `supplies` claim that does not actually match what a dependent row's precondition needed -- this is neither a spec error nor an under-proven obligation, it is the DAG itself being wrong. Route to the phase that OWNS the blocking obligation's `obligation_kind` (PROVE for precondition/invariant/postcondition/resource-bound/type-shape, STATE for totality/ownership/replay/effect-boundary, CONC for happens-before/disjointness/contention, SEC for secrets/injection/identity-authority/message-timing, RES for exception-model/partial-failure/degradation/crucible), named explicitly in the `transition` dispatch and in the resolution's `witness_evidence` -- never defaulted to PROVE when the actual owning phase is one of the other four.
 
-A chain that learned something and did not route it to the correct edge has not finished deciding -- routing a proof-obligation failure to SPECIFY when PROVE is the owning phase re-specifies a row that was already correctly specified, wasting a cycle instead of fixing the actual gap (an under-tested proof).
+A chain that learned something and did not route it to the correct edge has not finished deciding -- routing a proof-obligation failure to SPECIFY when PROVE is the owning phase re-specifies a row that was already correctly specified, wasting a cycle instead of fixing the actual gap (an under-tested proof). Routing a DAG-structural failure to PROVE by default when the blocking kind belongs to STATE/CONC/SEC/RES is the same mistake one level down.
 
 ## Dispatch
 

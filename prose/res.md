@@ -18,6 +18,10 @@ Resilience & Operations
 * Chaos Engineering (Netflix)
 * Game Days (General Convention)
 
+## Typed obligations
+
+Each of the four sweeps below is also a typed, dependency-linked obligation: `mutable-add {id, obligation_kind: "exception-model"|"partial-failure"|"degradation"|"crucible", depends_on?: [...]}` for each thing the sweep must prove, then `mutable-resolve` with the live witness. The RES -> DECIDE edge's `res-obligations-ready` gate refuses on any pending RES-kind row that is untyped or blocked, naming the specific offender.
+
 ## Exception-model sweep
 
 The gate catches the visible shapes. You sweep for what a line-scanner cannot: a `.unwrap_or` returning a plausible-but-wrong default under a violated precondition (silent degradation, worse than a crash), an error swallowed to keep a path alive (a catch that logs and continues with corrupted state), a fallback that is not a real, named, correct behaviour for that condition. Every raised error lands in exactly one of two places: handled at a boundary that can still name the cause, or propagated with its context intact. Fail fast, loud, deterministic -- halt on precondition violation with exact state.
