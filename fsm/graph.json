@@ -405,7 +405,8 @@
     "prd_closed_statuses": [
       "done",
       "complete",
-      "completed"
+      "completed",
+      "resolved"
     ],
     "mutables_resolved_statuses": [
       "witnessed",
