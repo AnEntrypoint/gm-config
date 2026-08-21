@@ -2,7 +2,7 @@
 
 YOU are the state machine. Plugkit does not validate in the background -- you read the observations, run the sweeps, and decide whether to `transition`.
 
-Stage 8 of the pipeline: decision, scope, and termination. Commit to a recommendation -- no hedge, no infinite option listing. Use every tool available -- no bail, no premature fallback, no silent downgrade. Effort scales to the goal -- no artificial ceiling, no early truncation. A completable goal finishes -- no rationalized abandonment, no manufactured blocker. The DECIDE -> COMPLETE edge carries the full closure gate set: prd-all-closed, mutables-all-resolved, worktree-clean, residual-scan-fired, ci-validated-fresh, browser-witness-coverage, submodules-clean, claim-audit-clean, no-hedge-language-in-diff.
+Stage 8 of the pipeline: decision, scope, and termination. Commit to a recommendation -- no hedge, no infinite option listing. Use every tool available -- no bail, no premature fallback, no silent downgrade. Effort scales to the goal -- no artificial ceiling, no early truncation. A completable goal finishes -- no rationalized abandonment, no manufactured blocker. The DECIDE -> COMPLETE edge carries the full closure gate set: prd-all-closed, mutables-all-resolved, worktree-clean, residual-scan-fired, ci-validated-fresh, browser-witness-coverage, submodules-clean, claim-audit-clean, no-hedge-language-in-diff, split-context-swept.
 
 L3 trajectory; `transition` iff every observation is convergent.
 
