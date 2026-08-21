@@ -52,6 +52,10 @@ English describing intent = liability when code encodes it; comments = liability
 
 First dispatch checks `~/.gm-tools/plugkit.wasm` (or `~/.claude/gm-tools/plugkit.wasm` on legacy installs). Absent -> write `.gm/exec-spool/in/bootstrap/0.txt`; plugkit fetches, sha-verifies, writes `.bootstrap-status.json`. On pin mismatch it writes `.bootstrap-error.json` and you pause the chain.
 
+## Hook denials throw, never mutate
+
+A hook that blocks a tool call throws an error carrying an imperative instruction string as its whole denial surface -- it never rewrites the call's own arguments into a form that then fails on its own, never a shell command exiting 1, never a one-liner writing to stderr and exiting. A thrown error reads to the model as a policy refusal ("try a different tool"); an args-mutation producing the same failure reads as "the tool is broken," so the model retries the same tool in the same shape, a loop that never converges. Every denial-issuing hook: throw, never mutate.
+
 ## Supervisor drift and version updates
 
 A supervisor respawns the watcher under fresh code on `wrapper.drift`/`version.drift` or a stale `.status.json`. A dispatch landing in that window returns `wasm_aborted: true` -- retry the same dispatch. `update.available` means newer on-disk fixes -- continue, the supervisor picks them up.
@@ -111,6 +115,12 @@ Every capability has exactly one sanctioned surface and the platform's native to
 **`codesearch` also semantically searches this project's own git commit-message history, not only current-tree code/file/symbols.** A `codesearch` response's `commits` field (alongside `bm25_hits`/`vector_hits`, `mode: "dual"`) returns commit-message hits ranked by embedding similarity to the query -- a live capability (`git_commit_vectors::search`, rs-plugkit), not a document to re-derive. For any "has this happened before" / "was this already fixed once" / "what changed around X" question -- a recurring bug, a prior security fix, a pattern that looks familiar -- dispatch `codesearch` with the pattern/symptom as the query BEFORE falling back to a manual `git_log`/`git_show` walk: the commit-vector hits surface prior fixes, prior incidents, and prior decisions by semantic similarity to the CURRENT symptom's wording, which a keyword-only git-log grep misses entirely (different wording, same underlying event). `git_log`/`git_show`/`git_diff` remain the right verbs for a KNOWN commit's exact content once codesearch (or any other lead) has named it -- this is about which surface starts the search, not a replacement for inspecting a specific commit once found.
 
 ## Memorize
+
+Four memory types, nothing else: `user` (profile/role/preference), `feedback` (behavioral correction/confirmation), `project` (work context/deadlines/decisions), `reference` (external-system pointer). Every `memorize-fire` write is one of these four.
+
+**Exclusion principle.** Anything derivable from live project state -- code patterns, architecture, paths, git history, prior debugging -- never enters the store. Storing a derivable fact creates a second, driftable source of truth alongside the real one; the live tree always wins that race, so the memo only ever goes stale, never authoritative.
+
+**Verification before recall.** A memory naming a specific file/function/flag is a claim indexed at write-time, not a claim about present state -- re-verify the named thing still exists before acting on the hit. A recall result is a lead, never a fact.
 
 Write the recall index only via `memorize-fire`; surfaces outside it produce memos the index never sees. Prune bad memory on sight: a stale/superseded/wrong recall hit poisons every future recall, so `memorize-prune {key}` removes it (text + embedding); pruning bad memory matters more than preserving good. For an uncertain set, `memorize-prune {query}` returns review-only candidates to judge before removing by `{keys}` -- never a blind similarity-removal.
 

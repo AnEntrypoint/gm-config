@@ -78,6 +78,14 @@ Every claim of correctness is proven by a live `exec_js`/`browser` dispatch witn
 
 Verification is thinking run rather than reasoned: "is this correct?" is executed, not argued -- real test, real matrix, real page answer it. The push IS the validation dispatch. Local proof covers one platform; matrix covers all. On green, `fs_write` `.gm/exec-spool/.ci-validated` with `{"head_sha":"<git rev-parse HEAD>"}` -- the COMPLETE gate matches that sha against current HEAD. Red = divergent observation holding the trajectory until cause-named and green re-pushed; toolchain skew converges, does not stop. A CI check skipped because "the diff looked safe" is an unwitnessed slice.
 
+**Five CI failure shapes, for rapid triage:**
+
+- **Import error**: module not found -- check `package.json`/`Cargo.toml`, never the source file.
+- **Type error**: schema mismatch -- regress to SPECIFY, re-witness the interface.
+- **Assertion failure**: a live `exec_js`/`browser` witness assertion fails in CI -- root-cause it, never silence the assertion.
+- **Lint failure**: style-rule violation -- fix in-band, never disable the linter rule.
+- **Build timeout**: re-trigger once; a repeat means diagnose and fix the real cause (split the job, cache deps, raise the CI timeout, find the hang) -- never treat a repeated timeout as external/unfixable.
+
 ## Residual-scan
 
 `residual-scan` is dispatched BEFORE `transition to=COMPLETE` -- the gate refuses without its fired marker, and the denial names `residual-scan` as the next dispatch. It examines the open surface -- PRD pending, browser sessions, dirty tree, untracked artifacts, browser-witness coverage -- non-empty = non-convergent -> expand PRD with the reachable in-spirit residual, re-execute. One-shot per stop window via marker.
