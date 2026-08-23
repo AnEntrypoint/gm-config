@@ -115,7 +115,8 @@
         "app-loads-witnessed",
         "submodules-clean",
         "claim-audit-clean",
-        "no-hedge-language-in-diff"
+        "no-hedge-language-in-diff",
+        "split-context-swept"
       ]
     },
     {
@@ -344,6 +345,13 @@
       "hook": null,
       "hook_mode": "predicate-only",
       "message": "transition rejected: a pending RES-kind mutable (exception-model|partial-failure|degradation|crucible) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new RES sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "split-context-swept",
+      "predicate": "split-context-swept",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: this diff touches more than one file and has not been adversarially swept by an independent reviewer -- dispatch one or more Agent reviewers (blind to the implementer's own reasoning, prompted only to refute) against the diff, then fs_write .gm/exec-spool/.split-context-swept with {\"head_sha\":\"<git rev-parse HEAD>\"} and re-attempt."
     },
     {
       "name": "idempotent-dispatch-replay-safe",
