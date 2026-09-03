@@ -1,0 +1,1 @@
+push-dirty: refuses `git_push`/`git_finalize` on an unclean worktree -- backed by the compiled `worktree-clean` predicate (true only when `git status --porcelain` is empty). Triage every entry, commit or revert, then re-dispatch.

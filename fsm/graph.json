@@ -1,0 +1,432 @@
+{
+  "schema_version": 2,
+  "min_plugkit_version": "0.1.1224",
+  "states": [
+    {
+      "key": "SPECIFY",
+      "prose_key": "specify",
+      "skill": "gm-prove"
+    },
+    {
+      "key": "PROVE",
+      "prose_key": "prove",
+      "skill": "gm-emit"
+    },
+    {
+      "key": "EMIT",
+      "prose_key": "emit",
+      "skill": "gm-state"
+    },
+    {
+      "key": "STATE",
+      "prose_key": "state",
+      "skill": "gm-conc"
+    },
+    {
+      "key": "CONC",
+      "prose_key": "conc",
+      "skill": "gm-sec"
+    },
+    {
+      "key": "SEC",
+      "prose_key": "sec",
+      "skill": "gm-res"
+    },
+    {
+      "key": "RES",
+      "prose_key": "res",
+      "skill": "gm-decide"
+    },
+    {
+      "key": "DECIDE",
+      "prose_key": "decide",
+      "skill": "gm-complete"
+    },
+    {
+      "key": "COMPLETE",
+      "prose_key": "update_docs",
+      "skill": "update-docs"
+    }
+  ],
+  "edges": [
+    {
+      "from": "SPECIFY",
+      "to": "PROVE",
+      "gates": []
+    },
+    {
+      "from": "PROVE",
+      "to": "EMIT",
+      "gates": [
+        "mutables-all-resolved",
+        "mutables-all-typed"
+      ]
+    },
+    {
+      "from": "EMIT",
+      "to": "STATE",
+      "gates": [
+        "no-synthetic-test-files",
+        "no-graphical-symbols-in-diff",
+        "no-admit-deferral-markers"
+      ]
+    },
+    {
+      "from": "STATE",
+      "to": "CONC",
+      "gates": [
+        "idempotent-dispatch-replay-safe",
+        "state-obligations-ready"
+      ]
+    },
+    {
+      "from": "CONC",
+      "to": "SEC",
+      "gates": [
+        "conc-obligations-ready"
+      ]
+    },
+    {
+      "from": "SEC",
+      "to": "RES",
+      "gates": [
+        "no-secrets-in-diff",
+        "sec-obligations-ready"
+      ]
+    },
+    {
+      "from": "RES",
+      "to": "DECIDE",
+      "gates": [
+        "no-unchecked-panics-in-diff",
+        "res-obligations-ready"
+      ]
+    },
+    {
+      "from": "DECIDE",
+      "to": "COMPLETE",
+      "gates": [
+        "prd-all-closed",
+        "mutables-all-resolved",
+        "worktree-clean",
+        "residual-scan-fired",
+        "ci-validated-fresh",
+        "browser-witness-coverage",
+        "app-loads-witnessed",
+        "submodules-clean",
+        "claim-audit-clean",
+        "no-hedge-language-in-diff",
+        "split-context-swept"
+      ]
+    },
+    {
+      "from": "PROVE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "EMIT",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "STATE",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "STATE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "CONC",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "CONC",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "SEC",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "SEC",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "RES",
+      "to": "EMIT",
+      "gates": []
+    },
+    {
+      "from": "RES",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "SPECIFY",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "PROVE",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "STATE",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "CONC",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "SEC",
+      "gates": []
+    },
+    {
+      "from": "DECIDE",
+      "to": "RES",
+      "gates": []
+    },
+    {
+      "from": "COMPLETE",
+      "to": "COMPLETE",
+      "gates": []
+    }
+  ],
+  "gates": [
+    {
+      "name": "residual-scan-fired",
+      "predicate": "residual-scan-fired",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: residual-scan not fired in this stop window -- dispatch `residual-scan` before DECIDE -> COMPLETE."
+    },
+    {
+      "name": "prd-all-closed",
+      "predicate": "prd-all-closed",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: PRD items still pending -- execute or remove them before transitioning."
+    },
+    {
+      "name": "mutables-all-resolved",
+      "predicate": "mutables-all-resolved",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: mutables still pending -- resolve them with witness_evidence before transitioning."
+    },
+    {
+      "name": "worktree-clean",
+      "predicate": "worktree-clean",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: worktree dirty -- commit or revert before declaring done; an unpushed delta is an unwitnessed slice."
+    },
+    {
+      "name": "ci-validated-fresh",
+      "predicate": "ci-validated-fresh",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: CI/CD validation not witnessed fresh -- .gm/exec-spool/.ci-validated missing, stale, or not matching current HEAD sha. Witness the pipeline green for the pushed HEAD, then fs_write .gm/exec-spool/.ci-validated with {\"head_sha\":\"<git rev-parse HEAD>\"} and re-attempt."
+    },
+    {
+      "name": "browser-witness-coverage",
+      "predicate": "browser-witness-coverage",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: client-edit-no-witness -- one or more client-side files edited this session lack a matching browser-witness. Dispatch `browser` to page.evaluate the invariant each edit establishes, then re-attempt."
+    },
+    {
+      "name": "app-loads-witnessed",
+      "predicate": "app-loads-witnessed",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: this project declares a browser entrypoint (.gm/browser-config.json present) but no same-turn `browser` dispatch recorded a healthy app-loads witness. Absence of file edits is never grounds to skip this -- a confirmation/audit turn asserting the app works is itself a claim, and that claim needs the same live witness a code-change turn needs. Dispatch `browser` against the real running app, confirm it loads with zero console/page errors, then re-attempt."
+    },
+    {
+      "name": "claim-audit-clean",
+      "predicate": "claim-audit-clean",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: claim-audit not fired in this stop window, or a prior fire found a stale claim -- dispatch `claim-audit` to scan AGENTS.md for shipped/validated/fixed claims referencing a commit hash and verify each hash actually exists in this repo's git log; resolve any stale finding before re-attempting."
+    },
+    {
+      "name": "submodules-clean",
+      "predicate": "submodules-clean",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: submodule pointer drift -- one or more of gm's tracked submodule gitlinks (agentplug, rs-plugkit, rs-codeinsight, rs-search, agentplug-bert, agentplug-libsql, agentplug-treesitter) no longer match that submodule's own real HEAD. `git add <drifted-path>` for each, then git_commit/git_finalize to update gm's own pointer before re-attempting."
+    },
+    {
+      "name": "no-synthetic-test-files",
+      "predicate": "no-synthetic-test-files",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: standing test file(s) introduced in the working diff -- VERIFY doctrine forbids them; verification is a live exec_js/browser witness against real code, never a suite. Remove the file(s) and re-attempt with a live witness."
+    },
+    {
+      "name": "no-admit-deferral-markers",
+      "predicate": "no-admit-deferral-markers",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: an admit/deferral marker (colon-form TODO/FIXME/XXX/HACK, todo!/unimplemented!, 'not (yet) implemented') landed in a source file in the working diff -- a marker stands in for a complete proof. Finish the work or remove the marker, then re-attempt."
+    },
+    {
+      "name": "no-secrets-in-diff",
+      "predicate": "no-secrets-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a line in the working diff matches a high-confidence secret shape (API key, private key header, inline-password connection string, bearer literal). Route the secret through an env var or secret store, never a tracked literal, then re-attempt."
+    },
+    {
+      "name": "no-unchecked-panics-in-diff",
+      "predicate": "no-unchecked-panics-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a new non-test line panics, throws, or unwraps with no visible handling -- the exception model requires every raised error handled or explicitly propagated, never left to crash uncaught. Propagate (Result/catch) or remove, then re-attempt."
+    },
+    {
+      "name": "no-hedge-language-in-diff",
+      "predicate": "no-hedge-language-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a hedge/deferral phrase in touched prose stands in for a decision ('todo later', 'in a future session', 'as a stopgap', 'good enough for now', 'left as an exercise', 'out of scope for this'). Commit to the real answer or remove the hedge, then re-attempt."
+    },
+    {
+      "name": "no-graphical-symbols-in-diff",
+      "predicate": "no-graphical-symbols-in-diff",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a decorative non-ASCII glyph landed in tracked source/prose (arrow, box-drawing, star, bullet, check/cross, emoji). Convert to its plain-ASCII equivalent, then re-attempt."
+    },
+    {
+      "name": "mutables-all-typed",
+      "predicate": "mutables-all-typed",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending PROVE-kind mutable is missing a valid obligation_kind (precondition|invariant|postcondition|resource-bound|type-shape) or is blocked on an unresolved depends_on id -- every PROVE-stage unknown is a typed, dependency-tracked proof obligation. mutable-add {id, obligation_kind, depends_on?, ...} to classify or add the missing dependency, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "state-obligations-ready",
+      "predicate": "state-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending STATE-kind mutable (totality|ownership|replay|effect-boundary) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new STATE sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "conc-obligations-ready",
+      "predicate": "conc-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending CONC-kind mutable (happens-before|disjointness|contention) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new CONC sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "sec-obligations-ready",
+      "predicate": "sec-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending SEC-kind mutable (secrets|injection|identity-authority|message-timing) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new SEC sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "res-obligations-ready",
+      "predicate": "res-obligations-ready",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: a pending RES-kind mutable (exception-model|partial-failure|degradation|crucible) is missing a valid obligation_kind or is blocked on an unresolved depends_on id. mutable-add to classify a new RES sweep finding as a typed row, or mutable-resolve the blocking id first, then re-attempt."
+    },
+    {
+      "name": "split-context-swept",
+      "predicate": "split-context-swept",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: this diff touches more than one file and has not been adversarially swept by an independent reviewer -- dispatch one or more Agent reviewers (blind to the implementer's own reasoning, prompted only to refute) against the diff, then fs_write .gm/exec-spool/.split-context-swept with {\"head_sha\":\"<git rev-parse HEAD>\"} and re-attempt."
+    },
+    {
+      "name": "idempotent-dispatch-replay-safe",
+      "predicate": "idempotent-dispatch-replay-safe",
+      "hook": null,
+      "hook_mode": "predicate-only",
+      "message": "transition rejected: the same (id, hash) dispatch audit tuple was recorded with two different outcomes this stop window -- a replayed dispatch must reach the same result (f-compose-f-equals-f), never a second different mutation. Resolve the divergence, then re-attempt."
+    }
+  ],
+  "policy": {
+    "toplevel_doc_allowlist": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "README.md",
+      "SKILLS.md",
+      "CHANGELOG.md",
+      "LICENSE",
+      "LICENSE.md"
+    ],
+    "await_allowed_verbs": [
+      "memorize-continue",
+      "instruction",
+      "phase-status",
+      "health"
+    ],
+    "longgap_exempt_verbs": [
+      "health",
+      "auto-recall",
+      "wait",
+      "sleep"
+    ],
+    "longgap_refresh_verbs": [
+      "instruction",
+      "transition",
+      "phase-status",
+      "prd-add",
+      "prd-resolve",
+      "prd-list",
+      "mutable-add",
+      "mutable-resolve",
+      "mutable-list"
+    ],
+    "fresh_prompt_resets_phase": true,
+    "shell_verbs": [
+      "bash",
+      "sh",
+      "shell",
+      "zsh",
+      "powershell",
+      "ps1",
+      "pwsh",
+      "cmd"
+    ],
+    "deny_shell_git": true,
+    "gate_repeat_escalate_threshold": 3,
+    "hook_timeout_ms": 15000,
+    "longgap_threshold_ms": 300000,
+    "require_witness_evidence": true,
+    "prd_closed_statuses": [
+      "done",
+      "complete",
+      "completed",
+      "resolved"
+    ],
+    "mutables_resolved_statuses": [
+      "witnessed",
+      "resolved"
+    ],
+    "reject_duplicate_witness": true,
+    "initial_phase": "SPECIFY",
+    "terminal_phase": "COMPLETE",
+    "mutables_default_status": "unknown",
+    "mutables_witness_status": "witnessed",
+    "mutables_require_witness_evidence": true,
+    "cas_max_attempts": 5,
+    "deviation_severity": {}
+  }
+}
