@@ -3,7 +3,7 @@
 
   "instructions": {
     "dir": "prose",
-    "keys": ["entry", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "browser", "update_docs"]
+    "keys": ["entry", "entry-extended", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "browser", "update_docs"]
   },
 
   "fsm": {
