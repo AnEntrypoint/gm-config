@@ -46,11 +46,11 @@ English describing intent = liability when code encodes it; comments = liability
 
 ## Install
 
-`npx gm-skill install` copies the skill directory into `~/.claude/skills/gm/` (and `~/.agents/skills/gm/`), installed as `/gm`; `--yes` is the non-interactive form. No `skills` library.
+`bun x skills add AnEntrypoint/gm` (or the `install.sh`/`install.ps1` canonical installers) copies the skill directory into `~/.claude/skills/gm/` (and `~/.agents/skills/gm/`), installed as `/gm`. No npx, no marketplace, no npm registry.
 
 ## Bootstrap
 
-First dispatch checks `~/.gm-tools/plugkit.wasm` (or `~/.claude/gm-tools/plugkit.wasm` on legacy installs). Absent -> write `.gm/exec-spool/in/bootstrap/0.txt`; plugkit fetches, sha-verifies, writes `.bootstrap-status.json`. On pin mismatch it writes `.bootstrap-error.json` and you pause the chain.
+First dispatch checks `~/.gm-tools/plugkit.wasm` (or `~/.claude/gm-tools/plugkit.wasm` on legacy installs). Absent -> write `.gm/exec-spool/in/bootstrap/<session_id>-0.txt`; plugkit fetches, sha-verifies, writes `.bootstrap-status.json`. On pin mismatch it writes `.bootstrap-error.json` and you pause the chain.
 
 ## Hook denials throw, never mutate
 
