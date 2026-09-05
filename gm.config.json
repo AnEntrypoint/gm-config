@@ -104,6 +104,9 @@
     "prompt_excerpt_chars": 400,
     "max_marker_age_ms": 21600000,
     "orient_noun_limit": 5,
+    "prd_items_limit": 10,
+    "mutables_pending_limit": 10,
+    "row_excerpt_chars": 240,
     "extra_orient_stopwords": []
   },
 
