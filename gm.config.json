@@ -1,28 +1,23 @@
 {
   "version": 1,
-  "_comment": "The gm spec for workflows-in-skills. This repo IS a workflow definition: point a project or a whole user at it and gm runs THIS workflow instead of its compiled defaults. Everything here was extracted from the live rs-plugkit defaults (fsm-vendor generated fsm/graph.json and fsm/predicates.md; prose/*.md are the real compiled instruction sources), so pointing at this repo unmodified reproduces stock gm behaviour exactly -- it is a starting point to edit, not an approximation to drift from.",
 
   "instructions": {
-    "_comment": "Per-state prose. Each key maps to a state's prose_key in fsm/graph.json, plus 'entry' (served every turn, every phase) and 'browser'. crate::prose::resolve picks project-vendored .gm/instructions/<key>.md first, then this repo's cached copy, then the compiled default -- so overriding one key here leaves every other key on its default. This repo is edited directly; rs-plugkit pulls from it at runtime (crate::config::resolve, refreshed on the debounce below) rather than a build step generating this repo's content.",
     "dir": "prose",
     "keys": ["entry", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "browser", "update_docs"]
   },
 
   "fsm": {
-    "_comment": "The whole state machine as data: states, edges, the gates guarding each transition, and policy (allowlists, thresholds, terminal phase). Replacing graph.json is how a genuinely different workflow -- different phases, different order, different gates -- is established without touching Rust. gates.predicate may only name a predicate from fsm/predicates.md, which is GENERATED from the same registry the code dispatches on, so a graph cannot silently reference a gate condition that does not exist. A condition outside that registry needs a jit hook (hooks/) instead.",
     "graph": "fsm/graph.json",
     "predicates_reference": "fsm/predicates.md",
     "hooks_dir": "hooks"
   },
 
   "messages": {
-    "_comment": "Operator-editable text for gate denials and residual-scan findings, resolved through the same per-key chain as prose. Changing a denial message never changes when the gate fires -- only what the agent is told.",
     "gates_dir": "gates",
     "residual_dir": "residual"
   },
 
   "index": {
-    "_comment": "Codeinsight/code-index behaviour. Budgets exist because one oversized file must never be able to stall the whole pass or starve the supervisor heartbeat.",
     "enabled": true,
     "wall_budget_ms": 45000,
     "max_chunks_per_file_per_pass": 64,
@@ -30,7 +25,6 @@
   },
 
   "memory": {
-    "_comment": "The RAG/recall pipeline. embed_dim is load-bearing: changing it invalidates every stored vector, which is why a dim change routes through the explicit drop-if-mismatch path rather than being applied silently to a populated store.",
     "enabled": true,
     "embed_dim": 384,
     "namespaces": ["default", "codeinsight"],
@@ -39,7 +33,6 @@
     "pool_floor": 20,
     "default_k": 10,
     "tencentdb_backend": {
-      "_comment": "Opt-in TencentDB-Agent-Memory-compatible storage backend for memorize/recall/memorize-fire/memorize-prune. Disabled by default -- every project sees zero behavior change until explicitly enabled. Content is stored as raw files (never as inline text in the index row, unlike rssearch_vectors above); the index table only holds a pointer plus the embedding. vectors_db_dims is independent of memory.embed_dim above -- gm's own 384-dim embedder never writes into this table; this dimension matches whichever TencentDB-compatible embedding provider produced the content being indexed (768 for the default local embeddinggemma-300m provider). Sync-pass budgets are shared with the existing memories corpus sync -- see the top-level memory_sync block below, not duplicated here.",
       "enabled": false,
       "data_dir": ".gm/tencentdb-memory",
       "vectors_db_dims": 768,
@@ -48,7 +41,6 @@
   },
 
   "memory_sync": {
-    "_comment": "Budgets bounding a memory_md sync pass (crate::ragconfig::MemorySyncBudgetConfig, read by memory_md.rs::sync_index). A sync that cannot finish inside embed_budget_ms/total_budget_ms per pass records a ':partial' digest and converges across repeated recall/memorize-prune dispatches rather than blocking a single dispatch -- raising these is the fix for a large corpus (hundreds of files) converging too slowly. Previously compiled-in constants (1500/2000ms); now config-driven so an operator can raise them without a rebuild.",
     "embed_budget_ms": 1500,
     "total_budget_ms": 2000,
     "rekey_rows_deadline_ms": 1800,
@@ -58,7 +50,6 @@
   },
 
   "embed": {
-    "_comment": "Embedding-pipeline tuning, distinct from memory.embed_dim (which is compile-time coupled to the baked-in model weights and must never be changed independently of them). These are pure tuning knobs safe to override.",
     "max_tokens": 512,
     "query_cache_cap_entries": 64,
     "query_cache_ttl_ms": 600000,
@@ -68,7 +59,6 @@
   },
 
   "scoring": {
-    "_comment": "BM25 + vector fusion tuning. recency_floor/cos_floor/dedup_jaccard_threshold/half_life_ms govern recall's cosine-x-recency scoring; bm25_k1/bm25_b/fusion_rrf_k/fusion_identifier_boost/fusion_vector_list_weight govern codesearch's BM25+vector RRF fusion -- the two fusion_* weights are the per-list multipliers fed into fuse_n_cfg, vector list first, BM25 list second.",
     "bm25_k1": 1.2,
     "bm25_b": 0.75,
     "fusion_rrf_k": 60.0,
@@ -81,14 +71,12 @@
   },
 
   "rssearch": {
-    "_comment": "Recall's vector table/index names, plus its migration-pass tuning. Table/index names accept only [A-Za-z_][A-Za-z0-9_]* -- validated before use since names are interpolated into SQL.",
     "table": "rssearch_vectors",
     "index": "rssearch_vectors_vec",
     "migrate_budget_ms": 2000,
     "migrate_reported_failures": 5
   },
   "git_commits": {
-    "_comment": "Git-history-aware search's vector table/index names, plus its embed-pass tuning.",
     "table": "git_commit_vectors",
     "index": "git_commit_vectors_vec",
     "embed_budget_ms": 30000,
@@ -96,15 +84,13 @@
     "diff_char_cap": 4000,
     "log_window": 500
   },
-  "code_chunks": { "_comment": "Codesearch's vector table/index names.", "table": "code_chunks", "index": "code_chunks_vec" },
+  "code_chunks": { "table": "code_chunks", "index": "code_chunks_vec" },
 
   "code_index": {
-    "_comment": "Codesearch/codeinsight indexing tuning beyond the index.* budgets above.",
     "prune_enumeration_cap": 20000
   },
 
   "pipeline": {
-    "_comment": "Background exec/task pipeline budgets.",
     "ttl_ms": 120000,
     "summarize_threshold": 2048,
     "max_result_bytes": 4096,
@@ -112,7 +98,6 @@
   },
 
   "instruction_payload": {
-    "_comment": "Shape of the payload attached to every instruction/transition response.",
     "ready_wave_limit": 3,
     "instruction_recall_hits": 5,
     "transition_recall_hits": 3,
@@ -123,27 +108,23 @@
   },
 
   "browser_witness": {
-    "_comment": "Which edited file extensions/directories require a browser-verb witness before COMPLETE. extra_* fields APPEND to the built-in defaults, never replace them.",
     "extra_always_browser_extensions": [],
     "extra_conditional_extensions": [],
     "extra_dir_prefixes": []
   },
 
   "discipline_note": {
-    "_comment": "Limits on discipline-note writes and how many active policies surface per instruction dispatch.",
     "max_name_len": 64,
     "max_text_len": 200,
     "active_policies_instruction_limit": 50
   },
 
   "claim_audit": {
-    "_comment": "DECIDE's claim-audit gate: which substrings mark a line as a shipped-and-verified claim, and which project-relative paths get scanned for one (a missing path is a skip, not an error).",
     "extra_shipped_claim_markers": [],
     "extra_scan_paths": []
   },
 
   "cache": {
-    "_comment": "Budgets for the shared cache layer. Per-namespace so one greedy consumer cannot evict another's entries.",
     "enabled": true,
     "max_entries_per_namespace": 5000,
     "max_bytes_per_namespace": 33554432,
@@ -151,7 +132,6 @@
   },
 
   "sync": {
-    "_comment": "How often a repo-backed config tier re-checks its remote. The check is a cheap remote-ref probe; a full fetch only happens when the sha actually moved, so raising the debounce saves bandwidth and lowering it speeds propagation.",
     "debounce_ms": 300000,
     "shallow": true
   }
