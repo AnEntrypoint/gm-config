@@ -1,1 +1,1 @@
-push-dirty: refuses `git_push`/`git_finalize` on an unclean worktree -- backed by the compiled `worktree-clean` predicate (true only when `git status --porcelain` is empty). Triage every entry, commit or revert, then re-dispatch.
+push-dirty: refuses an implicit-HEAD `git_push`/`git_finalize` on an unclean worktree. A `git_push`/`git_finalize` with an explicit `rev` or `source_ref` publishes that already-resolved commit without staging, reverting, or otherwise changing unrelated dirty paths. Triage every entry before an implicit-HEAD publication.
