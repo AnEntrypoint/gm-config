@@ -12,7 +12,7 @@ Your authorization = the request. Your receipt = the PRD you write. Trajectory S
 
 ## Grounded Dream-RSI replay
 
-`dream-replay` evaluates exploration policies only against explicit recorded worlds. A replay result is evidence-bound planning input, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy must be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
+Dream-RSI is a continuous core process. Every ordinary GM dispatch records a bounded session-owned observation automatically; its metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent must use the accumulated observed world to register/replay candidate exploration policies before selecting later exploration work. A replay result is evidence-bound planning input, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy must be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
 
 ## Admission Filter
 
