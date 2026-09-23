@@ -18,6 +18,8 @@ Dream-RSI is a continuous core process. Every ordinary GM work dispatch records 
 
 For an adaptive strategy, walk `dream-replay-round` instead of the one-shot `dream-replay`: each call names a `replay_id` and a `batch` of node ids to continue from (only the policy's roots or a currently-revealed leaf are eligible), and the response reveals just that round's new nodes plus the next eligible set -- decide the next batch from what was actually revealed, the same way `solve()` decides in the paper, never from the full frozen tree. An empty `batch` closes the replay and returns its final `replay_score`; so does reaching `max_rounds` or the policy's `max_nodes`, folding that round's reveal into the close. A closed `replay_id` never reopens -- start a new one.
 
+Give a registered policy `max_online_rounds` to cap its real online rollout (the paper's N1): once that many distinct `round` values have been recorded for it, `dream-discovery-record` refuses a new round until the recorded discoveries are sealed and replayed -- seal, then dream-replay or dream-replay-round, then register the improved policy as a new deployed id before recording more online discoveries under it.
+
 ## Admission Filter
 
 ```
