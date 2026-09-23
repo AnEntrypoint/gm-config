@@ -74,6 +74,12 @@ Every claim of correctness is proven by a live `exec_js`/`browser` dispatch witn
 
 `git_push` is the only admissible push surface, any repo, any cwd -- runs `[worktree-clean]` porcelain probe internally, refuses dirty. `git_finalize {message}` bundles add -> commit -> probe -> push. In a worktree another writer is also editing, commit only your files: `git_commit {message, paths:[...]}` / `git_finalize {message, paths:[...]}` stage and commit exactly those pathspecs, the porcelain probe checks only them, and the push goes by explicit ref when dirt remains outside them; `git_push {rev:"HEAD"}` is the sanctioned push of an already-made commit over someone else's dirt. Sibling push: `git_push {repo:"<abs>", branch:"<branch>"}`. Raw `git` shell body gated `deviation.bash-git-bypass`. A dirty tree at this stage is yours to resolve now: commit real work, revert junk, or fold transient emission into the managed gitignore block -- never carry it forward as "pre-existing."
 
+## Housekeeping and memorization are scheduled runs, not incidental cleanup
+
+Every pass through `git_finalize` opens a housekeeping run before the next SPECIFY cover: dead code, superseded paths, and stale PRD/mutable rows from earlier passes get swept so a later session never trips over them. This is the same NODELETE -> DELETIONGATE -> REACHABLE discipline `residual-scan` below already runs, applied proactively on every finalize rather than only when the gate fires.
+
+`memorize-fire` runs in the same pass: any correction the user gave, any default this walk had to pick, any recurring gap surfaced, is persisted immediately -- never deferred to session end, where a crash or context compaction would drop it. A correction given but not yet persisted by the time `git_finalize` runs is itself a residual, not a note to remember for next time.
+
 ## CI
 
 Verification is thinking run rather than reasoned: "is this correct?" is executed, not argued -- real test, real matrix, real page answer it. The push IS the validation dispatch. Local proof covers one platform; matrix covers all. On green, `fs_write` `.gm/exec-spool/.ci-validated` with `{"head_sha":"<git rev-parse HEAD>"}` -- the COMPLETE gate matches that sha against current HEAD. Red = divergent observation holding the trajectory until cause-named and green re-pushed; toolchain skew converges, does not stop. A CI check skipped because "the diff looked safe" is an unwitnessed slice.
