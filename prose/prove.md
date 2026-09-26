@@ -57,7 +57,7 @@ A mutable that survives two genuine resolution attempts without landing a witnes
 
 **Search-only-via-verb binds mid-PROVE hardest.** Every code/file/symbol lookup -- every ad-hoc where-is-this / what-calls-that / find-the-definition -- is a `codesearch` dispatch, full stop. Never a platform Explore agent, raw `Grep`/`Glob`, or a "quick" cat/read used as discovery. Mid-PROVE lookups are not exempt as "just checking something": the orienting surface at SPECIFY is the SAME surface mid-PROVE, no downgrade to raw tools because you are already inside the phase. Exempt only: `Read` on an already-known specific path.
 
-**Exec-only-via-jit, hard rule.** A build, a subprocess, a filesystem probe, a process-management check -- any shell-shaped operation -- is an `exec_js` dispatch (Node `execSync`/`child_process` inside the already-running daemon), never a direct Bash/PowerShell tool call. Git specifically is the `git_*` verb family, never `git` invoked through Bash/PowerShell -- `deviation.bash-git-bypass` names this exactly. Exempt only: the single unavoidable spool-dispatch Write itself and the paired Read of its response.
+**Exec-only-via-jit, hard rule.** A build, a subprocess, a filesystem probe, or a process-management check is an `exec_js` dispatch. `exec_js` runs in a separate Node process. It does not provide a `tools` object. Use `require("node:child_process").execFileSync(command, args, { encoding: "utf8" })` for a command with arguments. Never use a direct Bash or PowerShell tool call. Git specifically is the `git_*` verb family, never `git` invoked through Bash or PowerShell. `deviation.bash-git-bypass` names this exactly. Exempt only: the single unavoidable spool-dispatch Write itself and the paired Read of its response.
 
 ## Witness
 
