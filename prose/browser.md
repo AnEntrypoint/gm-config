@@ -79,7 +79,9 @@ Everything from here down describes `browser`/`cdp`'s shared CDP-session mechani
 
 **One session per run -- reuse it, then close it.** A browser session is keyed by its spool `sessionId`; every dispatch carrying the SAME sessionId reuses the SAME chromium. A DIFFERENT sessionId opens its OWN chromium -- so a run that invents `probe`/`w2`/`w3`/... names leaks one browser per name. Pick one sessionId, use it for every dispatch, and end with `session close` so nothing is left open; the eval envelope carries a `multi_session_warning` the moment a second distinct session opens. The idle reaper (closes sessions unused past the idle window) and the OS-orphan reaper (kills managed chromiums no live session owns, sparing in-use ones and your own Chrome) are backstops for crashes, not a license to leave sessions open -- close yours.
 
-**The session closes when YOU expect it to, not under you.** A session stays open across turns and think-gaps -- the idle window is generous (15 min of no use), measured from the END of your last dispatch, so a long read or a slow eval never shortens it. A dispatch in flight is never closed mid-run: the idle reaper and the orphan reaper both skip a session while its eval is executing, and a just-launched browser has a grace period before any reaper can touch it. An explicit `session close` is immediate. If the idle/orphan backstop did close a session and you dispatch to it again, it transparently re-launches and the envelope carries `session_relaunched: true` with a `relaunch_note` -- your in-page `window.*` state was reset, so re-establish it; you are told, never silently surprised.
+Dispatches of one session run one at a time on its page: a second dispatch carrying the same `sessionId` queues behind the first and its envelope reports `queued_behind_same_page_dispatch_ms` and `queue_note`. Use `sessionId=<other>` for an independent page and tab. `session list` shows each session's `pid`, `project`, `idle_seconds` and `working_set_mb`, plus the top-level `chrome_process_count`.
+
+**The session closes when YOU expect it to, not under you.** A session stays open across turns and think-gaps -- the idle window is `chrome_idle_ttl_seconds` (default 300, so 5 min of no use; older, longer ceilings still apply as upper bounds), measured from the END of your last dispatch, so a long read or a slow eval never shortens it. A dispatch in flight is never closed mid-run: the idle reaper and the orphan reaper both skip a session while its eval is executing, and a just-launched browser has a grace period before any reaper can touch it. An explicit `session close` is immediate. If the idle/orphan backstop did close a session and you dispatch to it again, it transparently re-launches and the envelope carries `session_relaunched: true` with a `relaunch_note` -- your in-page `window.*` state was reset, so re-establish it; you are told, never silently surprised.
 
 ## Envelope
 
@@ -87,11 +89,24 @@ Everything from here down describes `browser`/`cdp`'s shared CDP-session mechani
 
 ## Headed by default
 
-The window opens on the user's screen -- that IS the witness. `GM_BROWSER_HEADLESS=1` opts into headless; absent it, a session with no visible window is a launch you did not make. Do not assume or request headless to "be quiet"; the flash is the proof.
+The window opens on the user's screen -- that IS the witness. `"headless": true` in `.gm/browser-config.json` opts into headless; absent it, a session with no visible window is a launch you did not make. Do not assume or request headless to "be quiet"; the flash is the proof.
 
 ## Profile
 
 `session new` (or a bare expression with no live session) spawns a locally-profiled Chromium at `<cwd>/.gm/browser-profile/` for `cdp`, or spawns/dials lightpanda/steel for `browser`; the runner attaches via `--direct <wsEndpoint>`. Cookies/storage/extensions persist across sessions, turns, and runs (chromium-family engines only -- a dialed steel-browser endpoint's own persistence policy applies instead). A second concurrent launch contends the SingletonLock; the watcher reuses the live CDP rather than re-launching. The runner's extension-attach mode ("Waiting for extension to connect") is never the default or what you want -- seeing it in `stderr` means the host failed to spawn local Chromium; dispatch `instruction` for recovery, not a blind retry.
+
+## .gm/browser-config.json
+
+Optional keys; a missing or invalid file means every default applies.
+
+- `headless` (bool, default false). Only this key selects headless; the host does not read `GM_BROWSER_HEADLESS`.
+- `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm.
+- `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (300000), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
+- `enable_webgpu` (bool, default false): headless Chrome normally gets `--disable-gpu`, which blocks WebGPU and WebGL. `true` drops it and adds `--enable-unsafe-webgpu` (also added when headed).
+- `chrome_extra_args` (array of strings): appended to the Chrome command line. Each entry must start with `--` and hold no NUL or newline; an invalid entry is dropped and logged to `.gm/browser-chrome-profile-<session>/chrome-launch.log`. Do not pass flags gm owns (`--remote-debugging-port`, `--user-data-dir`).
+- `load_extension` (path to an unpacked extension): adds `--load-extension` and calls CDP `Extensions.loadUnpacked` after launch; best-effort, failures are logged to `chrome-launch.log`.
+- `chrome_idle_ttl_seconds` (default 300): a gm-launched Chrome with no browser dispatch for this long is closed, even if no further dispatch arrives.
+- `chrome_max_concurrent` (default 3): cap on gm-launched Chromes across all projects served by the shared daemon; beyond it idle ones are reaped or the least recently used one idle for 60s or more is evicted, otherwise the dispatch errors listing the live Chromes (pid, project, session, idle seconds).
 
 ## Profile and debug recipes
 
