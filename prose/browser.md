@@ -93,6 +93,16 @@ Dispatches of one session run one at a time on its page: a second dispatch carry
 
 The window opens on the user's screen -- that IS the witness. `"headless": true` in `.gm/browser-config.json` opts into headless; absent it, a session with no visible window is a launch you did not make. Do not assume or request headless to "be quiet"; the flash is the proof.
 
+## GPU report and gpu= (trust gate for perf and visual witnesses)
+
+Every fresh Chrome launch (`session new`, or the first dispatch that launches) carries a compact `gpu` object: `{accelerated, gl, angle, skia, webgl, webgpu, adapter, draw, compute, fps, focused, visibility, warn?}`. It comes from a real WebGL2 triangle + `readPixels`, a real WebGPU compute dispatch on `navigator.gpu`'s adapter, browser-level `SystemInfo`, and a 700ms rAF count. **Read `gpu.accelerated` before trusting any perf, fps, or visual witness: `false` (SwiftShader, Basic Render Driver, llvmpipe, fallback adapter, gpu_compositing off) or a `warn` means the session is software-rendered or throttled and the numbers are meaningless.** The bare body `gpu` re-runs the probe on the live session.
+
+`session new gpu=nvidia|amd|intel|default` (or a `gpu=<x>` first line, or `"gpu"` in `.gm/browser-config.json`, or `GM_BROWSER_GPU`) pins the ANGLE D3D11 adapter by LUID (Windows; the LUID is resolved live) so WebGL and WebGPU both run on that device; the report echoes `want` and warns on a mismatch. **A rendering claim on a dual-GPU machine must be witnessed with both `gpu=nvidia` and `gpu=amd`** (`session new gpu=amd`, witness, `session close`, repeat). Changing gpu= on a live session relaunches it. Headless (`"headless": true`) keeps the GPU (`--headless=new`, ANGLE d3d11, no `--disable-gpu` unless `"headless_disable_gpu": true`).
+
+Launcher defaults keep a session at full speed when occluded or unfocused: `--disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --disable-features=CalculateNativeWinOcclusion --disable-ipc-flooding-protection`. Dispatches without `capture` attach no instrumentation; `capture` adds console/network/pageError capture, and `capture gl` (with `url=` on the same dispatch, so the hook precedes the page's scripts) additionally counts draw calls and samples `getError` every 32nd draw, re-serving any sampled error to the page's own `getError` so nothing is drained; `errorTotalCount` is therefore a sampled lower bound. The earlier per-draw `getError` held a 1500-draw page at 5 fps; sampling costs about 2x the CPU of an uninstrumented run -- still never measure perf under `capture gl`.
+
+`browser` on a platform without a native lightpanda binary (Windows) is served by local Chrome and says so in `engine_note`.
+
 ## Profile
 
 `session new` (or a bare expression with no live session) spawns a locally-profiled Chromium at `<cwd>/.gm/browser-profile/` for `cdp`, or spawns/dials lightpanda/steel for `browser`; the runner attaches via `--direct <wsEndpoint>`. Cookies/storage/extensions persist across sessions, turns, and runs (chromium-family engines only -- a dialed steel-browser endpoint's own persistence policy applies instead). A second concurrent launch contends the SingletonLock; the watcher reuses the live CDP rather than re-launching. The runner's extension-attach mode ("Waiting for extension to connect") is never the default or what you want -- seeing it in `stderr` means the host failed to spawn local Chromium; dispatch `instruction` for recovery, not a blind retry.
@@ -104,7 +114,8 @@ Optional keys; a missing or invalid file means every default applies.
 - `headless` (bool, default false). Only this key selects headless; the host does not read `GM_BROWSER_HEADLESS`.
 - `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm.
 - `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (60000: a session whose owning gm session has gone quiet, or is unknown to a freshly started daemon, is reaped after this), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
-- `enable_webgpu` (bool, default false): headless Chrome normally gets `--disable-gpu`, which blocks WebGPU and WebGL. `true` drops it and adds `--enable-unsafe-webgpu` (also added when headed).
+- `enable_webgpu` (bool, default false): adds `--enable-unsafe-webgpu` when headed (always added when headless).
+- `gpu` (`nvidia|amd|intel|default`) and `headless_disable_gpu` (bool, default false): see the GPU section above.
 - `chrome_extra_args` (array of strings): appended to the Chrome command line. Each entry must start with `--` and hold no NUL or newline; an invalid entry is dropped and logged to `.gm/browser-chrome-profile-<session>/chrome-launch.log`. Do not pass flags gm owns (`--remote-debugging-port`, `--user-data-dir`).
 - `load_extension` (path to an unpacked extension): adds `--load-extension` and calls CDP `Extensions.loadUnpacked` after launch; best-effort, failures are logged to `chrome-launch.log`.
 - `chrome_idle_ttl_seconds` (default 300): a gm-launched Chrome with no browser dispatch for this long is closed, even if no further dispatch arrives.
