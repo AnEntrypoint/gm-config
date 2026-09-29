@@ -45,6 +45,8 @@ sessionId=<id>\n<any shape below>
 session new
 session list
 session close <id>
+session close
+session close-all
 <arbitrary JS expression evaluated in page context>
 <https://... bare URL>
 url=<url>\n<expression>
@@ -77,7 +79,7 @@ Everything from here down describes `browser`/`cdp`'s shared CDP-session mechani
 
 **`dom=<css-selector>\n` is the zero-boilerplate element probe.** Returns `{selector, match_count, elements:[{tag, text, attrs, visible, rect}]}` for up to 20 matches -- the fastest answer to "is this element there and what does it say." An invalid selector returns `result.error` (no crash). Composes with `url=`.
 
-**One session per run -- reuse it, then close it.** A browser session is keyed by its spool `sessionId`; every dispatch carrying the SAME sessionId reuses the SAME chromium. A DIFFERENT sessionId opens its OWN chromium -- so a run that invents `probe`/`w2`/`w3`/... names leaks one browser per name. Pick one sessionId, use it for every dispatch, and end with `session close` so nothing is left open; the eval envelope carries a `multi_session_warning` the moment a second distinct session opens. The idle reaper (closes sessions unused past the idle window) and the OS-orphan reaper (kills managed chromiums no live session owns, sparing in-use ones and your own Chrome) are backstops for crashes, not a license to leave sessions open -- close yours.
+**One session per run -- reuse it, then close it.** A browser session is keyed by its spool `sessionId`; every dispatch carrying the SAME sessionId reuses the SAME chromium. A DIFFERENT sessionId opens its OWN chromium -- so a run that invents `probe`/`w2`/`w3`/... names leaks one browser per name. Pick one sessionId, use it for every dispatch, and end with `session close-all` (every Chrome owned by your gm session; `session close` alone closes your implicit page, `session close <id>` a named one) then `session list` to confirm nothing remains. Before launching, `session list` and reuse a live session; parallel workers of one task share the parent's `sessionId=` rather than each launching their own Chrome. Closing kills the whole process tree (GPU, crashpad and renderer children) and any leftover chrome still holding the profile; the eval envelope carries a `multi_session_warning` the moment a second distinct session opens. The idle reaper (closes sessions unused past the idle window) and the OS-orphan reaper (kills managed chromiums no live session owns, sparing in-use ones and your own Chrome) are backstops for crashes, not a license to leave sessions open -- close yours.
 
 Dispatches of one session run one at a time on its page: a second dispatch carrying the same `sessionId` queues behind the first and its envelope reports `queued_behind_same_page_dispatch_ms` and `queue_note`. Use `sessionId=<other>` for an independent page and tab. `session list` shows each session's `pid`, `project`, `idle_seconds` and `working_set_mb`, plus the top-level `chrome_process_count`.
 
@@ -101,12 +103,12 @@ Optional keys; a missing or invalid file means every default applies.
 
 - `headless` (bool, default false). Only this key selects headless; the host does not read `GM_BROWSER_HEADLESS`.
 - `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm.
-- `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (300000), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
+- `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (60000: a session whose owning gm session has gone quiet, or is unknown to a freshly started daemon, is reaped after this), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
 - `enable_webgpu` (bool, default false): headless Chrome normally gets `--disable-gpu`, which blocks WebGPU and WebGL. `true` drops it and adds `--enable-unsafe-webgpu` (also added when headed).
 - `chrome_extra_args` (array of strings): appended to the Chrome command line. Each entry must start with `--` and hold no NUL or newline; an invalid entry is dropped and logged to `.gm/browser-chrome-profile-<session>/chrome-launch.log`. Do not pass flags gm owns (`--remote-debugging-port`, `--user-data-dir`).
 - `load_extension` (path to an unpacked extension): adds `--load-extension` and calls CDP `Extensions.loadUnpacked` after launch; best-effort, failures are logged to `chrome-launch.log`.
 - `chrome_idle_ttl_seconds` (default 300): a gm-launched Chrome with no browser dispatch for this long is closed, even if no further dispatch arrives.
-- `chrome_max_concurrent` (default 3): cap on gm-launched Chromes across all projects served by the shared daemon; beyond it idle ones are reaped or the least recently used one idle for 60s or more is evicted, otherwise the dispatch errors listing the live Chromes (pid, project, session, idle seconds).
+- `chrome_max_concurrent` (default 2): cap on gm-launched Chromes across all projects served by the shared daemon; beyond it idle ones are reaped or the least recently used one idle for 60s or more is evicted, otherwise the dispatch errors listing the live Chromes (pid, project, session, idle seconds).
 
 ## Profile and debug recipes
 
