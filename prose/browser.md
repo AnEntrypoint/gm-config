@@ -42,7 +42,7 @@ The body is a string, these shapes:
 
 ```
 sessionId=<id>\n<any shape below>
-session new
+session new [gpu=<vendor>] [uncapped]
 session list
 session close <id>
 session close
@@ -58,6 +58,8 @@ trace\n<expression>
 screenshot\n<expression>
 dom=<css-selector>\n
 ```
+
+A first line `session` or `session <word>` that is not one of these fails with the supported list and launches no browser. A runner older than the `session close-all` subcommand evaluates that line as JS (`SyntaxError: Unexpected identifier 'close'`) and launches a fresh Chrome to do it; if you see that error, close with `session close <id>` (ids from `session list`) and let the runner self-update.
 
 Everything from here down describes `browser`/`cdp`'s shared CDP-session mechanics (`serp` accepts the same prefix grammar but is a no-op for the session/screenshot/profile/trace/viewport features it does not implement, see above).
 
@@ -99,6 +101,8 @@ Every fresh Chrome launch (`session new`, or the first dispatch that launches) c
 
 `session new gpu=nvidia|amd|intel|default` (or a `gpu=<x>` first line, or `"gpu"` in `.gm/browser-config.json`, or `GM_BROWSER_GPU`) pins the ANGLE D3D11 adapter by LUID (Windows; the LUID is resolved live) so WebGL and WebGPU both run on that device; the report echoes `want` and warns on a mismatch. **A rendering claim on a dual-GPU machine must be witnessed with both `gpu=nvidia` and `gpu=amd`** (`session new gpu=amd`, witness, `session close`, repeat). Changing gpu= on a live session relaunches it. Headless (`"headless": true`) keeps the GPU (`--headless=new`, ANGLE d3d11, no `--disable-gpu` unless `"headless_disable_gpu": true`).
 
+**Frame-rate measurement: `session new uncapped`** (combines with `gpu=<x>`; or an `uncapped` first line, or `"uncapped": true` in config; sticky until the next `session new`) adds `--disable-frame-rate-limit --disable-gpu-vsync` plus ANGLE d3d11/blocklist/WebGPU flags and brings the page to the foreground each eval, so a drawing page's rAF is no longer bound to the desktop refresh. The gpu report also carries `refresh_cap_hz`, `displays`, `display_clone_with_virtual`, `uncapped`, and a `display_warn` when a faster panel is cloned at a lower rate (e.g. a 144 Hz panel cloned with a 60 Hz virtual display runs at 60): a capped `fps` near `refresh_cap_hz` is the display, not the page. The warn suggests a topology change (Win+P Extend, disable the virtual display); agentplug never performs it.
+
 Launcher defaults keep a session at full speed when occluded or unfocused: `--disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --disable-features=CalculateNativeWinOcclusion --disable-ipc-flooding-protection`. Dispatches without `capture` attach no instrumentation; `capture` adds console/network/pageError capture, and `capture gl` (with `url=` on the same dispatch, so the hook precedes the page's scripts) additionally counts draw calls and drains `getError` once per animation frame per context that drew, attributing an error to that frame's last draw and re-serving it to the page's own `getError` so nothing is lost; `errorTotalCount` counts frames with an error. A per-draw `getError` held a 159-draw three.js frame at 22-32 fps; the per-frame drain holds 60 -- still never measure perf under `capture gl`.
 
 `browser` on a platform without a native lightpanda binary (Windows) is served by local Chrome and says so in `engine_note`.
@@ -115,7 +119,7 @@ Optional keys; a missing or invalid file means every default applies.
 - `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm.
 - `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (60000: a session whose owning gm session has gone quiet, or is unknown to a freshly started daemon, is reaped after this), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
 - `enable_webgpu` (bool, default false): adds `--enable-unsafe-webgpu` when headed (always added when headless).
-- `gpu` (`nvidia|amd|intel|default`) and `headless_disable_gpu` (bool, default false): see the GPU section above.
+- `gpu` (`nvidia|amd|intel|default`), `uncapped` (bool) and `headless_disable_gpu` (bool, default false): see the GPU section above.
 - `chrome_extra_args` (array of strings): appended to the Chrome command line. Each entry must start with `--` and hold no NUL or newline; an invalid entry is dropped and logged to `.gm/browser-chrome-profile-<session>/chrome-launch.log`. Do not pass flags gm owns (`--remote-debugging-port`, `--user-data-dir`).
 - `load_extension` (path to an unpacked extension): adds `--load-extension` and calls CDP `Extensions.loadUnpacked` after launch; best-effort, failures are logged to `chrome-launch.log`.
 - `chrome_idle_ttl_seconds` (default 300): a gm-launched Chrome with no browser dispatch for this long is closed, even if no further dispatch arrives.
