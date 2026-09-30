@@ -67,14 +67,13 @@ subagents, not a suggestion.
 
 Default to parallel subagent dispatch whenever the destructive transform's
 closure decomposes into independent slices -- do not serialize work a fan-out
-would cover concurrently. Every dispatched subagent's prompt says only "use the
-gm skill for this" (or an equivalent minimal pointer) plus the task-specific
-content; it never restates verb names, spool paths, JSON body shapes, or
-phase-chain mechanics, since `Skill(skill="gm")` already supplies all of that on
-invocation. Each subagent mints its own SESSION_ID per the SESSION_ID section
-above -- this is the interference-avoidance contract, not optional plumbing. A
-task that is a single focused mechanical edit stays single-session; fan-out
-serves genuine decomposition, never a manufactured split of one small task.
+would cover concurrently. Every dispatched subagent's prompt opens with "use the
+gm skill for this; code questions go to codeinsight (`callers`/`impact`) first,
+then `codesearch`, and `Read` only a located path" plus the task-specific
+content and its own SESSION_ID (see above); it restates no other verb names,
+spool paths, body shapes or phase mechanics -- `Skill(skill="gm")` supplies
+those. A single focused mechanical edit stays single-session; fan-out serves
+genuine decomposition, never a manufactured split of one small task.
 
 ## Browser sessions in fan-out
 
@@ -83,6 +82,18 @@ One task, one Chrome. The parent picks a single browser id for the task (e.g. `<
 ## Inspection routing
 
 Every capability has exactly one sanctioned surface and the platform's native tools are never it: code/file/symbol search is the `codesearch` verb, defaulting to cwd but never confined to it -- `codesearch {root|projectPath: "<abs>", query, mode?}` targets any folder (a submodule, a sibling repo like `C:/dev/liqology`, any other project on disk), with its own persistent index/cache at `<root>/.gm/gm.db` isolated from and reusable independent of the current project's own index; a sibling repo is never `Read`-by-path scanned or shelled out to `find`/Grep/Glob just because it sits outside cwd -- pass `root`/`projectPath` instead. Runtime-state files (spool response JSON, `.status.json`) are `Read`, browser automation of any kind is the `browser` verb (no raw Chrome launch, no puppeteer/playwright import or CLI, ever -- same inadmissible-reach class as bypassing `codesearch`), and Bash survives only for the boot probe and shell-only non-git tooling (`curl`, `sh`, `pwsh`) -- `find`/`grep`/`rg` are explicitly NOT in that survivor list, whether typed directly or through `PowerShell`/`Get-ChildItem -Recurse`/`Select-String`. Reaching for Glob/Grep/Explore, or the identical search shelled out via `Bash("find ...")`/`Bash("grep ...")`/`Bash("rg ...")`, or any host-native search is reaching around the surface -- it is blocked; the verb IS the surface, regardless of which literal tool call carries the reach, and regardless of whether the target is cwd or an external root. Spool responses are synchronous; poll external state via `until <check>; do sleep N; done`.
+
+**Code intelligence first.** A structural question -- who calls this, what breaks if it changes, is it dead, what is in this file -- goes to the call-graph verbs before `codesearch` or `Read`: they answer from the persisted symbol/call-edge index in about a second, one dispatch, no file bodies.
+
+| When | Dispatch |
+| --- | --- |
+| Orient on a named symbol, before reading it | `callers {symbol}` -> `edges` (`caller_path:line caller -> callee`) |
+| Before changing a function | `callers {symbol}`: every call site the edit must keep valid; `impact {symbol, max_depth}` lists what it depends on |
+| Before deleting | `callers {symbol}` empty AND `codesearch {query:"<symbol>"}` shows no `references` |
+| Diff blast radius (DECIDE) | `callers` for each function the diff changes, renames or removes; each caller outside the diff is a site to exercise |
+| File/area overview, cleanup sweep | `codeinsight {action:"outline", path}` / `{action:"find", symbol}` / `{action:"orphans"}` / `{action:"hotspots"}` / `{action:"impact", symbol, direction:"callers"}` |
+
+Edges are keyed by bare callee name, so same-named functions merge and callbacks, dynamic dispatch and string-keyed calls are invisible. An empty or thin reply is a lead, not proof: it is proof only when `codeinsight_index` reports `complete: true`; otherwise (or on `unknown_verb` from a runtime without that verb) confirm with the `codesearch` identifier query below, which is exhaustive. `codeinsight_index {}` refreshes the index incrementally (unchanged files are reused).
 
 **`codesearch` also semantically searches this project's own git commit-message history, not only current-tree code/file/symbols.** A `codesearch` response's `commits` field (alongside `bm25_hits`/`vector_hits`, `mode: "dual"`) returns commit-message hits ranked by embedding similarity to the query -- a live capability (`git_commit_vectors::search`, rs-plugkit), not a document to re-derive. For any "has this happened before" / "was this already fixed once" / "what changed around X" question -- a recurring bug, a prior security fix, a pattern that looks familiar -- dispatch `codesearch` with the pattern/symptom as the query BEFORE falling back to a manual `git_log`/`git_show` walk: the commit-vector hits surface prior fixes, prior incidents, and prior decisions by semantic similarity to the CURRENT symptom's wording, which a keyword-only git-log grep misses entirely (different wording, same underlying event). `git_log`/`git_show`/`git_diff` remain the right verbs for a KNOWN commit's exact content once codesearch (or any other lead) has named it -- this is about which surface starts the search, not a replacement for inspecting a specific commit once found.
 
