@@ -87,7 +87,7 @@ Every capability has exactly one sanctioned surface and the platform's native to
 
 | When | Dispatch |
 | --- | --- |
-| Orient on a named symbol, before reading it | `callers {symbol}` -> `edges` (`caller_path:line caller -> callee`) |
+| Orient on a named symbol, before reading it | `callers {symbol}` -> `edges`: each call site's path, line and calling function |
 | Before changing a function | `callers {symbol}`: every call site the edit must keep valid; `impact {symbol, max_depth}` lists what it depends on |
 | Before deleting | `callers {symbol}` empty AND `codesearch {query:"<symbol>"}` shows no `references` |
 | Diff blast radius (DECIDE) | `callers` for each function the diff changes, renames or removes; each caller outside the diff is a site to exercise |
