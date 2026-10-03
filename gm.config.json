@@ -22,7 +22,7 @@
     "enabled": true,
     "wall_budget_ms": 45000,
     "max_chunks_per_file_per_pass": 64,
-    "max_file_bytes": 262144
+    "max_file_bytes": 2097152
   },
 
   "memory": {
