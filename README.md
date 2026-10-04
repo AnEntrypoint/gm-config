@@ -13,9 +13,13 @@ build, and no CI job overwrites a hand edit.
 rs-plugkit still ships each of these as a compiled-in Rust default, used only when
 this repo (or whatever repo a project points at instead, see below) is genuinely
 unreachable -- offline, first dispatch before any cache exists, a transient network
-outage. That compiled default is an emergency fallback, not this repo's source: a
-change here reaches every project pulling from it the next time their local cache
-refreshes, with no rs-plugkit rebuild, no release, no cascade.
+outage. That compiled default is an emergency fallback, not this repo's source.
+
+The implicit default tier is pinned to one reviewed commit of this repo
+(rs-plugkit `config.rs` `DEFAULT_REPO_PINNED_SHA`), so a change here reaches
+projects on that tier only when rs-plugkit bumps the pin and ships; a project or
+user `config.source.json` with `"reference": "main"` picks it up on the next
+debounce with no rebuild.
 
 ### Where each artifact is read from at runtime
 
@@ -32,10 +36,8 @@ refreshes, with no rs-plugkit rebuild, no release, no cascade.
 
 **No configuration needed.** Every gm project consults this exact repo by
 default -- `crate::config::resolve()`'s `ImplicitDefaultRepo` tier clones it
-into `.gm/config-source-cache-default` and re-checks it on a debounce (a cheap
-remote-ref probe, a fetch only when the sha actually moved; offline, the last
-good local copy is used) with no file to write, no opt-in step. A hand edit
-here reaches every project on their next debounce window.
+into `.gm/config-source-cache-default` at the pinned commit (see above) with no
+file to write, no opt-in step; offline, the last good local copy is used.
 
 **To point at a different repo instead** -- a fork, an org-private variant --
 write `.gm/config.source.json` in the project (project-wide) or under your
