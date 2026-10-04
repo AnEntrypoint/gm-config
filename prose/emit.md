@@ -115,7 +115,7 @@ EMIT's precondition: mutables already resolved -- PROVE's job, done before arriv
 
 ## Read-before-write
 
-On-disk content is the goal-relative reference; diffing an unread file diffs an imagined baseline. Observed disk divergence -> `transition` back to SPECIFY.
+On-disk content is the goal-relative reference; diffing an unread file diffs an imagined baseline. Before changing a function's signature or behaviour, `callers {symbol}` names the call sites the write must keep valid -- a caller the plan did not name is a new unknown, not an edit to improvise. Observed disk divergence -> `transition` back to SPECIFY.
 
 ## Fresh index
 
