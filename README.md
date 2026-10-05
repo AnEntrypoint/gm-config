@@ -78,10 +78,12 @@ graph is never quietly replaced by a different author's working one.
 built-in defaults.
 
 Gate hooks execute from either the project-vendored tier or this config-repo tier.
-A hook sourced from a config repo runs with the same authority as a project's own
-local git history, including code execution -- point `config.source.json` only at
-a repo you trust with that level of access. Hooks are refused only from the
-compiled-default tier, which never legitimately carries one.
+    A hook sourced from a config repo runs with the same authority as a project's own
+    local git history, including code execution -- point `config.source.json` only at
+    a repo you trust with that level of access. Use HTTPS, SSH, or Git's
+    `user@host:path` form; unencrypted HTTP and `git://` sources are refused.
+    Hooks are refused only from the
+    compiled-default tier, which never legitimately carries one.
 
 ## What is configurable
 
