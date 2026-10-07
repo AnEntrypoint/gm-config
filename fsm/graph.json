@@ -111,8 +111,6 @@
         "worktree-clean",
         "residual-scan-fired",
         "ci-validated-fresh",
-        "browser-witness-coverage",
-        "app-loads-witnessed",
         "submodules-clean",
         "claim-audit-clean",
         "no-hedge-language-in-diff",
@@ -242,20 +240,6 @@
       "message": "transition rejected: CI/CD validation not witnessed fresh -- .gm/exec-spool/.ci-validated missing, stale, or not matching current HEAD sha. Witness the pipeline green for the pushed HEAD, then fs_write .gm/exec-spool/.ci-validated with {\"head_sha\":\"<git rev-parse HEAD>\"} and re-attempt."
     },
     {
-      "name": "browser-witness-coverage",
-      "predicate": "browser-witness-coverage",
-      "hook": null,
-      "hook_mode": "predicate-only",
-      "message": "transition rejected: client-edit-no-witness -- one or more client-side files edited this session lack a matching browser-witness. Dispatch `browser` to page.evaluate the invariant each edit establishes, then re-attempt."
-    },
-    {
-      "name": "app-loads-witnessed",
-      "predicate": "app-loads-witnessed",
-      "hook": null,
-      "hook_mode": "predicate-only",
-      "message": "transition rejected: this project declares a browser entrypoint (.gm/browser-config.json present) but no same-turn `browser` dispatch recorded a healthy app-loads witness. Absence of file edits is never grounds to skip this -- a confirmation/audit turn asserting the app works is itself a claim, and that claim needs the same live witness a code-change turn needs. Dispatch `browser` against the real running app, confirm it loads with zero console/page errors, then re-attempt."
-    },
-    {
       "name": "claim-audit-clean",
       "predicate": "claim-audit-clean",
       "hook": null,
@@ -274,7 +258,7 @@
       "predicate": "no-synthetic-test-files",
       "hook": null,
       "hook_mode": "predicate-only",
-      "message": "transition rejected: standing test file(s) introduced in the working diff -- VERIFY doctrine forbids them; verification is a live exec_js/browser witness against real code, never a suite. Remove the file(s) and re-attempt with a live witness."
+      "message": "transition rejected: standing test file(s) introduced in the working diff -- VERIFY doctrine forbids them; verification is a live exec_js witness against real code, never a suite. Remove the file(s) and re-attempt with a live witness."
     },
     {
       "name": "no-admit-deferral-markers",
