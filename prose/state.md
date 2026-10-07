@@ -29,7 +29,6 @@ Sweep Methodology (thinking behind the live witness, never a license to author a
 * TDD Chicago School (Chicago/Detroit Tradition) -- state-based verification against real output, the same thing STATE's Sweeps already mandate
 * Test Double (Gerard Meszaros) -- vocabulary for reasoning about a swapped-in dependency during a live witness; never a `Mock*`/`Fake*`/`Stub*` class shipped in the diff (DECIDE's own gate forbids that)
 * Testing Pyramid (Mike Cohn) -- the shape-preference (favor a fast, direct witness over a slow, indirect one) survives even though gm has no test-file layer to put it in
-* Page Object Model (Selenium / Martin Fowler) -- the encapsulation idea (name the page's affordances once) applies to a `browser` verb session's reusable `page.evaluate` snippets, never to a page-object test class
 
 Cross-anchor backreferences within this phase (nonlinear -- an edge means the two anchors compose, not that one supersedes the other):
 
