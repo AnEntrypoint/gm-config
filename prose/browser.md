@@ -50,6 +50,7 @@ session close-all
 <arbitrary JS expression evaluated in page context>
 <https://... bare URL>
 url=<url>\n<expression>
+viewport=<width>x<height>[@<scale>][!mobile]\n<expression>
 timeout=<ms>\n<expression>
 capture\n<expression>
 profile\n<expression>
@@ -139,7 +140,7 @@ Launcher defaults keep a session at full speed when occluded or unfocused: `--di
 Optional keys; a missing or invalid file means every default applies.
 
 - `headless` (bool, default false). Only this key selects headless; the host does not read `GM_BROWSER_HEADLESS`.
-- `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm.
+- `chrome_cdp_endpoint` / `GM_CHROME_CDP_ENDPOINT`, `steel_endpoint` / `GM_STEEL_BROWSER_URL`, `engine`, `lightpanda_path`: pick or dial an engine. An attached endpoint is never launched or killed by gm. Explicit `session close <id>` and `session new` close only that session's remote page. A failed page close retains the session for retry. The page identity survives a host handoff only for the same configured endpoint. An endpoint readiness failure retains that identity for retry. `session close-all` closes the caller's owned pages, including after a host handoff.
 - `session_idle_timeout_ms` (1800000), `session_owner_gone_idle_timeout_ms` (unset by default; when set, a session whose owning gm session has dispatched nothing for that long, or is unknown to a freshly started daemon, is reaped after this idle time -- a gm session that is merely thinking looks identical to a gone one, so a short value reaps live work), `chrome_ready_deadline_ms` (30000), `cdp_poll_timeout_ms` (1000), `cdp_poll_interval_ms` (250), `eval_timeout_grace_ms` (6000).
 - `enable_webgpu` (bool, default false): adds `--enable-unsafe-webgpu` when headed (always added when headless).
 - `gpu` (`nvidia|amd|intel|default`), `uncapped` (bool) and `headless_disable_gpu` (bool, default false): see the GPU section above.
