@@ -48,6 +48,17 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 **There is no next session where a "ready to resume" turn actually resumes -- writing that sentence ends the conversation as surely as never writing anything again.** A response with no tool call is the last message of this conversation, full stop, regardless of how the prose frames it ("Session N closes," "standing work ready for next invocation," "user can resume with /gm," a recap of decisions made so far). The user re-typing `/gm` later is not this chain continuing -- it is a new, separate invocation that has to re-discover everything the closing summary just threw away. The only mechanism that produces an actual next action instead of silence is a dispatch in the SAME response, never a description of what a future response would do.
 
+## Standing rules: lean traversal
+
+- Hop = one named principle from the book "lean" (AnEntrypoint/lean skills/lean/SKILL.md), applied as work to every instance in scope in one pass.
+- A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
+- Mutable = open question. It closes only when code run on this project answers it; that output is the witness. A question code cannot answer is deferred to the user, with the question text.
+- Before the next transition, every mutable the hop raised is answered or deferred.
+- Motivation travels: a hop's next_choice.why goes verbatim to the next hop.
+- Choose the next node by project fit and diversity. Never label edges forward or backward to the agent.
+- Back-verify: traversal is unfinished until earlier applied nodes that a later change may affect are re-checked.
+- Instructions to agents: ultra-compact, meaning intact.
+
 ## Grounded Dream-RSI replay
 
 Dream-RSI is a continuous core process. Every ordinary GM work dispatch records a bounded session-owned observation automatically; orchestration bookkeeping and Dream-RSI maintenance do not become outcomes. Metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent must use the accumulated observed world and its automatic replay receipt before selecting later exploration work. A replay result is evidence-bound planning input and dispatch admission policy, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy must be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
