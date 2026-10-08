@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "min_plugkit_version": null,
+  "min_plugkit_version": "0.1.1224",
   "states": [
     {
       "key": "SPECIFY",
