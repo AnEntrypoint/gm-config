@@ -3,7 +3,7 @@
 
   "instructions": {
     "dir": "prose",
-    "keys": ["entry", "entry-extended", "specify", "prove", "emit", "state", "conc", "sec", "res", "decide", "update_docs"]
+    "keys": ["entry", "entry-extended", "g_start", "g_contract", "g_indep", "g_net", "g_done", "g_sweep", "g_fixpoint", "g_surface", "jtbd", "xyprob", "ears", "invest", "thinslice", "spike", "yagni", "liveplan", "ubiq", "cleanname", "milner", "illegal", "parsedv", "wadler", "dbc", "cqs", "parnas", "deepmod", "acceptport", "commentsmell", "totality", "guard", "slap", "structprog", "immut", "ownership", "dry", "kiss", "dijkstratest", "oraclebias", "indepver", "adversarial", "hughes", "pbtagent", "invariantrun", "metamorph", "fuzz", "contracttest", "chartest", "agentqa", "llmjudge", "sanitize", "convcom", "rule5072", "whynotwhat", "gitstate", "blame", "bisect", "semver", "adrn", "nodelete", "guardandgo", "type4", "churn", "slopdrift", "deletiongate", "diffbudget", "reachable", "tarpit", "leansw", "kolmogorov", "smallestset", "contextrot", "rework", "progdisc", "headeronly", "agentsmd", "nodupedoc", "subagent", "compact", "obscompress", "memtool", "stableprefix", "toolbudget", "grepfirst", "ousterhoutc", "naurtheory", "tacit", "hyrum", "regevidence", "maintcost", "specdrift", "ctxexplode", "fixpoint", "monotone", "regressguard", "variant", "boundedretry", "rice", "halting", "lehman", "knuthopt", "lowerbound"]
   },
 
   "fsm": {
