@@ -676,6 +676,7 @@
     },
     {
       "key": "RICE",
+      "entry": true,
       "prose_key": "rice",
       "label": "Rice's Theorem - Henry Gordon Rice",
       "kind": "principle",
