@@ -60,655 +60,748 @@
     },
     {
       "key": "JTBD",
-      "prose_key": "jtbd",
+      "prose_key": "lean-p1",
       "label": "Jobs To Be Done - Clayton Christensen",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "XYPROB",
-      "prose_key": "xyprob",
+      "prose_key": "lean-p1",
       "label": "XY Problem",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "EARS",
-      "prose_key": "ears",
+      "prose_key": "lean-p1",
       "label": "EARS Requirements Syntax - Alistair Mavin",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "INVEST",
-      "prose_key": "invest",
+      "prose_key": "lean-p1",
       "label": "INVEST - Bill Wake",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "THINSLICE",
-      "prose_key": "thinslice",
+      "prose_key": "lean-p1",
       "label": "Thin Vertical Slice - Alistair Cockburn",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "SPIKE",
-      "prose_key": "spike",
+      "prose_key": "lean-p1",
       "label": "Spike Solution - Kent Beck",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "YAGNI",
-      "prose_key": "yagni",
+      "prose_key": "lean-p1",
       "label": "YAGNI - Ron Jeffries",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "LIVEPLAN",
-      "prose_key": "liveplan",
+      "prose_key": "lean-p1",
       "label": "Live Plan, Current Task Only",
       "kind": "principle",
-      "phase": "P1"
+      "phase": "P1",
+      "skill": "gm-lean-p1"
     },
     {
       "key": "UBIQ",
-      "prose_key": "ubiq",
+      "prose_key": "lean-p2",
       "label": "Ubiquitous Language - Eric Evans",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "CLEANNAME",
-      "prose_key": "cleanname",
+      "prose_key": "lean-p2",
       "label": "Intention-Revealing Names - Robert C. Martin",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "MILNER",
-      "prose_key": "milner",
+      "prose_key": "lean-p2",
       "label": "Well-Typed Programs Cannot Go Wrong - Robin Milner",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "ILLEGAL",
-      "prose_key": "illegal",
+      "prose_key": "lean-p2",
       "label": "Make Illegal States Unrepresentable - Yaron Minsky",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "PARSEDV",
-      "prose_key": "parsedv",
+      "prose_key": "lean-p2",
       "label": "Parse, Don't Validate - Alexis King",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "WADLER",
-      "prose_key": "wadler",
+      "prose_key": "lean-p2",
       "label": "Theorems for Free - Philip Wadler",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "DBC",
-      "prose_key": "dbc",
+      "prose_key": "lean-p2",
       "label": "Design by Contract - Bertrand Meyer",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "CQS",
-      "prose_key": "cqs",
+      "prose_key": "lean-p2",
       "label": "Command-Query Separation - Bertrand Meyer",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "PARNAS",
-      "prose_key": "parnas",
+      "prose_key": "lean-p2",
       "label": "Information Hiding - David Parnas",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "DEEPMOD",
-      "prose_key": "deepmod",
+      "prose_key": "lean-p2",
       "label": "Deep Modules - John Ousterhout",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "ACCEPTPORT",
-      "prose_key": "acceptport",
+      "prose_key": "lean-p2",
       "label": "Ports and Adapters - Alistair Cockburn",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "COMMENTSMELL",
-      "prose_key": "commentsmell",
+      "prose_key": "lean-p2",
       "label": "A Comment Is a Deodorant for Bad Smells - Fowler and Beck",
       "kind": "principle",
-      "phase": "P2"
+      "phase": "P2",
+      "skill": "gm-lean-p2"
     },
     {
       "key": "TOTALITY",
-      "prose_key": "totality",
+      "prose_key": "lean-p3",
       "label": "Total Functional Programming - David Turner",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "GUARD",
-      "prose_key": "guard",
+      "prose_key": "lean-p3",
       "label": "Guard Clause - Martin Fowler",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "SLAP",
-      "prose_key": "slap",
+      "prose_key": "lean-p3",
       "label": "Single Level of Abstraction - Kent Beck",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "STRUCTPROG",
-      "prose_key": "structprog",
+      "prose_key": "lean-p3",
       "label": "Structured Programming - Edsger Dijkstra",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "IMMUT",
-      "prose_key": "immut",
+      "prose_key": "lean-p3",
       "label": "Purely Functional Data Structures - Chris Okasaki",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "OWNERSHIP",
-      "prose_key": "ownership",
+      "prose_key": "lean-p3",
       "label": "Ownership and Borrowing - Matsakis and Klock",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "DRY",
-      "prose_key": "dry",
+      "prose_key": "lean-p3",
       "label": "Don't Repeat Yourself - Hunt and Thomas",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "KISS",
-      "prose_key": "kiss",
+      "prose_key": "lean-p3",
       "label": "KISS - Kelly Johnson",
       "kind": "principle",
-      "phase": "P3"
+      "phase": "P3",
+      "skill": "gm-lean-p3"
     },
     {
       "key": "DIJKSTRATEST",
-      "prose_key": "dijkstratest",
+      "prose_key": "lean-p4",
       "label": "Testing Shows Presence, Never Absence - Edsger Dijkstra",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "ORACLEBIAS",
-      "prose_key": "oraclebias",
+      "prose_key": "lean-p4",
       "label": "Implementation-Biased Test Generation - LLM test-generation study",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "INDEPVER",
-      "prose_key": "indepver",
+      "prose_key": "lean-p4",
       "label": "Independence-Based Verification - Grabowski",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "ADVERSARIAL",
-      "prose_key": "adversarial",
+      "prose_key": "lean-p4",
       "label": "Adversarial Red-Blue Agent Verification - Thukkaram",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "HUGHES",
-      "prose_key": "hughes",
+      "prose_key": "lean-p4",
       "label": "QuickCheck Property-Based Testing - Claessen and Hughes",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "PBTAGENT",
-      "prose_key": "pbtagent",
+      "prose_key": "lean-p4",
       "label": "Agentic Property-Based Testing - Hypothesis agent study",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "INVARIANTRUN",
-      "prose_key": "invariantrun",
+      "prose_key": "lean-p4",
       "label": "Stateful Invariant Runs over Random Call Sequences - Foundry and Hypothesis",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "METAMORPH",
-      "prose_key": "metamorph",
+      "prose_key": "lean-p4",
       "label": "Metamorphic Testing - T. Y. Chen",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "FUZZ",
-      "prose_key": "fuzz",
+      "prose_key": "lean-p4",
       "label": "Coverage-Guided Fuzzing - Michal Zalewski",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "CONTRACTTEST",
-      "prose_key": "contracttest",
+      "prose_key": "lean-p4",
       "label": "Consumer-Driven Contract Test - Ian Robinson",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "CHARTEST",
-      "prose_key": "chartest",
+      "prose_key": "lean-p4",
       "label": "Characterization Test, Legacy Only - Michael Feathers",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "AGENTQA",
-      "prose_key": "agentqa",
+      "prose_key": "lean-p4",
       "label": "Agent-Native QA over MCP",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "LLMJUDGE",
-      "prose_key": "llmjudge",
+      "prose_key": "lean-p4",
       "label": "LLM as a Judge",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "SANITIZE",
-      "prose_key": "sanitize",
+      "prose_key": "lean-p4",
       "label": "Sanitizer and Static Analysis Gate",
       "kind": "principle",
-      "phase": "P4"
+      "phase": "P4",
+      "skill": "gm-lean-p4"
     },
     {
       "key": "CONVCOM",
-      "prose_key": "convcom",
+      "prose_key": "lean-p5",
       "label": "Conventional Commits",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "RULE5072",
-      "prose_key": "rule5072",
+      "prose_key": "lean-p5",
       "label": "50/72 Commit Format - Tim Pope",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "WHYNOTWHAT",
-      "prose_key": "whynotwhat",
+      "prose_key": "lean-p5",
       "label": "The Diff Records What, the Message Records Why",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "GITSTATE",
-      "prose_key": "gitstate",
+      "prose_key": "lean-p5",
       "label": "Git Is the State - stateless runtime, Kapale",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "BLAME",
-      "prose_key": "blame",
+      "prose_key": "lean-p5",
       "label": "git blame as the Index",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "BISECT",
-      "prose_key": "bisect",
+      "prose_key": "lean-p5",
       "label": "git bisect as the Regression Oracle - Linus Torvalds",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "SEMVER",
-      "prose_key": "semver",
+      "prose_key": "lean-p5",
       "label": "Semantic Versioning - Tom Preston-Werner",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "ADRN",
-      "prose_key": "adrn",
+      "prose_key": "lean-p5",
       "label": "ADR, Irreversible Forks Only - Michael Nygard",
       "kind": "principle",
-      "phase": "P5"
+      "phase": "P5",
+      "skill": "gm-lean-p5"
     },
     {
       "key": "NODELETE",
-      "prose_key": "nodelete",
+      "prose_key": "lean-p6",
       "label": "Agents Avoid Deleting Code - Ebrahimi et al.",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "GUARDANDGO",
-      "prose_key": "guardandgo",
+      "prose_key": "lean-p6",
       "label": "Guard-and-Go Fallback Accumulation - Vector Labs",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "TYPE4",
-      "prose_key": "type4",
+      "prose_key": "lean-p6",
       "label": "Type-4 Semantic Clones in Agent Pull Requests",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "CHURN",
-      "prose_key": "churn",
+      "prose_key": "lean-p6",
       "label": "Rising Churn and Duplication - Harding and Kloster, GitClear",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "SLOPDRIFT",
-      "prose_key": "slopdrift",
+      "prose_key": "lean-p6",
       "label": "Behavioural Drift over Long Trajectories - Orlanski et al.",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "DELETIONGATE",
-      "prose_key": "deletiongate",
+      "prose_key": "lean-p6",
       "label": "Deletion-Completeness Check",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "DIFFBUDGET",
-      "prose_key": "diffbudget",
+      "prose_key": "lean-p6",
       "label": "Net-Negative Diff Target",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "REACHABLE",
-      "prose_key": "reachable",
+      "prose_key": "lean-p6",
       "label": "Reachability Analysis",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "TARPIT",
-      "prose_key": "tarpit",
+      "prose_key": "lean-p6",
       "label": "Out of the Tar Pit - Moseley and Marks",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "LEANSW",
-      "prose_key": "leansw",
+      "prose_key": "lean-p6",
       "label": "A Plea for Lean Software - Niklaus Wirth",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "KOLMOGOROV",
-      "prose_key": "kolmogorov",
+      "prose_key": "lean-p6",
       "label": "Kolmogorov Complexity - Kolmogorov and Chaitin",
       "kind": "principle",
-      "phase": "P6"
+      "phase": "P6",
+      "skill": "gm-lean-p6"
     },
     {
       "key": "SMALLESTSET",
-      "prose_key": "smallestset",
+      "prose_key": "lean-p7",
       "label": "The Smallest Set of High-Signal Tokens",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "CONTEXTROT",
-      "prose_key": "contextrot",
+      "prose_key": "lean-p7",
       "label": "Context Rot - Hong et al.",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "REWORK",
-      "prose_key": "rework",
+      "prose_key": "lean-p7",
       "label": "Rework Loops Dominate Token Spend",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "PROGDISC",
-      "prose_key": "progdisc",
+      "prose_key": "lean-p7",
       "label": "Progressive Disclosure via SKILL.md",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "HEADERONLY",
-      "prose_key": "headeronly",
+      "prose_key": "lean-p7",
       "label": "Header Loads, Body Fires on Trigger",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "AGENTSMD",
-      "prose_key": "agentsmd",
+      "prose_key": "lean-p7",
       "label": "AGENTS.md Hierarchical, Not Encyclopaedic",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "NODUPEDOC",
-      "prose_key": "nodupedoc",
+      "prose_key": "lean-p7",
       "label": "Reference, Never Restate",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "SUBAGENT",
-      "prose_key": "subagent",
+      "prose_key": "lean-p7",
       "label": "Subagent Context Isolation",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "COMPACT",
-      "prose_key": "compact",
+      "prose_key": "lean-p7",
       "label": "Phase-Boundary Compaction",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "OBSCOMPRESS",
-      "prose_key": "obscompress",
+      "prose_key": "lean-p7",
       "label": "Observational Context Compression",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "MEMTOOL",
-      "prose_key": "memtool",
+      "prose_key": "lean-p7",
       "label": "Server-Side Memory Across Sessions",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "STABLEPREFIX",
-      "prose_key": "stableprefix",
+      "prose_key": "lean-p7",
       "label": "Stable Prefix for Cache Hits",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "TOOLBUDGET",
-      "prose_key": "toolbudget",
+      "prose_key": "lean-p7",
       "label": "Tool and MCP Definition Overhead",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "GREPFIRST",
-      "prose_key": "grepfirst",
+      "prose_key": "lean-p7",
       "label": "Exact-String Retrieval Before Embedding Retrieval",
       "kind": "principle",
-      "phase": "P7"
+      "phase": "P7",
+      "skill": "gm-lean-p7"
     },
     {
       "key": "OUSTERHOUTC",
-      "prose_key": "ousterhoutc",
+      "prose_key": "lean-p8",
       "label": "Comments Capture What Code Cannot - John Ousterhout",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "NAURTHEORY",
-      "prose_key": "naurtheory",
+      "prose_key": "lean-p8",
       "label": "Programming as Theory Building - Peter Naur",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "TACIT",
-      "prose_key": "tacit",
+      "prose_key": "lean-p8",
       "label": "Tacit Knowledge Resists Specification",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "HYRUM",
-      "prose_key": "hyrum",
+      "prose_key": "lean-p8",
       "label": "Hyrum's Law - Hyrum Wright",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "REGEVIDENCE",
-      "prose_key": "regevidence",
+      "prose_key": "lean-p8",
       "label": "Regulated Environments Need an Evidence Trail",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "MAINTCOST",
-      "prose_key": "maintcost",
+      "prose_key": "lean-p8",
       "label": "Measured Maintenance Cost of Agent Code",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "SPECDRIFT",
-      "prose_key": "specdrift",
+      "prose_key": "lean-p8",
       "label": "Silent Spec-Code Drift - Grabowski",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "CTXEXPLODE",
-      "prose_key": "ctxexplode",
+      "prose_key": "lean-p8",
       "label": "Context Explosion in Whole-Repo Reasoning - Grabowski",
       "kind": "tension",
-      "phase": "P8"
+      "phase": "P8",
+      "skill": "gm-lean-p8"
     },
     {
       "key": "FIXPOINT",
-      "prose_key": "fixpoint",
+      "prose_key": "lean-p9",
       "label": "Least Fixed Point - Kleene and Tarski",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "MONOTONE",
-      "prose_key": "monotone",
+      "prose_key": "lean-p9",
       "label": "Monotonic Improvement Only",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "REGRESSGUARD",
-      "prose_key": "regressguard",
+      "prose_key": "lean-p9",
       "label": "No Regression Across Sweeps",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "VARIANT",
-      "prose_key": "variant",
+      "prose_key": "lean-p9",
       "label": "Well-Founded Variant - Robert Floyd",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "BOUNDEDRETRY",
-      "prose_key": "boundedretry",
+      "prose_key": "lean-p9",
       "label": "Bounded Retry, Then Surface",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "RICE",
       "entry": true,
-      "prose_key": "rice",
+      "prose_key": "lean-p9",
       "label": "Rice's Theorem - Henry Gordon Rice",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "HALTING",
-      "prose_key": "halting",
+      "prose_key": "lean-p9",
       "label": "Halting Problem - Alan Turing",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "LEHMAN",
-      "prose_key": "lehman",
+      "prose_key": "lean-p9",
       "label": "Lehman's Laws of Software Evolution - Meir Lehman",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "KNUTHOPT",
-      "prose_key": "knuthopt",
+      "prose_key": "lean-p9",
       "label": "Premature Optimization - Donald Knuth",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     },
     {
       "key": "LOWERBOUND",
-      "prose_key": "lowerbound",
+      "prose_key": "lean-p9",
       "label": "Lower Bound Reached - information-theoretic argument",
       "kind": "principle",
-      "phase": "P9"
+      "phase": "P9",
+      "skill": "gm-lean-p9"
     }
   ],
   "edges": [
