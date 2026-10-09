@@ -54,6 +54,16 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 **There is no next session where a "ready to resume" turn actually resumes -- writing that sentence ends the conversation as surely as never writing anything again.** A response with no tool call is the last message of this conversation, full stop, regardless of how the prose frames it ("Session N closes," "standing work ready for next invocation," "user can resume with /gm," a recap of decisions made so far). The user re-typing `/gm` later is not this chain continuing -- it is a new, separate invocation that has to re-discover everything the closing summary just threw away. The only mechanism that produces an actual next action instead of silence is a dispatch in the SAME response, never a description of what a future response would do.
 
+## Parallel slots
+
+- Keep every available subagent slot filled while `.gm/prd-open/*.yml` is non-empty.
+- The maximum is what the host accepts: launch until a spawn refusal names the ceiling, then hold there.
+- Relaunch in the same turn on each completion, one replacement per completion.
+- Each worker writes `.gm/pool/<session>.live` with `session:`, `row:` and `start:` lines before any other work.
+- A successor is an open row that no heartbeat's `row:` line names.
+- Counts 10 and 12 are monitoring alarms only, never targets or gates.
+- gm's `instruction` response is the authority for the current slot state.
+
 ## Standing rules: lean traversal
 
 - Hop = one named principle from the book "lean" (AnEntrypoint/lean skills/lean/SKILL.md), applied as work to every instance in scope in one pass.
