@@ -244,7 +244,7 @@ Transition: SESSION_ID threaded AND spool reachable -> dispatch `instruction` wi
 
 This rule binds the gm orchestrator: the session that loaded the gm skill and is driving the walk. Subagents run the slice they were given.
 
-gm_processor_capacity (4 on this build) is how many subagents execute at once. The orchestrator keeps the queue deeper than that, so the executing slots never idle:
+gm_processor_capacity (4 on this build) limits simultaneous subagent execution; dispatches beyond it are queued, and the orchestrator does not treat it as the number of subagents to launch:
 
 - The orchestrator launches as many independent slices as the work allows, up to the machine limit the user has set; no fixed launch number applies. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap.
 - The queue fills in order: open PRD rows first, one subagent per row (see complete.md, "Parallel PRD fan-out"), then independent node slices, one subagent per slice. Each subagent takes its own session id (<parent>-<slice>, or goal-s1-pw-<row-id> for a row) and is dispatched in one tool-call block.
