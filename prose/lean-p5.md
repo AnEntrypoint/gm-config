@@ -28,33 +28,49 @@ RECORD owns no obligation kind and creates no mutable. It must still leave no pe
 
 ### CONVCOM - Conventional Commits
 
+Handover: A drafted Conventional Commits type and scope are handed to RULE5072 so subject length and body format are checked before the commit. cite Conventional Commits.
+
 The subject takes the form type(scope): summary. Type is one of feat, fix, refactor, docs, test, perf or chore, chosen from the diff: a change that makes broken behaviour correct is fix, a change that alters no observable behaviour is refactor, a new verb or surface is feat. Scope names the single crate, package or directory the change lives in. When git_diff {"stat":true} contradicts the chosen type, the commit is amended with git_commit {"amend":true} before the push.
 
 ### RULE5072 - 50/72 Commit Format - Tim Pope
+
+Handover: A subject that passes the length probe is handed to WHYNOTWHAT so the body records why the contract changed. cite 50/72 Commit Format - Tim Pope.
 
 The subject is at most fifty characters, imperative mood, such as "add ready-state check to dispatch". A blank line follows, and the body wraps at seventy-two columns. Before git_commit, an exec_js probe reads the drafted subject from a string literal and prints its length, and an over-length subject is re-drafted. A subject that cannot be read without the diff fires the backreference to CONVCOM, and the subject is rewritten to name the changed behaviour.
 
 ### WHYNOTWHAT - The Diff Records What, the Message Records Why
 
+Handover: A message that records the reason is handed to GITSTATE to confirm all state is a commit, and to BLAME to learn why the touched lines exist. cite The Diff Records What, the Message Records Why.
+
 The body states why the change exists and why any contract changed, since the diff already shows what changed. The gate contract satisfied and recorded needs the reason the contract changed, so a commit that alters a signature, a row or an invariant names the cause in one or two sentences. A body that restates the diff in prose is rewritten. When the reason cannot be recovered from the history of the touched code, the backreference to ADRN fires.
 
 ### GITSTATE - Git Is the State - stateless runtime, Kapale
+
+Handover: Repository-tracked state is handed to BLAME so the history of each changed region is read before committing it. cite Git Is the State - stateless runtime, Kapale.
 
 Every piece of state a future reader must see is a commit, a PRD row, a mutable or a memorize entry. No notes or sidecar files live outside the repository. Before committing, git_status confirms that every touched path is tracked or deliberately ignored by the managed block. State that exists outside the repository fires the backreference to LIVEPLAN: move it into a commit or remove it, and rewrite the live plan to point at the commit.
 
 ### BLAME - git blame as the Index
 
+Handover: The introducing commit read from history is handed to BISECT, which uses it as the reason for the changed region. cite git blame as the Index.
+
 Before committing a changed region, the agent learns why it exists: git_log {"path":"<file>","limit":10} on the file, then git_show {"ref":"<introducing sha>","stat":true} for the commit that introduced the region. That commit's message is the recorded reason. When the introducing commit explains nothing, the backreference to RULE5072 fires, and the new message records why the old line was written.
 
 ### BISECT - git bisect as the Regression Oracle - Linus Torvalds
+
+Handover: The first red sha from a regression oracle is handed to SEMVER so the public-surface version bump follows the isolated change. cite git bisect as the Regression Oracle - Linus Torvalds.
 
 When a witness that passed earlier now fails, the failing command is the regression oracle. The agent takes the range from git_log {"limit":20} back to the last good commit, and at each candidate sha creates a detached worktree with git_worktree_add {"path":"<absolute scratch path>","ref":"<sha>"}, runs the same red-capable command there through exec_js, then removes it with git_worktree_remove {"path":"<absolute scratch path>"}. The first red sha isolates the change, and its message must explain it. When no commit isolates the change, the backreference to LIVEPLAN fires.
 
 ### SEMVER - Semantic Versioning - Tom Preston-Werner
 
+Handover: A version bump matching the changed public surface is handed to ADRN, which decides whether an irreversible fork needs a record. cite Semantic Versioning - Tom Preston-Werner.
+
 When the change alters a public surface (a gm verb body, a CLI flag, an exported function, a file format), the version in Cargo.toml or package.json moves in the same commit. An incompatible change is a major bump, an added surface is minor, and a behaviour fix with no surface change is patch. The caller list from VERIFY identifies the changed surfaces, and the bump is stated in the message body. A broken promise without a major bump fires the backreference to CONTRACTTEST, and the consumer test is re-run before the push.
 
 ### ADRN - ADR, Irreversible Forks Only - Michael Nygard
+
+Handover: A decision record or reason is handed to G_DONE, the gate that checks the contract is satisfied and recorded. cite ADR, Irreversible Forks Only - Michael Nygard.
 
 An architecture decision record is written only for a fork that no subsequent commit can reverse: a storage format a reader depends on, a wire protocol, a public verb name, a persistence choice other systems read. A reversible choice is recorded only in the commit's reason. The record names the options, the chosen one, and the witness that showed it works, and is pushed with the change. A reversible decision recorded as an ADR fires the backreference to YAGNI, and the record is removed in its own commit with the reason in its message.
 
