@@ -71,6 +71,12 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Never use Monitor, ScheduleWakeup, CronCreate or shell sleep loops for pool work.
 - Every subagent writes its heartbeat on start, refreshes it at least every 5 minutes while waiting on a lock or a long run, and deletes it on finish.
 - Recorded causes of drops (update when a drop recurs): the rule was shadowed by a stale vendored prose file; heartbeats were not refreshed during lock waits; successors were free text and often ineligible; GPU-lock timeouts ended runs; completions were not refilled in the same turn; slots.live read 0 while workers ran.
+- Recorded causes of the drop below 12 (2026-10-09): completions were refilled in batches, not one per completion; resolvers nominated browser, GPU and design successors that could not run node-only; traversal hops started late, so node supply ran out; the served rules were not refreshed from gm-config (the native config cache did not sync); stuck background shells and Monitors held the GPU lock and the orchestrator's attention.
+- Refill on every completion in the same turn: one replacement per freed slot. Never wait for a batch.
+- Keep node supply: when the node candidates fall below twice the floor, start a traversal hop. A traversal hop logs node-only PRDs and resolves none.
+- Successors come only from the node-first candidate list. A nomination in free text is checked against that list before launch.
+- Floors: alarm when fewer than 12 are live while open work exists, and then update these rules, push, and refill. Below 10 is a failure of this rule.
+- Stop a background shell or Monitor that has printed nothing for 10 minutes, before it holds a lock.
 
 ## Standing rules: lean traversal
 
