@@ -76,7 +76,7 @@ Dispatch `{}` on the first dependency install of a session and before trusting a
 
 Read the reply by its counts. blockedCount above zero is evidence: the operating system or antivirus already blocked a read. failCount above zero is a structural hit. warnCount alone usually marks a legitimate minified bundle and gets a glance, never a block. nodeModulesTruncated true means part of the tree was not covered, and the walk adds a prd-add row for a standing unbounded sweep.
 
-A failing or blocked hit is a one-way door. Stop and ask through AskUserQuestion before any change. Find the introducing commit in the dependency's own history, and confirm the last clean commit before proposing a pin, a revert or an exclusion. Never add an exclusion and never retry blindly. Several unrelated repositories under one account showing the same pattern point to a shared compromised credential, and that possibility is named to the user. A compromised default branch is repaired with git_revert, which keeps the bad commit visible. A history rewrite waits for an explicit request.
+A failing or blocked hit is a one-way door. Record it as a PRD row, keep the walk running, and ask only when the hit is a world-scoped one-way door. Find the introducing commit in the dependency's own history, and confirm the last clean commit before proposing a pin, a revert or an exclusion. Never add an exclusion and never retry blindly. Several unrelated repositories under one account showing the same pattern point to a shared compromised credential, and that possibility is named to the user. A compromised default branch is repaired with git_revert, which keeps the bad commit visible. A history rewrite waits for an explicit request.
 
 ## Scope discovery to a fixed point
 
