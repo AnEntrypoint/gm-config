@@ -58,7 +58,7 @@ A deletion is complete only when every reference is gone. For each removed symbo
 
 ### DIFFBUDGET - Net-Negative Diff Target
 
-The change is net-negative when added lines are at most removed lines in git_diff {"stat":true}. Where a change adds lines, each file's additions must trace to a row stating why those lines are the minimum the contract needs, and growth with no row is removed. G_NET applies this at the boundary into PRESSURE, and the agent applies it again before RECORD, since the sweep re-checks it at G_SWEEP. Growth fires the backreference to G_NET. An entry point with no caller fires the backreference to DIFFBUDGET, and that entry point is given its caller or removed under DELETIONGATE.
+The change is net-negative when added lines are at most removed lines in git_diff {"stat":true}. Where a change adds lines, each file's additions must trace to a row stating why those lines are the minimum the contract needs, and growth with no row is removed. G_NET applies this at the boundary into PRESSURE, and the agent applies it again before RECORD, since the sweep re-checks it at G_SWEEP. Growth fires the backreference from G_NET to DIFFBUDGET. An entry point with no caller fires the backreference from REACHABLE to DIFFBUDGET, and that entry point is given its caller or removed under DELETIONGATE.
 
 ### REACHABLE - Reachability Analysis
 
