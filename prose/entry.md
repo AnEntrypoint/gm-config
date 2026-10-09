@@ -63,6 +63,11 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Blocker rows are annotations and never candidates. A blocked worker records the blocker and still nominates a node-only successor.
 - When candidates run out before the target, a traversal hop logs node-only PRDs with mutables and just-in-time execution. When rows resolve faster than the pool refills, pause new row creation.
 - Keep all work on main. On a collision, retry the step. Never branch.
+- No Claude-only waiting primitives for pool work: Monitor, ScheduleWakeup, CronCreate and shell sleep loops are not used. Workers wait with a gm verb or by finishing the check directly; the orchestrator re-counts `subagents_running` on each completion notification. Two workers armed Monitors in one cycle, which the user has ruled out.
+- Pool workers get their brief from gm through the pool-brief verb, never from a Claude skill.
+- The orchestrator loop is: wait (the gm wait verb, called as wait {"ms":60000}; ms is a positive integer, maximum 60000), then instruction, then launch the free slots from slots.candidates; repeat while open work exists.
+- Host completion notifications are informational, not a trigger; the loop above is the trigger.
+- Never use Monitor, ScheduleWakeup, CronCreate or shell sleep loops for pool work.
 
 ## Standing rules: lean traversal
 
