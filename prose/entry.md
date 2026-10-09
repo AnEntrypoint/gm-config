@@ -56,11 +56,11 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 ## Parallel slots
 
-- Keep every available subagent slot filled while `.gm/prd-open/*.yml` is non-empty. Fill all free slots at once, not one per completion, and refill on each completion in the same turn.
+- Keep every available subagent slot filled while `slots.open_rows` from the instruction response is non-zero. Fill all free slots at once, not one per completion, and refill on each completion in the same turn.
 - Never leave a slot idle while `slots.candidates` is non-empty. Never end a turn while `slots.action` is "launch" or "hold" and open rows remain. "hold" means wait for the next completion, then relaunch its replacement in that same turn.
 - The maximum is what the host accepts: launch until a spawn refusal names the ceiling, then hold there.
 - When the instruction response carries `slots`: successors come from `slots.candidates`, never from a worker's free-text nomination (free-text nominations are advisory only).
-- When the instruction response carries `slots`: blocker rows (an id or title containing "blocker", including `<row>-blocker-<session>`) are annotations, not work. They never count as open and never become candidates.
+- When the instruction response carries `slots`: blocker rows (an id containing "blocker", including `<row>-blocker-<session>` and `<row>.blocker-<n>`, or a subject starting with "BLOCKER") are annotations, not work. They never count as open and never become candidates.
 - A worker that returns "no PRD row" or "row held" is relaunched at once with the next candidate.
 - Each worker writes `.gm/pool/<session>.live` with `session:`, `row:` and `start:` lines before any other work.
 - A successor is an open row that no heartbeat's `row:` line names.
@@ -113,8 +113,8 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
   - FAILURE: live pool 2 with 757 open PRDs at the time of this check; cause: the running runner has not reloaded the new pool gate (plugkit) and the agentplug daemon defaults are unpublished because .agentplug-kv/codeinsight-manifest paths are protected runtime state; replacements drained because the gate was not live.
   - A replacement wave is launched only after the gate runtime is confirmed loaded (status file reports the new plugkit); otherwise the wave is recorded as a canary failure, not re-spawned.
   - Rule: if `prd-list` fails to parse, fix or restore the state file before any launch. If the verb is down, parse rows with a text scan of `.gm/prd.yml` (pending = rows whose status is not resolved) before any launch; never launch on an unparsed state file.
-- Replacement on completion: every gm-worker that completes is replaced in the same turn by one new worker on a real open row from `.gm/prd-open/` (read the folder directly if `prd-list` fails). Never wait for a batch to finish.
-- Traversal on low supply: when open PRD rows fall below what the launched workers need to stay busy, the orchestrator dispatches traversal hops that create new rows (`prd-add` files in `.gm/prd-open/`) before launching more resolvers. Row creation slows when rows resolve faster than workers take them.
+- Replacement on completion: every gm-worker that completes is replaced in the same turn by one new worker on a real row from `slots.candidates` in the instruction response. Never wait for a batch to finish.
+- Traversal on low supply: when open PRD rows fall below what the launched workers need to stay busy, the orchestrator dispatches traversal hops that create new rows (`prd-add` rows, read back as `slots.open_rows`) before launching more resolvers. Row creation slows when rows resolve faster than workers take them.
 - No target count: keep as many workers running as open work and headroom allow, replacing each as it completes. 12 remains the canary only.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
