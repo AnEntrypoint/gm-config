@@ -38,19 +38,27 @@ Each resolution's witness names the kind discharged and how. After two genuine f
 
 ### DIJKSTRATEST - Testing Shows Presence, Never Absence - Edsger Dijkstra
 
+Handover: Presence witnessed on real inputs is handed to ORACLEBIAS so the probe expected values are checked against the contract rather than the code. cite Testing Shows Presence, Never Absence - Edsger Dijkstra.
+
 Before claiming correctness, the agent names the one red-capable command that drives the reported behaviour on the real surface, runs it, and records the output. A pass is recorded as presence of the behaviour on that input. Each absence claim (no panic, no leak, no injection, no duplicate effect) moves into the adversarial classes or the SEC and RES sweeps, where it is witnessed on inputs that could falsify it.
 
 No standing test file is introduced. no-synthetic-test-files refuses a new *.test.* or *.spec.* file, a test or __tests__ directory, or a testing-framework import. Such a file is deleted, its assertions are re-expressed as an exec_js probe against the real boundary that prints observed values, and the probe is not committed.
 
 ### ORACLEBIAS - Implementation-Biased Test Generation - LLM test-generation study
 
+Handover: Expected values derived from contracts are handed to INDEPVER so a verifier that never read the body re-derives them. cite Implementation-Biased Test Generation - LLM test-generation study.
+
 Every probe's expected value comes from the row's pre and post conditions and the signature, never from the function body. The agent writes each expected value beside the contract clause it came from. A value copied from the code it checks is discarded and re-derived by a verifier that has not read the body. When an assertion mirrors the code, the backreference to G_INDEP fires: re-enter the gate with a fresh verifier whose SESSION_ID has never been used in this chain.
 
 ### INDEPVER - Independence-Based Verification - Grabowski
 
+Handover: The independent verifier's probes are handed to ADVERSARIAL so a red reviewer tries to refute the change. cite Independence-Based Verification - Grabowski.
+
 The verifier is a separate agent with its own SESSION_ID. It receives the contract (rows, signatures, types, stated invariants) and the exec_js commands the phase will run, and nothing from the implementer's transcript. Its report lists each probe with the exact command and output. The implementer never writes the verifier's probes or edits its report. When the two turn out to share context, the backreference to ADVERSARIAL fires and a second independent agent re-runs the findings before any is accepted.
 
 ### ADVERSARIAL - Adversarial Red-Blue Agent Verification - Thukkaram
+
+Handover: Red findings with live witnesses are handed to HUGHES so pure functions get generated-input property checks. cite Adversarial Red-Blue Agent Verification - Thukkaram.
 
 The red side has one brief: refute the change. Each red finding cites a file:line and an exec_js command that reproduces it. The blue side is the implementer, which answers each finding with a live exec_js witness of the fixed behaviour, never an argument. A finding closes only when the blue witness re-runs the reproducing command. For a multi-file diff, at least one red reviewer independent of the implementer runs, and its reply names the classes it swept. A single-file diff may stay self-reviewed, but all eight classes still run live.
 
@@ -58,41 +66,61 @@ The eight classes, each one exec_js probe: empty, overflow and reentrant input (
 
 ### HUGHES - QuickCheck Property-Based Testing - Claessen and Hughes
 
+Handover: Property results on pure functions are handed to PBTAGENT so candidate properties are admitted only from the contract. cite QuickCheck Property-Based Testing - Claessen and Hughes.
+
 For each pure function the diff adds or changes, one exec_js script generates inputs from a seeded pseudo-random generator, runs at least one thousand cases, and prints the first counterexample in full. Properties come from the contract: round trips where an inverse exists, idempotence where a row states it, invariant preservation over outputs, totality over the stated domain. A falsified property fires the backreference to ILLEGAL: transition to=CONTRACT, because the type cannot express the rule.
 
 ### PBTAGENT - Agentic Property-Based Testing - Hypothesis agent study
+
+Handover: Admitted agent-proposed properties are handed to INVARIANTRUN so stateful modules are checked over random call sequences. cite Agentic Property-Based Testing - Hypothesis agent study.
 
 The agent proposes candidate properties from the PRD rows and admits only those statable from the contract alone. A candidate derivable from the function body is rejected, and the rejection with its reason goes into the row's witness text. Admitted properties run through the HUGHES probe. A property that restates the code fires the backreference to METAMORPH, and the agent states a relation between outputs instead.
 
 ### INVARIANTRUN - Stateful Invariant Runs over Random Call Sequences - Foundry and Hypothesis
 
+Handover: Invariant results over call sequences are handed to METAMORPH so outputs without an oracle are checked by stated relations. cite Stateful Invariant Runs over Random Call Sequences - Foundry and Hypothesis.
+
 For each stateful module the diff touches, one exec_js script drives the real module through at least two hundred seeded sequences of at most fifty calls, checks the stated invariant after every step, and prints the shortest failing sequence with the state before and after the failing call. A module with no stated invariant gets a row before it is probed. A broken invariant fires the backreference to DBC: transition to=CONTRACT, state the rule as a signature precondition, and re-run the sequences.
 
 ### METAMORPH - Metamorphic Testing - T. Y. Chen
+
+Handover: Relations that hold between outputs are handed to FUZZ so parsers and decoders are fed malformed input. cite Metamorphic Testing - T. Y. Chen.
 
 Where a function has no oracle for its direct output, the agent states a relation the contract guarantees: a permuted input leaves an order-free result unchanged, doubling an input doubles a size, applying the operation twice is the identity, a filter before and after a map agree. Both sides run live in one exec_js script, and both outputs and the comparison are printed. When no relation can be stated, the backreference to LLMJUDGE fires.
 
 ### FUZZ - Coverage-Guided Fuzzing - Michal Zalewski
 
+Handover: Malformed-input results from parsers are handed to CONTRACTTEST so each consumer of the changed surface is exercised the way it calls it. cite Coverage-Guided Fuzzing - Michal Zalewski.
+
 Every parser, decoder or input adapter the diff touches is fed malformed bytes, truncated input, invalid UTF-8, length prefixes larger than the buffer, deep nesting and repeated delimiters. The input grows step by step until new branches stop appearing, and the reached branches are recorded. Each malformed input must return a named error; a crash, a hang past the timeout or an uncaught throw fails the witness and fires the backreference to PARSEDV, which moves the input type to the parsed form so malformed input cannot reach the crash.
 
 ### CONTRACTTEST - Consumer-Driven Contract Test - Ian Robinson
+
+Handover: Consumer-field checks are handed to CHARTEST, which applies only where no contract remains to describe the changed code. cite Consumer-Driven Contract Test - Ian Robinson.
 
 For each consumer of the changed surface found by callers, exec_js calls the surface the way that consumer does and asserts the response fields the consumer reads, citing the consumer by file and line. A field the surface no longer returns is a failing witness and a row. A consumer that broke on a behaviour no row promised fires the backreference to HYRUM: the promise is written into a row and kept, or the consumer moves to the promised shape, and the row records which.
 
 ### CHARTEST - Characterization Test, Legacy Only - Michael Feathers
 
+Handover: A characterization record with no remaining contract ends this chain, so this node nominates no further node. cite Characterization Test, Legacy Only - Michael Feathers.
+
 A characterization probe is written only when the changed code has no contract left: no row, signature or invariant describes it. The agent runs the current behaviour through exec_js, records the outputs in the owning row's witness labelled as a characterization, and leaves no standing test file. When the recorded behaviour is the only description left, the backreference to SPECDRIFT fires, and the agent writes the contract the characterization implies and routes it to CONTRACT.
 
 ### AGENTQA - Agent-Native QA over MCP
+
+Handover: Verb and MCP reply checks are handed to LLMJUDGE for surfaces where no metamorphic relation can be stated. cite Agent-Native QA over MCP.
 
 For each gm verb, MCP tool or spool reply the diff changes, the agent dispatches that verb through the gm MCP exactly as a calling agent does, with a real session id, and quotes the reply fields in the row. A dashboard, screenshot or human view is never the witness for a surface an agent consumes. When verification seems to need a dashboard, the backreference to SANITIZE fires and the check is re-expressed as a verb dispatch returning the value the dashboard would show.
 
 ### LLMJUDGE - LLM as a Judge
 
+Handover: Judge verdicts with their judged pairs are handed to SANITIZE so the static analysers gate the final change. cite LLM as a Judge.
+
 The judge is used only where METAMORPH found no relation. It is a separate agent given a rubric derived from the contract and the input and output pair, and it returns a verdict. The witness quotes the judged pair, the rubric and the verdict. A judge that is the implementer or shares its context fires the backreference to INDEPVER and is replaced.
 
 ### SANITIZE - Sanitizer and Static Analysis Gate
+
+Handover: A passing analyser run is handed to G_NET, the net-negative gate that decides whether the change may leave VERIFY. cite Sanitizer and Static Analysis Gate.
 
 The project's analysers run through execFileSync inside exec_js with warnings treated as failures: cargo clippy with warnings denied for Rust, the project's linter and type checker for JavaScript and TypeScript, and each other language's checker for the languages in the diff. Each finding becomes a row or mutable, is fixed in the code, and is re-run until clean. A lint rule is never disabled to clear a finding. A finding the type system could have prevented fires the backreference to TOTALITY: transition to=BUILD and make the partial function total.
 

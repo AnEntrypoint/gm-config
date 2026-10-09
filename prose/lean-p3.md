@@ -42,25 +42,37 @@ Gate-driven repair: a finding that is a code repair is an Edit followed by a dis
 
 ### TOTALITY - Total Functional Programming - David Turner
 
+Handover: Hands the defined results on every edge input to GUARD, so invalid inputs are rejected at the top of each function; nominated next node: GUARD; cite Total Functional Programming - David Turner.
+
 Every new function returns a defined result on every input path. Feed the edge inputs live through exec_js: zero-length input, maximum-size input, null or undefined, a wrong type where the language allows it, and a boundary-adjacent invalid value. Each run prints a defined result. Each one is a totality mutable with its printed results as witness. A partial function that escaped its domain fires the backreference to PARSEDV in CONTRACT, and the domain is repaired at its entry boundary before the function is rebuilt.
 
 ### GUARD - Guard Clause - Martin Fowler
+
+Handover: Hands the early-return guards to SLAP, so each function body reads at one level of abstraction; nominated next node: SLAP; cite Guard Clause - Martin Fowler.
 
 Invalid input is rejected at the top of the function by an early return, so the main path carries no nesting for the invalid cases. Each guard is witnessed by the exec_js run that sends its invalid input and prints the early return. Branch structure that still needs a comment to be read fires the backreference to SLAP, because the guards and the branches should explain themselves.
 
 ### SLAP - Single Level of Abstraction - Kent Beck
 
+Handover: Hands the single-level functions to STRUCTPROG, so control flow stays sequence, selection and iteration with one exit per block; nominated next node: STRUCTPROG; cite Single Level of Abstraction - Kent Beck.
+
 Every function body works at one level of abstraction. A body that mixes a domain decision with raw byte or string handling is split so each function reads at one level. The witness is the function's outline from `codeinsight {action:"outline", path}` showing each function's calls on one level only, together with the exec_js run that shows the split functions return the same output as the mixed version did. A function that mixes abstraction levels after this fires the backreference to DEEPMOD in CONTRACT.
 
 ### STRUCTPROG - Structured Programming - Edsger Dijkstra
+
+Handover: Hands the traceable control flow to IMMUT, so shared data is updated by building the next version; nominated next node: IMMUT; cite Structured Programming - Edsger Dijkstra.
 
 Control flow uses sequence, selection and iteration with one entry and one exit per block. Loops carry an invariant that is written as a precondition or a comment-free assertion in the type. Untraceable control flow (a jump that crosses a block, a loop whose exit is a side effect) fires the backreference to GUARD, where the early returns restore a readable path. The witness is an exec_js trace of a representative path through the function, printing each branch it takes.
 
 ### IMMUT - Purely Functional Data Structures - Chris Okasaki
 
+Handover: Hands the immutable structures to OWNERSHIP, which confirms each remaining resource has exactly one owner; nominated next node: OWNERSHIP; cite Purely Functional Data Structures - Chris Okasaki.
+
 Data that is shared is immutable. A structure is updated by constructing the next version, and the old version stays valid for every holder. Shared mutable state that crossed a module boundary fires the backreference to OWNERSHIP. The witness is an exec_js run that keeps the old value, applies the update, and prints both values, showing the old one unchanged.
 
 ### OWNERSHIP - Ownership and Borrowing - Matsakis and Klock
+
+Handover: Hands the single-owner resources and their witnesses to DRY, so each fact has one representation; nominated next node: DRY; cite Ownership and Borrowing - Matsakis and Klock.
 
 Every resource the diff takes has exactly one owner. Exercise the acquire, use and release cycle under exec_js and print the final state, then assert that it matches the declared effect. No resource leaks, is closed twice, is used after release, or hides a mutation behind a pure-looking signature. Each one is an ownership mutable. When two concurrent accesses touch a shared resource, the owner is named. If exactly one owner cannot be named, the boundary is restructured until one can. Sharing across async boundaries is a disjointness mutable: the witness is an exec_js run that interleaves the writers under a deterministic seed and prints that only the owner's write lands. Where the order of two concurrent accesses matters, the access is ordered by an explicit sync point (await, lock, channel, atomic, message boundary) or the state is provably disjoint. Each such order is a happens-before mutable. TOCTOU is the canonical violation: every single-instance or lock guard is atomic (O_EXCL, atomic rename, compare-and-swap) and never check-then-act. A borrow that outlived its owner fires the backreference to IMMUT.
 
@@ -68,9 +80,13 @@ Contention is also bounded here. Every wait has a bound, every retry a cap, and 
 
 ### DRY - Don't Repeat Yourself - Hunt and Thomas
 
+Handover: Hands the merged single definitions to KISS, so the simplest construction that satisfies the contract is written; nominated next node: KISS; cite Don't Repeat Yourself - Hunt and Thomas.
+
 One fact has one representation. Before a new function is written, codesearch in literal mode for its behaviour's distinctive tokens finds the existing copy, and the reuse decision is recorded in the mutable's witness. Two representations of one fact fire the backreference to KOLMOGOROV, which belongs to the pressure phase (P6). Two functions that mean the same thing are merged rather than kept side by side. The witness is the exhaustive codesearch reply showing one definition and its call sites.
 
 ### KISS - KISS - Kelly Johnson
+
+Handover: Hands the simplest construction and its git_diff stat to the G_INDEP gate, which requires a verifier that has not read the implementation; nominated next node: G_INDEP; cite KISS - Kelly Johnson.
 
 The simplest construction that satisfies the contract is written. A solution that exceeds its problem fires the backreference to YAGNI, and the surplus generality is removed, not supported. The net line change is measured with `git_diff {stat:true}`. A removal that leaves the behaviour witnessed is preferred to an addition with the same witness. The witness is the git_diff stat together with the exec_js run that proves the simpler form keeps the contract.
 
