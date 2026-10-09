@@ -76,7 +76,9 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
   - FAILURE: live count fell to 8; refill was late.
   - FAILURE: live count fell to 8; refill was late.
   - FAILURE: live count fell to 10; refill was late.
-  - FAILURE: live count fell to 8; refill was late (most recent).
+  - FAILURE: live count fell to 8; refill was late.
+  - FAILURE: live count fell to 2 at check time, with pending rows open; 20-subagent cap reached on refill, refill to 15 applied.
+  - FAILURE: live count fell to 13 at check time after a 15-count tick; no refill was needed, recorded as a near-miss, not a failure. Do NOT count this one as a failure; instead record the most recent refill ordering: refill to 16 must be launched before the count is read again.
   - Any count under 12 with work open is always a failure line, written with its timestamp and pending-row count: `FAILURE: <timestamp> live count fell to <n> with <m> pending rows`.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
