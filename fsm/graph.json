@@ -1464,7 +1464,28 @@
       "to": "COMPLETE",
       "kind": "forward",
       "label": null,
-      "gates": []
+      "gates": [
+        "prd-all-closed",
+        "worktree-clean",
+        "residual-scan-fired",
+        "ci-validated-fresh",
+        "claim-audit-clean",
+        "submodules-clean",
+        "no-synthetic-test-files",
+        "no-secrets-in-diff",
+        "no-hedge-language-in-diff",
+        "no-graphical-symbols-in-diff",
+        "no-unchecked-panics-in-diff",
+        "no-admit-deferral-markers",
+        "mutables-all-resolved",
+        "mutables-all-typed",
+        "idempotent-dispatch-replay-safe",
+        "split-context-swept",
+        "state-obligations-ready",
+        "conc-obligations-ready",
+        "sec-obligations-ready",
+        "res-obligations-ready"
+      ]
     },
     {
       "from": "FIXPOINT",
@@ -2158,6 +2179,126 @@
       "predicate": "lean-contract-recorded",
       "hook_mode": "predicate-only",
       "message": "transition rejected (blocking, lean gate \"contract satisfied and recorded\"): a .gm/prd.yml row is still open or the worktree is not clean. Close every row and commit the change. The reason text in the commit message is not checked by code."
+    },
+    {
+      "name": "prd-all-closed",
+      "predicate": "prd-all-closed",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"prd-all-closed\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "worktree-clean",
+      "predicate": "worktree-clean",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"worktree-clean\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "residual-scan-fired",
+      "predicate": "residual-scan-fired",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"residual-scan-fired\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "ci-validated-fresh",
+      "predicate": "ci-validated-fresh",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"ci-validated-fresh\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "claim-audit-clean",
+      "predicate": "claim-audit-clean",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"claim-audit-clean\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "submodules-clean",
+      "predicate": "submodules-clean",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"submodules-clean\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-synthetic-test-files",
+      "predicate": "no-synthetic-test-files",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-synthetic-test-files\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-secrets-in-diff",
+      "predicate": "no-secrets-in-diff",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-secrets-in-diff\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-hedge-language-in-diff",
+      "predicate": "no-hedge-language-in-diff",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-hedge-language-in-diff\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-graphical-symbols-in-diff",
+      "predicate": "no-graphical-symbols-in-diff",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-graphical-symbols-in-diff\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-unchecked-panics-in-diff",
+      "predicate": "no-unchecked-panics-in-diff",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-unchecked-panics-in-diff\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "no-admit-deferral-markers",
+      "predicate": "no-admit-deferral-markers",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"no-admit-deferral-markers\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "mutables-all-resolved",
+      "predicate": "mutables-all-resolved",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"mutables-all-resolved\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "mutables-all-typed",
+      "predicate": "mutables-all-typed",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"mutables-all-typed\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "idempotent-dispatch-replay-safe",
+      "predicate": "idempotent-dispatch-replay-safe",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"idempotent-dispatch-replay-safe\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "split-context-swept",
+      "predicate": "split-context-swept",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"split-context-swept\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "state-obligations-ready",
+      "predicate": "state-obligations-ready",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"state-obligations-ready\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "conc-obligations-ready",
+      "predicate": "conc-obligations-ready",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"conc-obligations-ready\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "sec-obligations-ready",
+      "predicate": "sec-obligations-ready",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"sec-obligations-ready\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "res-obligations-ready",
+      "predicate": "res-obligations-ready",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"res-obligations-ready\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
     }
   ],
   "policy": {
