@@ -38,6 +38,10 @@ Two-pass rule: a mutable that survives two genuine resolution attempts without a
 
 Gate-driven repair: a finding that is a code repair is an Edit followed by a disk Read of the touched path and the same live witness, all inside this phase. A finding that changes the state model (the ownership or disjointness boundary is wrong) is a new STATE or CONC mutable, and the sweep repeats for the new boundary.
 
+## Machine fit
+
+Concurrency and data layout are sized to the machine the code runs on. The common access pattern is the one the layout is shaped for, and the common case is the path that falls through without a jump. Profile with `exec_js` and `opts.profile:true` to locate the cost, then confirm the change by a live measurement of the same input before and after the edit. Intuition about speed is not a witness. An access path whose cost grows superlinearly with concurrent callers is a defect even when its mean is good. Its witness is the measured worst case set against the bound.
+
 ## Principles
 
 ### TOTALITY - Total Functional Programming - David Turner

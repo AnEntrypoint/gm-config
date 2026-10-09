@@ -34,6 +34,26 @@ mutable-add refuses a depends_on that closes a cycle and names the cycle path. m
 
 Each resolution's witness names the kind discharged and how. After two genuine failed attempts on one mutable, stop repeating the approach: add a fresh mutable with a new id and a narrower scope that states what the failures revealed, and transition to=SHAPE if that reshapes the plan. Closure requires mutables-all-resolved, so a pending mutable of any kind blocks it, including kinds owned by other phases.
 
+## Security obligations
+
+Secrets: the diff gate catches the common literal shapes. The sweep also covers lower-entropy values in configuration, prose and fixtures, and any secret reachable through a committed path. Every secret arrives through an environment variable or a secret store. Witness: exec_js sets a marker in the environment, runs the reading path, and prints the file and line the value came from.
+
+Injection: walk every untrusted source (request body, command argument, file content, environment variable, network response) to its sink: shell, query, eval, template or path join. Each one is parameterized or escaped, never interpolated. Witness: exec_js sends quote characters, separators and path traversal in plain, percent-encoded and Unicode forms, and prints the argument the sink received.
+
+Identity and authority: every request is authenticated, and every action is authorized at the boundary that performs it. Trust from caller position, or a check made elsewhere, is refused. A check fails closed on any input it does not positively recognize.
+
+Message and timing: a message delivered twice converges to one applied effect. A reordered or truncated message is applied or rejected by name, with no partial state. A secret comparison has no early exit and no secret-dependent branch. Witness: exec_js delivers each case and prints the state after each one.
+
+## Resilience obligations
+
+Exception model: every error lands in exactly one place, handled at a boundary that can name its cause or propagated with its context intact. A default returned under a violated precondition is refused, because a plausible wrong value is worse than a crash. A precondition violation halts with the exact state. Witness: codesearch literal and regex hits for unwrap, expect, panic, throw and unhandled rejection, each classified, plus an exec_js run that triggers the violation and prints the halt.
+
+Partial failure: each multi-step write is atomic or recoverable by staging then rename, append-only replay, or idempotent re-entry. A retry after a cut converges rather than doubling the effect. Witness: exec_js kills the process between steps and cuts the connection mid-write, then prints the end state after recovery.
+
+Degradation: under overload the boundary sheds, queues, or drops to a named reduced behavior. Every wait has a timeout, every retry a cap and every queue a bound, written in the code. Optimize the worst case a user sees, not the mean a benchmark reports.
+
+Crucible: drive maximum load, degenerate input and resource exhaustion, with at least one hundred thousand iterations and memory and open handles counted before and after. Each boundary is pass or found-and-fixed in the same turn, and a fix reruns the same probe.
+
 ## Principles
 
 ### DIJKSTRATEST - Testing Shows Presence, Never Absence - Edsger Dijkstra
