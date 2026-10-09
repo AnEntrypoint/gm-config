@@ -24,6 +24,12 @@ The agent never writes deferral wording into a row or a transition note. Wording
 
 RECORD owns no obligation kind and creates no mutable. It must still leave no pending mutable, because mutables-all-resolved refuses on any pending row of any kind. Before the closing transition, list pending mutables with mutable-list and resolve each one with mutable-resolve {"mutable_id":"<id>","witness_evidence":"<witness>"} only when its witness exists. A mutable without a witness returns the chain to the phase that owns its kind, as described under Transition.
 
+## Housekeeping and memorization run on every finalize
+
+Every git_finalize opens a housekeeping run before the next cover begins. The run sweeps dead code, superseded paths, and PRD and mutable rows left stale by earlier passes, so a later session does not trip over them. It applies the removal checks of PRESSURE to the whole tree on each finalize, not only when a gate fires. Each removal is witnessed by a zero-hit codesearch and a build check. Each stale row is closed with prd-resolve or re-scoped with prd-add on its existing id.
+
+Memorization runs in the same pass. A correction the user gave, a default the walk had to choose, and a recurring gap are each persisted with memorize-fire when they are known, not at session end, where a context compaction or a crash would drop them. A correction still unpersisted when git_finalize runs is a residual, and it blocks the next cover.
+
 ## Principles
 
 ### CONVCOM - Conventional Commits
