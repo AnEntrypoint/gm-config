@@ -252,6 +252,7 @@ gm_processor_capacity (4 on this build) is how many subagents execute at once. T
 - A count below 12 with unassigned work is a canary alarm: re-fan-out at once and record a FAILURE line with the count, timestamp and pending-row count. It is not a gate.
 - A subagent that ends early is re-dispatched with the same slice, never dropped.
 - The walk advances only when its slices have returned.
+- On every wake, resume, loop tick or completion, the orchestrator first dispatches `instruction`, then launches each slice named in `concurrency_shortfall` before any other step, and does not end the turn while that field is non-empty and PRD rows are open.
 
 Witness: while work remains and headroom allows, every open unit has a worker. The live count is bounded only by the spawn ceiling and headroom.
 
