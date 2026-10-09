@@ -1,19 +1,5 @@
 # Compiled FSM gate predicates
 
-Lean method gates (fsm/graph.json, lean graph). The five predicates below are
-not yet in the compiled registry: a graph naming them fails validation until
-rs-plugkit implements them, and until then the compiled default graph serves.
-
-Each entry says whether the gate is BLOCKING (refuses the transition when false)
-or ADVISORY (never refuses; code cannot check it, so the predicate returns true).
-
-- `lean-one-task-in-flight` -- BLOCKING. True when at most one row of .gm/prd.yml has an in-progress status.
-- `lean-contract-only-description` -- ADVISORY. Code cannot tell whether prose restates the code, so the predicate always returns true and never refuses.
-- `lean-verifier-independent` -- ADVISORY. Code cannot observe what a verifier agent read, so the predicate always returns true and never refuses.
-- `lean-net-negative` -- BLOCKING. True when the working tree diff against HEAD has added lines less than or equal to removed lines. A growth reason is not read, so a growing change is refused.
-- `lean-contract-recorded` -- BLOCKING. True when every .gm/prd.yml row is closed and the worktree is clean. The reason text in the commit message is not read.
-
-## Registry reference (existing generated entries)
 GENERATED from rs-plugkit's crates/plugkit-core/src/orchestrator/predicate_registry.rs's PREDICATE_REGISTRY -- do not hand-edit. Regenerate by dispatching the `predicates-md` verb (body ignored) against a project with the current plugkit.wasm loaded and replacing this file's body with the returned predicates_md field; a CI check in rs-plugkit diffs a fresh regeneration against its own committed copy and fails on drift, and this file must be kept in sync with that copy by the same discipline.
 
 Reference for `gates.predicate` in .gm/instructions/fsm/graph.json's `gates` array -- a predicate name here is the ONLY thing a graph's gates array can reference directly; a genuinely new condition needs a jit hook instead (see hooks/example.js) or a Rust change to add a new compiled predicate.
@@ -39,3 +25,8 @@ Reference for `gates.predicate` in .gm/instructions/fsm/graph.json's `gates` arr
 - `split-context-swept` -- true when the working diff touches at most one file, OR .gm/exec-spool/.split-context-swept exists with a head_sha matching the current `git rev-parse HEAD` -- a witnessed independent-Agent adversarial review for the exact pushed multi-file commit. A self-reviewed multi-file diff has not been adversarially swept.
 - `no-graphical-symbols-in-diff` -- true when new lines in the working diff introduce no decorative non-ASCII glyph (arrows, box-drawing, stars, bullets, checks/crosses, emoji) outside a binary/frozen-changelog/icon-font exemption path. Matches AGENTS.md's own no-graphical-symbols discipline as a real gate instead of an on-sight-only rule. Emits deviation.graphical-symbol naming the offending lines when it fails.
 - `idempotent-dispatch-replay-safe` -- true when the most recent N dispatch audit-tuples (id, hash, ts) for the current stop window contain no exact-duplicate (id, hash) pair recorded as two DIFFERENT outcomes -- a same-input dispatch replayed must reach the same result (f-compose-f-equals-f), never a second, different mutation applied on top of the first. Emits deviation.non-idempotent-replay naming the conflicting tuples when it fails.
+- `lean-one-task-in-flight` -- BLOCKING. True when at most one row of .gm/prd.yml has an in-progress status.
+- `lean-contract-only-description` -- ADVISORY. Code cannot tell whether prose restates the code, so the predicate always returns true and never refuses.
+- `lean-verifier-independent` -- ADVISORY. Code cannot observe what a verifier agent read, so the predicate always returns true and never refuses.
+- `lean-net-negative` -- BLOCKING. True when the working tree diff against HEAD has added lines less than or equal to removed lines. A growth reason is not read, so a growing change is refused.
+- `lean-contract-recorded` -- BLOCKING. True when every .gm/prd.yml row is closed and the worktree is clean. The reason text in the commit message is not read.
