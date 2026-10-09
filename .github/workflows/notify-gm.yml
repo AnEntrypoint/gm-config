@@ -1,0 +1,20 @@
+name: notify-gm
+
+# Tells gm that its gm-config pin moved, so bump-pins runs within seconds
+# instead of waiting for its next cron tick.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch submodule-released to AnEntrypoint/gm
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+        run: gh api repos/AnEntrypoint/gm/dispatches -f event_type=submodule-released
