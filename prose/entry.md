@@ -52,6 +52,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Hop = one named principle from the book "lean" (AnEntrypoint/lean skills/lean/SKILL.md), applied as work to every instance in scope in one pass.
 - Every hop runs as its own subagent (Agent tool), with its own SESSION_ID and a prompt that opens with the brick-wall opener (gm skill, codeinsight first). The orchestrator never performs hop work inline; it dispatches the hop, then reads its receipt.
 - A hop's subagent nominates the next hop by spawning it as a subagent itself, passing its `next_choice.why` verbatim. The chain is spawned by the hops, not driven one step at a time by the orchestrator.
+- All parallel work lands on `main`. No hop or executor opens a branch or a worktree to avoid a collision. A collision is recovered: re-read the row or file, reapply the change on the current state, retry. Collision avoidance by isolation is refused, since it serialises the pool.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
 - A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
