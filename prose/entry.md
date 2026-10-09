@@ -64,6 +64,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Blocker rows are annotations and never candidates. A blocked worker records the blocker and still nominates a node-only successor.
 - When candidates run out before the target, a traversal hop logs node-only PRDs with mutables and just-in-time execution. When rows resolve faster than the pool refills, pause new row creation.
 - Keep all work on main. On a collision, retry the step. Never branch.
+- No Claude-only waiting primitives for pool work: Monitor, ScheduleWakeup, CronCreate and shell sleep loops are not used. Workers wait with a gm verb or by finishing the check directly; the orchestrator re-counts .gm/pool/*.live on each completion notification. Two workers armed Monitors in one cycle, which the user has ruled out.
 - Recorded causes of drops (update when a drop recurs): the rule was shadowed by a stale vendored prose file; heartbeats were not refreshed during lock waits; successors were free text and often ineligible; GPU-lock timeouts ended runs; completions were not refilled in the same turn; slots.live read 0 while workers ran.
 
 ## Standing rules: lean traversal
