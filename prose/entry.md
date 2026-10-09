@@ -68,6 +68,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - The orchestrator loop is: wait (the gm wait verb, called as wait {"ms":60000}; ms is a positive integer, maximum 60000), then instruction, then launch the free slots from slots.candidates; repeat while open work exists.
 - Host completion notifications are informational, not a trigger; the loop above is the trigger.
 - Never use Monitor, ScheduleWakeup, CronCreate or shell sleep loops for pool work.
+- On every wake, tick, resume and completion, the orchestrator dispatches instruction, reads subagents_running and concurrency_shortfall, and launches the shortfall of independent slices before any other step. A running count well below available independent slices is a failure of this rule; the orchestrator logs it as one PRD line. It keeps launching while slices remain and headroom allows.
 
 ## Standing rules: lean traversal
 
