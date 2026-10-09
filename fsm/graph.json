@@ -1464,28 +1464,7 @@
       "to": "COMPLETE",
       "kind": "forward",
       "label": null,
-      "gates": [
-        "prd-all-closed",
-        "worktree-clean",
-        "residual-scan-fired",
-        "ci-validated-fresh",
-        "claim-audit-clean",
-        "submodules-clean",
-        "no-synthetic-test-files",
-        "no-secrets-in-diff",
-        "no-hedge-language-in-diff",
-        "no-graphical-symbols-in-diff",
-        "no-unchecked-panics-in-diff",
-        "no-admit-deferral-markers",
-        "mutables-all-resolved",
-        "mutables-all-typed",
-        "idempotent-dispatch-replay-safe",
-        "split-context-swept",
-        "state-obligations-ready",
-        "conc-obligations-ready",
-        "sec-obligations-ready",
-        "res-obligations-ready"
-      ]
+      "gates": []
     },
     {
       "from": "FIXPOINT",

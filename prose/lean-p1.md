@@ -68,6 +68,30 @@ Two-pass rule: a mutable that survives two genuine resolution attempts without a
 
 Surface divergence: a state that differs from the PRD's assumed shape becomes a new mutable, with its witness, and then resumes. A broken tool that blocks a witness channel becomes a mutable whose task is to make the channel reachable: fix the tool, replace it, or drive its lower-level interface directly. It is never parked as blocked by something external.
 
+## Supply-chain scan
+
+scan_deps detects the obfuscated dropper that appends a payload after a source file's real end: one very long, whitespace-padded line that resolves a remote address, fetches and decodes data, and evaluates or spawns the result. It runs two structural checks that survive a change of address, key or cipher. First, the byte size of a file is wildly out of proportion to its line count. Second, a run of four or more `\uXXXX` escapes decodes to an identifier-shaped name, which real code never writes for an ASCII identifier.
+
+Dispatch `{}` on the first dependency install of a session and before trusting any freshly cloned or vendored node_modules. `{"root":"<relative dir>"}` limits the git-tracked half to a subdirectory. `{"root":"<absolute dir>"}` scans a sibling project, including its gitignored node_modules. A symlink or junction that leaves the root is not followed and is listed in symlinkEscapes. `{"full":true}` forces a complete walk for a one-off sweep after a suspicious install. Otherwise the per-package stamp in `.gm/scan-deps-stamp.json` skips unchanged packages. A package with a failing or blocked finding is never stamped, so it is reported on every scan.
+
+Read the reply by its counts. blockedCount above zero is evidence: the operating system or antivirus already blocked a read. failCount above zero is a structural hit. warnCount alone usually marks a legitimate minified bundle and gets a glance, never a block. nodeModulesTruncated true means part of the tree was not covered, and the walk adds a prd-add row for a standing unbounded sweep.
+
+A failing or blocked hit is a one-way door. Record it as a PRD row, keep the walk running, and ask only when the hit is a world-scoped one-way door. Find the introducing commit in the dependency's own history, and confirm the last clean commit before proposing a pin, a revert or an exclusion. Never add an exclusion and never retry blindly. Several unrelated repositories under one account showing the same pattern point to a shared compromised credential, and that possibility is named to the user. A compromised default branch is repaired with git_revert, which keeps the bad commit visible. A history rewrite waits for an explicit request.
+
+## Scope discovery to a fixed point
+
+Discovery does not stop at the first plan. A closure that implies work outside the current rows is a scope expansion: prd-add the new rows in the same pass, derive their unknowns as mutables, and repeat. The walk leaves this node only after a full sweep adds zero rows and zero mutables. That fixed point is the criterion, not a step count and not a sense that coverage is enough.
+
+Scope found inside the request's closure is in the walk. Work unrelated to the closure becomes a row that waits for its own walk.
+
+Long-horizon work spans sessions by design. The rows and mutables on disk let a fresh session's boot probe resume the walk without replay. Once a batch of rows is independent enough to run unattended, it is handed to a new session deliberately rather than serialized through this one.
+
+## Large finding sets are partitioned once
+
+A classifiable finding set (compiler errors, lint violations, the breakage from a dependency bump) comes from one run of its producing command. Group the output by its natural boundary (file, crate or module), and make each group one row owned by one subagent. Disjoint slices need no coordination. Each subagent verifies its slice by rerunning the classifier scoped to its own files. The global classifier is not rerun mid-fan-out, because a rerun wastes the run or lets two agents race to fix the same finding.
+
+Every fan-out dispatch states its terminal condition: prd_pending_count 0 against the full discovered scope, not against its own slice. A dispatch that finds a new unknown feeds it into mutable-add or prd-add, and never narrows its scope silently.
+
 ## Principles
 
 ### JTBD - Jobs To Be Done - Clayton Christensen
