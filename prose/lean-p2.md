@@ -50,6 +50,10 @@ Always rearchitect immediately: an in-spirit architectural improvement found mid
 
 Surface divergence: a state that differs from the PRD's assumed shape is a new mutable with its witness. A broken tool that blocks a witness is a mutable whose task is to make the witness reachable: fix the tool, replace it, or drive its lower-level interface directly.
 
+## Obligation witnesses admit no deferral
+
+A resolution whose witness says deferred, pending the next session, awaiting recovery, or waiting for a user refresh marks an open obligation as discharged. The resolution is refused, and the obligation stays open with the chain in CONTRACT. An obligation is discharged by a real answer with real evidence, or it is not discharged. A witness is written by kind, naming the kind discharged and the command and output that discharged it.
+
 ## Principles
 
 ### UBIQ - Ubiquitous Language - Eric Evans
