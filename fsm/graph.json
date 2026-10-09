@@ -1502,20 +1502,6 @@
       "gates": []
     },
     {
-      "from": "G_FIXPOINT",
-      "to": "LOWERBOUND",
-      "kind": "backreference",
-      "label": "no gate reopened, no counterexample, no growth",
-      "gates": []
-    },
-    {
-      "from": "G_FIXPOINT",
-      "to": "G_SWEEP",
-      "kind": "backreference",
-      "label": "a later sweep reopened a gate",
-      "gates": []
-    },
-    {
       "from": "VARIANT",
       "to": "G_SURFACE",
       "kind": "forward",
@@ -1593,13 +1579,6 @@
       "gates": []
     },
     {
-      "from": "INVEST",
-      "to": "THINSLICE",
-      "kind": "backreference",
-      "label": "the task depends on another task",
-      "gates": []
-    },
-    {
       "from": "THINSLICE",
       "to": "PARNAS",
       "kind": "backreference",
@@ -1656,13 +1635,6 @@
       "gates": []
     },
     {
-      "from": "MILNER",
-      "to": "ILLEGAL",
-      "kind": "backreference",
-      "label": "a stuck state is reachable",
-      "gates": []
-    },
-    {
       "from": "ILLEGAL",
       "to": "DBC",
       "kind": "backreference",
@@ -1698,13 +1670,6 @@
       "gates": []
     },
     {
-      "from": "PARNAS",
-      "to": "DEEPMOD",
-      "kind": "backreference",
-      "label": "a decision is not hidden by any module",
-      "gates": []
-    },
-    {
       "from": "DEEPMOD",
       "to": "OUSTERHOUTC",
       "kind": "backreference",
@@ -1726,13 +1691,6 @@
       "gates": []
     },
     {
-      "from": "GUARD",
-      "to": "SLAP",
-      "kind": "backreference",
-      "label": "the branch structure still needs explanation",
-      "gates": []
-    },
-    {
       "from": "SLAP",
       "to": "DEEPMOD",
       "kind": "backreference",
@@ -1744,13 +1702,6 @@
       "to": "GUARD",
       "kind": "backreference",
       "label": "control flow is untraceable",
-      "gates": []
-    },
-    {
-      "from": "IMMUT",
-      "to": "OWNERSHIP",
-      "kind": "backreference",
-      "label": "shared mutable state crossed a boundary",
       "gates": []
     },
     {
@@ -1793,13 +1744,6 @@
       "to": "G_INDEP",
       "kind": "backreference",
       "label": "the assertion mirrors the code",
-      "gates": []
-    },
-    {
-      "from": "INDEPVER",
-      "to": "ADVERSARIAL",
-      "kind": "backreference",
-      "label": "the two agents shared context",
       "gates": []
     },
     {
@@ -1978,31 +1922,10 @@
       "gates": []
     },
     {
-      "from": "DELETIONGATE",
-      "to": "REACHABLE",
-      "kind": "backreference",
-      "label": "superseded code is still reachable",
-      "gates": []
-    },
-    {
-      "from": "REACHABLE",
-      "to": "DIFFBUDGET",
-      "kind": "backreference",
-      "label": "an entry point has no caller",
-      "gates": []
-    },
-    {
       "from": "TARPIT",
       "to": "ILLEGAL",
       "kind": "backreference",
       "label": "the state is accidental",
-      "gates": []
-    },
-    {
-      "from": "LEANSW",
-      "to": "KOLMOGOROV",
-      "kind": "backreference",
-      "label": "size grew without a reason",
       "gates": []
     },
     {
@@ -2034,27 +1957,6 @@
       "gates": []
     },
     {
-      "from": "PROGDISC",
-      "to": "HEADERONLY",
-      "kind": "backreference",
-      "label": "the body loaded when it was not needed",
-      "gates": []
-    },
-    {
-      "from": "HEADERONLY",
-      "to": "AGENTSMD",
-      "kind": "backreference",
-      "label": "the header does not predict the trigger",
-      "gates": []
-    },
-    {
-      "from": "AGENTSMD",
-      "to": "NODUPEDOC",
-      "kind": "backreference",
-      "label": "the file restates the README",
-      "gates": []
-    },
-    {
       "from": "NODUPEDOC",
       "to": "DRY",
       "kind": "backreference",
@@ -2069,13 +1971,6 @@
       "gates": []
     },
     {
-      "from": "COMPACT",
-      "to": "OBSCOMPRESS",
-      "kind": "backreference",
-      "label": "compaction cut an active subgoal",
-      "gates": []
-    },
-    {
       "from": "OBSCOMPRESS",
       "to": "GREPFIRST",
       "kind": "backreference",
@@ -2087,13 +1982,6 @@
       "to": "COMPACT",
       "kind": "backreference",
       "label": "history is replayed each session",
-      "gates": []
-    },
-    {
-      "from": "STABLEPREFIX",
-      "to": "TOOLBUDGET",
-      "kind": "backreference",
-      "label": "the cache is missing",
       "gates": []
     },
     {
@@ -2174,38 +2062,10 @@
       "gates": []
     },
     {
-      "from": "FIXPOINT",
-      "to": "MONOTONE",
-      "kind": "backreference",
-      "label": "the sweep produced a change",
-      "gates": []
-    },
-    {
-      "from": "MONOTONE",
-      "to": "REGRESSGUARD",
-      "kind": "backreference",
-      "label": "a measure moved the wrong way",
-      "gates": []
-    },
-    {
       "from": "REGRESSGUARD",
       "to": "INVARIANTRUN",
       "kind": "backreference",
       "label": "an earlier sweep's gain was lost",
-      "gates": []
-    },
-    {
-      "from": "VARIANT",
-      "to": "BOUNDEDRETRY",
-      "kind": "backreference",
-      "label": "the open-condition count did not fall",
-      "gates": []
-    },
-    {
-      "from": "BOUNDEDRETRY",
-      "to": "G_SURFACE",
-      "kind": "backreference",
-      "label": "the same condition fired twice with no new information",
       "gates": []
     },
     {
@@ -2241,13 +2101,6 @@
       "to": "G_FIXPOINT",
       "kind": "backreference",
       "label": "the bound is already reached, stop here",
-      "gates": []
-    },
-    {
-      "from": "G_SURFACE",
-      "to": "ADRN",
-      "kind": "backreference",
-      "label": "the ambiguity is human-owned",
       "gates": []
     }
   ],
