@@ -62,7 +62,7 @@ Handover: Presence witnessed on real inputs is handed to ORACLEBIAS so the probe
 
 Before claiming correctness, the agent names the one red-capable command that drives the reported behaviour on the real surface, runs it, and records the output. A pass is recorded as presence of the behaviour on that input. Each absence claim (no panic, no leak, no injection, no duplicate effect) moves into the adversarial classes or the SEC and RES sweeps, where it is witnessed on inputs that could falsify it.
 
-No standing test file is introduced. no-synthetic-test-files refuses a new *.test.* or *.spec.* file, a test or __tests__ directory, or a testing-framework import. Such a file is deleted when this walk created it (untracked and absent from `git ls-files` at session start); its assertions are re-expressed as an exec_js probe against the real boundary that prints observed values, and the probe is not committed. A tracked test file is never deleted or edited by this rule.
+No standing test file is introduced. no-synthetic-test-files is diff-scoped as predicates.md:19 defines it: it is true when the working diff introduces no standing test file (*.test.*, *.spec.*, or a test, tests or __tests__ directory). A test file this walk created is deleted: untracked or staged as a new file now, and absent from both `git ls-files` and the untracked set recorded at session start. Its assertions are re-expressed as an exec_js probe against the real boundary that prints observed values, and the probe is not committed. A tracked test file, such as `gm-mcp/test/*`, is never deleted or edited by this rule: leave it byte-identical and report it as tracked.
 
 ### ORACLEBIAS - Implementation-Biased Test Generation - LLM test-generation study
 
