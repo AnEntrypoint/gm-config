@@ -22,7 +22,7 @@ Continuation: never stop while a row is open. Ask only for a world-scoped one-wa
 
 Publishing: workers do not commit or push. The parent session publishes every change in one delivery: commit with the work's own paths, push the submodule, bump the parent pin to the pushed commit, then push the parent. Nothing stays local. A walk is complete only when the PRD is empty and the worktree is clean; until then, the next node is dispatched.
 
-- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator reads the live `.gm/pool/*.live` count and launches the available independent slices, so the step never lowers the count. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
+- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator dispatches `instruction`, counts live subagents from the instruction reply's `subagents_running` and `concurrency_shortfall`, and launches the available independent slices, so the step never lowers the count. Workers write no heartbeat files. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
 
 ## Automatic decisions
 
@@ -36,4 +36,4 @@ Every fan-out worker ends its reply with these three lines, in this order.
 - `advanced:` the PRD row this worker advanced, by id, with its closing witness dispatch id or the blocker that kept it open.
 - `rhetoric:` the one-sentence motivation for the successor, copied verbatim from `next_choice.why` when present, otherwise the unresolved question that drove the row.
 
-The orchestrator reads these three lines on every completion, counts live `.gm/pool/*.live` heartbeats, and relaunches a successor from `successor:` in the same turn whenever the count is under 12 with pending rows open.
+The orchestrator reads these three lines on every completion, counts live subagents from the instruction reply's `subagents_running` and `concurrency_shortfall`, and relaunches a successor from `successor:` in the same turn whenever the count is under 12 with pending rows open. Workers write no heartbeat files.
