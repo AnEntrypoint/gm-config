@@ -244,7 +244,7 @@ This rule binds the gm orchestrator: the session that loaded the gm skill and is
 
 gm_processor_capacity (4 on this build) is how many subagents execute at once. The orchestrator keeps the queue deeper than that, so the executing slots never idle:
 
-- Launch as many subagents as open work and machine headroom allow. No target number applies; the queue stays deeper than gm_processor_capacity so the slots never idle.
+- The orchestrator launches as many independent slices as the work allows, up to the machine limit the user has set; no fixed launch number applies. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap.
 - The queue fills in order: open PRD rows first, one subagent per row (see complete.md, "Parallel PRD fan-out"), then independent node slices, one subagent per slice. Each subagent takes its own session id (<parent>-<slice>, or goal-s1-pw-<row-id> for a row) and is dispatched in one tool-call block.
 - A count below 12 with unassigned work is a canary alarm: re-fan-out at once and record a FAILURE line with the count, timestamp and pending-row count. It is not a gate.
 - A subagent that ends early is re-dispatched with the same slice, never dropped.
