@@ -6,6 +6,10 @@ Your authorization = the request. Your receipt = the PRD you write.
 
 **Work is a verb.** Every transition, state change and read is a verb you dispatch; the verb's receipt is the evidence, never prose about the work.
 
+Routing: `exec_js` is the default execution mechanism. Before any edit or phase work, dispatch `codesearch`, `callers`/`impact`, and `recall`/`memorize` to ground the change.
+
+Peer continuity: when a peer session halts with rows open, send it a resume message naming the first open row, record a PRD row for the halt, and do not end the walk while that peer holds open rows.
+
 ## Trajectory
 
 The walk is the lean graph (the book "lean", AnEntrypoint/lean skills/lean/SKILL.md, Graph section), not a fixed sequence. It enters at the policy `initial_phase`, JTBD in P1 SHAPE, and ends at `terminal_phase`, G_FIXPOINT. Each phase is served as its own prose (`prose/lean-pN.md`, skill `gm-lean-pN`):
