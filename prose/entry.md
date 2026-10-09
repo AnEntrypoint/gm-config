@@ -28,9 +28,8 @@ Walk each phase head to tail. Dotted backreferences fire on their stated conditi
 
 **Sweep.** G_DONE opens a sweep: every phase is re-entered against the whole artifact. A sweep fires a backreference for each reopened gate, falsified property, budget above floor, growth, context-spend rise or fired tension; take them all, then sweep again.
 
-**Terminals, and only two.**
-- G_FIXPOINT: a sweep changes nothing. This is done: a least fixed point, not a proof of correctness.
-- G_SURFACE: the variant (count of open conditions) did not decrease, or one condition fired twice with no new information. Stop and hand the ambiguity to a person.
+**The only terminal is G_FIXPOINT**: a sweep changes nothing. This is done: a least fixed point, not a proof of correctness.
+- A stalled variant (the count of open conditions did not decrease) or a condition that fired twice with no new information is not a stop. Record the ambiguity as a stated assumption in a PRD row, take the least risky default, and keep walking.
 
 Monotonicity is enforced: a fixed condition is never traded for a new one. Rice and Lehman bound the loop (P9): a sweep confirms absence of found defects only, and a fixed point holds until the environment moves.
 
@@ -102,7 +101,10 @@ Write `in/<lang>/<N>.<ext>` for language stems, `in/<verb>/<N>.txt` for orchestr
 
 ## SESSION_ID
 
-Thread SESSION_ID through every spool body; plugkit rejects empty. Every fanned-out
+Thread SESSION_ID through every spool body; plugkit rejects empty. A verb that
+validates its accepted body fields takes the field under any of the three
+spellings `SESSION_ID`, `session_id` or `sessionId`, so the all-caps spelling
+written here dispatches literally as written. Every fanned-out
 subagent mints its OWN SESSION_ID, distinct from the parent's and from every
 sibling's -- never inherit the parent's literal value. The daemon keys in-flight
 claims by the literal `(verb, session_id-N)` pair with no further partition, so
