@@ -84,6 +84,8 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
   - FAILURE: live count fell to 2 at check time, with pending rows open; 20-subagent cap reached on refill, refill to 15 applied.
   - FAILURE: live count fell to 13 at check time after a 15-count tick; no refill was needed, recorded as a near-miss, not a failure. Do NOT count this one as a failure; instead record the most recent refill ordering: refill to 16 must be launched before the count is read again.
   - Any count under 5 with work open is always a failure line, written with its timestamp and pending-row count: `FAILURE: <timestamp> live count fell to <n> with <m> pending rows`.
+  - FAILURE: 2026-10-09T11:04:21Z live count fell to 2 with about 4950 pending lines in `.gm/prd.yml` open; workers finished faster than the orchestrator refilled, and `prd.yml` did not parse (an uncommitted working-tree lane edit broke an unclosed quote and a missing row id near line 469), so refill workers could not read rows.
+  - Rule: if `prd-list` fails to parse, fix or restore the state file before any launch. If the verb is down, parse rows with a text scan of `.gm/prd.yml` (pending = rows whose status is not resolved) before any launch; never launch on an unparsed state file.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
 - A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
