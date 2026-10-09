@@ -31,7 +31,7 @@ A supervisor respawns the watcher under fresh code on `wrapper.drift`/`version.d
 
 ## Observability
 
-`.gm/exec-spool/.watcher.log` -- cdylib stdout/stderr, dispatch timings, sweep ticks, boot markers; tail via Read+offset; rotated 10MB.
+`.gm/exec-spool/.watcher.log` -- cdylib stdout/stderr, dispatch timings, sweep ticks, boot markers; tail via fs_read {path, offset, limit}; rotated 10MB.
 
 ## Daemonize
 
