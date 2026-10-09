@@ -56,9 +56,12 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 ## Parallel slots
 
-- Keep every available subagent slot filled while `.gm/prd-open/*.yml` is non-empty.
+- Keep every available subagent slot filled while `.gm/prd-open/*.yml` is non-empty. Fill all free slots at once, not one per completion, and refill on each completion in the same turn.
+- Never leave a slot idle while `slots.candidates` is non-empty. Never end a turn while `slots.action` is "launch" or "hold" and open rows remain. "hold" means wait for the next completion, then relaunch its replacement in that same turn.
 - The maximum is what the host accepts: launch until a spawn refusal names the ceiling, then hold there.
-- Relaunch in the same turn on each completion, one replacement per completion.
+- When the instruction response carries `slots`: successors come from `slots.candidates`, never from a worker's free-text nomination (free-text nominations are advisory only).
+- When the instruction response carries `slots`: blocker rows (an id or title containing "blocker", including `<row>-blocker-<session>`) are annotations, not work. They never count as open and never become candidates.
+- A worker that returns "no PRD row" or "row held" is relaunched at once with the next candidate.
 - Each worker writes `.gm/pool/<session>.live` with `session:`, `row:` and `start:` lines before any other work.
 - A successor is an open row that no heartbeat's `row:` line names.
 - Counts 10 and 12 are monitoring alarms only, never targets or gates.
