@@ -77,7 +77,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Floors: alarm when fewer than 12 are live while open work exists, and then update these rules, push, and refill. Below 10 is a failure of this rule.
 - Stop a background shell or Monitor that has printed nothing for 10 minutes, before it holds a lock.
 - On every wake, tick, resume and completion, the orchestrator dispatches instruction, reads subagents_running and concurrency_shortfall, and launches the shortfall of independent slices before any other step. A running count well below available independent slices is a failure of this rule; the orchestrator logs it as one PRD line. It keeps launching while slices remain and headroom allows.
->- No branches: all work is on main; branch-creating verbs are refused.
+- No branches: all work is on main; branch-creating verbs are refused.
 
 ## Standing rules: lean traversal
 
@@ -108,7 +108,34 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
   - The orchestrator does not end a turn while work is open and headroom allows a launch.
 - Replacement on completion: every gm-worker that completes is replaced in the same turn by one new worker on a real row from `slots.candidates` in the instruction response. Never wait for a batch to finish.
 - Traversal on low supply: when open PRD rows fall below what the launched workers need to stay busy, the orchestrator dispatches traversal hops that create new rows (`prd-add` rows, read back as `slots.open_rows`) before launching more resolvers. Row creation slows when rows resolve faster than workers take them.
-- No target count: keep as many workers running as open work and headroom allow, replacing each as it completes. 12 remains the canary only.
+- Every subagent brief opens with the heartbeat step verbatim: "write .gm/pool/<name>.live on start, delete it on finish". A brief without it is refused, so every spawn is countable.
+- Observable pool. Every subagent writes `.gm/pool/<its-session-id>.live` on start and deletes it on finish, so the live count is the number of `.live` files in `.gm/pool/`. The orchestrator reads that count, never its own memory, before each refill. A count under the last measured ceiling while work is open triggers a refill and a rule update in this prose.
+- Completion refill. After every subagent completion, the orchestrator counts the `.gm/pool/*.live` files. While work is open (`prd-list` shows pending rows), it launches gm-worker subagents in the same turn, before any other step, as many as open work and machine headroom allow. No target count applies. Launching stops only at the spawn ceiling (a spawn refusal names it) or when headroom is exhausted, checked before each launch: CPU at or above 80% or free memory under 2 GB means no launch, recorded as a FAILURE line naming the resource cause (Windows: `Get-CimInstance Win32_Processor` LoadPercentage, `Get-CimInstance Win32_OperatingSystem` FreePhysicalMemory). The orchestrator nominates successors from real open rows on every completion; a worker never relies on the orchestrator to refill it.
+  - FAILURE: live pool fell to 3 with 732 open PRD files in `.gm/prd-open/`; refill was late, and the pool-floor gate is not active because the runner still loads an older plugkit.wasm.
+  - Standing rule: open-PRD growth between checks is itself a failure. The orchestrator drains by dispatching gm-worker on open rows before any other step.
+  - Refill is driven by the count, not by the user: read `.gm/pool/*.live` after each completion and after each launch.
+  - If `prd-list` fails to parse, launch no workers that will hit the same parse error; repair the state file first, or record the failure line and stop launching.
+  - Canary: 12 is a monitoring threshold only, not a gate and not a launch target. A live count under 12 while pending rows are open raises a canary alarm, recorded as a FAILURE line with the count, timestamp and pending-row count.
+  - The orchestrator does not end a turn while work is open and headroom allows a launch. It re-reads `.gm/pool/*.live` after each launch and keeps launching until a spawn refusal names the ceiling or headroom is exhausted.
+  - A worker that ends at a blocker is not a replacement. The orchestrator counts only live `.live` heartbeats, never completed reports.
+  - Each brief names its row from a text scan of `.gm/prd.yml` (pending = status not resolved), because `prd-list` fails when the YAML is broken; the brief says so.
+  - FAILURE lines carry the real count and UTC timestamp read at the time of the check, never an estimate.
+  - Every subagent brief names its successor from a real pending row (`prd-list`), so the chain never ends with zero successors.
+  - FAILURE lines carry the count, timestamp and pending-row count: `FAILURE: <timestamp> live count fell to <n> with <m> pending rows`.
+  - FAILURE: live count fell to 0 at start of run; refill was late.
+  - FAILURE: live count fell to 5; refill was late.
+  - FAILURE: live count fell to 8; refill was late.
+  - FAILURE: live count fell to 8; refill was late.
+  - FAILURE: live count fell to 10; refill was late.
+  - FAILURE: live count fell to 8; refill was late.
+  - FAILURE: live count fell to 2 at check time, with pending rows open; 20-subagent cap reached on refill, refill to 15 applied.
+  - FAILURE: live count fell to 13 at check time after a 15-count tick; no refill was needed, recorded as a near-miss, not a failure. Do NOT count this one as a failure; instead record the most recent refill ordering: the refill must be launched before the count is read again.
+  - Any count under 5 with work open is always a failure line, written with its timestamp and pending-row count: `FAILURE: <timestamp> live count fell to <n> with <m> pending rows`.
+  - FAILURE: 2026-10-09T11:04:21Z live count fell to 2 with about 4950 pending lines in `.gm/prd.yml` open; workers finished faster than the orchestrator refilled, and `prd.yml` did not parse (an uncommitted working-tree lane edit broke an unclosed quote and a missing row id near line 469), so refill workers could not read rows.
+  - Rule: if `prd-list` fails to parse, fix or restore the state file before any launch. If the verb is down, parse rows with a text scan of `.gm/prd.yml` (pending = rows whose status is not resolved) before any launch; never launch on an unparsed state file.
+- Replacement on completion: every gm-worker that completes is replaced in the same turn by one new worker on a real open row from `.gm/prd-open/` (read the folder directly if `prd-list` fails). Never wait for a batch to finish.
+- Traversal on low supply: when open PRD rows fall below what the launched workers need to stay busy, the orchestrator dispatches traversal hops that create new rows (`prd-add` files in `.gm/prd-open/`) before launching more resolvers. Row creation slows when rows resolve faster than workers take them.
+>- No target count: keep as many workers running as open work and headroom allow, replacing each as it completes. 12 remains the canary only.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
 - A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
