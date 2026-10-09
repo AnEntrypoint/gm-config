@@ -22,6 +22,8 @@ Continuation: never stop while a row is open. Ask only for a world-scoped one-wa
 
 Publishing: workers do not commit or push. The parent session publishes every change in one delivery: commit with the work's own paths, push the submodule, bump the parent pin to the pushed commit, then push the parent. Nothing stays local. A walk is complete only when the PRD is empty and the worktree is clean; until then, the next node is dispatched.
 
+- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator reads the live `.gm/pool/*.live` count and launches the available independent slices, so the step never lowers the count. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
+
 ## Automatic decisions
 
 When an instruction already settles a choice, apply it without asking. Commit identity: use the repository's configured identity; where none is set, use the identity the user approved for authorship (anentrypoint <admin@coas.co.za>) written as repository-local config, never global. Publishing: push every commit and bump every pin in the same delivery. Runner: a restart of agentplug is approved at any time; load a rebuilt plugin through the isolated recipe first, then restart. Ask only for a world-scoped one-way door.
