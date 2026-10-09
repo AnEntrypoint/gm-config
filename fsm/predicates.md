@@ -29,4 +29,5 @@ Reference for `gates.predicate` in .gm/instructions/fsm/graph.json's `gates` arr
 - `lean-contract-only-description` -- ADVISORY. Code cannot tell whether prose restates the code, so the predicate always returns true and never refuses.
 - `lean-verifier-independent` -- ADVISORY. Code cannot observe what a verifier agent read, so the predicate always returns true and never refuses.
 - `lean-net-negative` -- BLOCKING. True when the working tree diff against HEAD has added lines less than or equal to removed lines. A growth reason is not read, so a growing change is refused.
+- `pool-floor-met` -- BLOCKING. True when at least 12 `.gm/pool/*.live` files exist under the project's .gm directory, or when no PRD row is pending. Each live subagent writes its own .live file on start and deletes it on finish. The denial names the live count and the floor of 12.
 - `lean-contract-recorded` -- BLOCKING. True when every .gm/prd.yml row is closed and the worktree is clean. The reason text in the commit message is not read.

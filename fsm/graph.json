@@ -1466,6 +1466,7 @@
       "label": null,
       "gates": [
         "prd-all-closed",
+        "pool-floor-met",
         "worktree-clean",
         "residual-scan-fired",
         "ci-validated-fresh",
@@ -2192,6 +2193,12 @@
       "predicate": "prd-all-closed",
       "hook_mode": "predicate-only",
       "message": "transition rejected (blocking, closure gate \"prd-all-closed\"): the predicate of that name in gm-config/fsm/predicates.md is false. Satisfy it, then re-attempt."
+    },
+    {
+      "name": "pool-floor-met",
+      "predicate": "pool-floor-met",
+      "hook_mode": "predicate-only",
+      "message": "transition rejected (blocking, closure gate \"pool-floor-met\"): fewer than 12 live subagents (.gm/pool/*.live) while PRD rows are pending. Spawn gm-worker subagents until at least 12 are live, then re-attempt."
     },
     {
       "name": "worktree-clean",
