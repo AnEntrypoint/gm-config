@@ -66,7 +66,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Keep all work on main. On a collision, retry the step. Never branch.
 - No Claude-only waiting primitives for pool work: Monitor, ScheduleWakeup, CronCreate and shell sleep loops are not used. Workers wait with a gm verb or by finishing the check directly; the orchestrator re-counts .gm/pool/*.live on each completion notification. Two workers armed Monitors in one cycle, which the user has ruled out.
 - Pool workers get their brief from gm through the pool-brief verb, never from a Claude skill.
-- The orchestrator loop is: wait (the gm wait verb, bounded), then instruction, then launch the free slots from slots.candidates; repeat while open work exists.
+- The orchestrator loop is: wait (the gm wait verb, called as wait {"ms":60000}; ms is a positive integer, maximum 60000), then instruction, then launch the free slots from slots.candidates; repeat while open work exists.
 - Host completion notifications are informational, not a trigger; the loop above is the trigger.
 - Never use Monitor, ScheduleWakeup, CronCreate or shell sleep loops for pool work.
 - Every subagent writes its heartbeat on start, refreshes it at least every 5 minutes while waiting on a lock or a long run, and deletes it on finish.
