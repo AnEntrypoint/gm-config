@@ -67,7 +67,7 @@
     },
     {
       "key": "JTBD",
-      "prose_key": "lean-p1",
+      "prose_key": "jtbd",
       "label": "Jobs To Be Done - Clayton Christensen",
       "kind": "principle",
       "phase": "P1",
@@ -75,7 +75,7 @@
     },
     {
       "key": "XYPROB",
-      "prose_key": "lean-p1",
+      "prose_key": "xyprob",
       "label": "XY Problem",
       "kind": "principle",
       "phase": "P1",
@@ -83,7 +83,7 @@
     },
     {
       "key": "EARS",
-      "prose_key": "lean-p1",
+      "prose_key": "ears",
       "label": "EARS Requirements Syntax - Alistair Mavin",
       "kind": "principle",
       "phase": "P1",
@@ -91,7 +91,7 @@
     },
     {
       "key": "INVEST",
-      "prose_key": "lean-p1",
+      "prose_key": "invest",
       "label": "INVEST - Bill Wake",
       "kind": "principle",
       "phase": "P1",
@@ -99,7 +99,7 @@
     },
     {
       "key": "THINSLICE",
-      "prose_key": "lean-p1",
+      "prose_key": "thinslice",
       "label": "Thin Vertical Slice - Alistair Cockburn",
       "kind": "principle",
       "phase": "P1",
@@ -107,7 +107,7 @@
     },
     {
       "key": "SPIKE",
-      "prose_key": "lean-p1",
+      "prose_key": "spike",
       "label": "Spike Solution - Kent Beck",
       "kind": "principle",
       "phase": "P1",
@@ -115,7 +115,7 @@
     },
     {
       "key": "YAGNI",
-      "prose_key": "lean-p1",
+      "prose_key": "yagni",
       "label": "YAGNI - Ron Jeffries",
       "kind": "principle",
       "phase": "P1",
@@ -123,7 +123,7 @@
     },
     {
       "key": "LIVEPLAN",
-      "prose_key": "lean-p1",
+      "prose_key": "liveplan",
       "label": "Live Plan, Current Task Only",
       "kind": "principle",
       "phase": "P1",
@@ -131,7 +131,7 @@
     },
     {
       "key": "UBIQ",
-      "prose_key": "lean-p2",
+      "prose_key": "ubiq",
       "label": "Ubiquitous Language - Eric Evans",
       "kind": "principle",
       "phase": "P2",
@@ -139,7 +139,7 @@
     },
     {
       "key": "CLEANNAME",
-      "prose_key": "lean-p2",
+      "prose_key": "cleanname",
       "label": "Intention-Revealing Names - Robert C. Martin",
       "kind": "principle",
       "phase": "P2",
@@ -147,7 +147,7 @@
     },
     {
       "key": "MILNER",
-      "prose_key": "lean-p2",
+      "prose_key": "milner",
       "label": "Well-Typed Programs Cannot Go Wrong - Robin Milner",
       "kind": "principle",
       "phase": "P2",
@@ -155,7 +155,7 @@
     },
     {
       "key": "ILLEGAL",
-      "prose_key": "lean-p2",
+      "prose_key": "illegal",
       "label": "Make Illegal States Unrepresentable - Yaron Minsky",
       "kind": "principle",
       "phase": "P2",
@@ -163,7 +163,7 @@
     },
     {
       "key": "PARSEDV",
-      "prose_key": "lean-p2",
+      "prose_key": "parsedv",
       "label": "Parse, Don't Validate - Alexis King",
       "kind": "principle",
       "phase": "P2",
@@ -171,7 +171,7 @@
     },
     {
       "key": "WADLER",
-      "prose_key": "lean-p2",
+      "prose_key": "wadler",
       "label": "Theorems for Free - Philip Wadler",
       "kind": "principle",
       "phase": "P2",
@@ -179,7 +179,7 @@
     },
     {
       "key": "DBC",
-      "prose_key": "lean-p2",
+      "prose_key": "dbc",
       "label": "Design by Contract - Bertrand Meyer",
       "kind": "principle",
       "phase": "P2",
@@ -187,7 +187,7 @@
     },
     {
       "key": "CQS",
-      "prose_key": "lean-p2",
+      "prose_key": "cqs",
       "label": "Command-Query Separation - Bertrand Meyer",
       "kind": "principle",
       "phase": "P2",
@@ -195,7 +195,7 @@
     },
     {
       "key": "PARNAS",
-      "prose_key": "lean-p2",
+      "prose_key": "parnas",
       "label": "Information Hiding - David Parnas",
       "kind": "principle",
       "phase": "P2",
@@ -203,7 +203,7 @@
     },
     {
       "key": "DEEPMOD",
-      "prose_key": "lean-p2",
+      "prose_key": "deepmod",
       "label": "Deep Modules - John Ousterhout",
       "kind": "principle",
       "phase": "P2",
@@ -211,7 +211,7 @@
     },
     {
       "key": "ACCEPTPORT",
-      "prose_key": "lean-p2",
+      "prose_key": "acceptport",
       "label": "Ports and Adapters - Alistair Cockburn",
       "kind": "principle",
       "phase": "P2",
@@ -219,7 +219,7 @@
     },
     {
       "key": "COMMENTSMELL",
-      "prose_key": "lean-p2",
+      "prose_key": "commentsmell",
       "label": "A Comment Is a Deodorant for Bad Smells - Fowler and Beck",
       "kind": "principle",
       "phase": "P2",
@@ -227,7 +227,7 @@
     },
     {
       "key": "TOTALITY",
-      "prose_key": "lean-p3",
+      "prose_key": "totality",
       "label": "Total Functional Programming - David Turner",
       "kind": "principle",
       "phase": "P3",
@@ -235,7 +235,7 @@
     },
     {
       "key": "GUARD",
-      "prose_key": "lean-p3",
+      "prose_key": "guard",
       "label": "Guard Clause - Martin Fowler",
       "kind": "principle",
       "phase": "P3",
@@ -243,7 +243,7 @@
     },
     {
       "key": "SLAP",
-      "prose_key": "lean-p3",
+      "prose_key": "slap",
       "label": "Single Level of Abstraction - Kent Beck",
       "kind": "principle",
       "phase": "P3",
@@ -251,7 +251,7 @@
     },
     {
       "key": "STRUCTPROG",
-      "prose_key": "lean-p3",
+      "prose_key": "structprog",
       "label": "Structured Programming - Edsger Dijkstra",
       "kind": "principle",
       "phase": "P3",
@@ -259,7 +259,7 @@
     },
     {
       "key": "IMMUT",
-      "prose_key": "lean-p3",
+      "prose_key": "immut",
       "label": "Purely Functional Data Structures - Chris Okasaki",
       "kind": "principle",
       "phase": "P3",
@@ -267,7 +267,7 @@
     },
     {
       "key": "OWNERSHIP",
-      "prose_key": "lean-p3",
+      "prose_key": "ownership",
       "label": "Ownership and Borrowing - Matsakis and Klock",
       "kind": "principle",
       "phase": "P3",
@@ -275,7 +275,7 @@
     },
     {
       "key": "DRY",
-      "prose_key": "lean-p3",
+      "prose_key": "dry",
       "label": "Don't Repeat Yourself - Hunt and Thomas",
       "kind": "principle",
       "phase": "P3",
@@ -283,7 +283,7 @@
     },
     {
       "key": "KISS",
-      "prose_key": "lean-p3",
+      "prose_key": "kiss",
       "label": "KISS - Kelly Johnson",
       "kind": "principle",
       "phase": "P3",
@@ -291,7 +291,7 @@
     },
     {
       "key": "DIJKSTRATEST",
-      "prose_key": "lean-p4",
+      "prose_key": "dijkstratest",
       "label": "Testing Shows Presence, Never Absence - Edsger Dijkstra",
       "kind": "principle",
       "phase": "P4",
@@ -299,7 +299,7 @@
     },
     {
       "key": "ORACLEBIAS",
-      "prose_key": "lean-p4",
+      "prose_key": "oraclebias",
       "label": "Implementation-Biased Test Generation - LLM test-generation study",
       "kind": "principle",
       "phase": "P4",
@@ -307,7 +307,7 @@
     },
     {
       "key": "INDEPVER",
-      "prose_key": "lean-p4",
+      "prose_key": "indepver",
       "label": "Independence-Based Verification - Grabowski",
       "kind": "principle",
       "phase": "P4",
@@ -315,7 +315,7 @@
     },
     {
       "key": "ADVERSARIAL",
-      "prose_key": "lean-p4",
+      "prose_key": "adversarial",
       "label": "Adversarial Red-Blue Agent Verification - Thukkaram",
       "kind": "principle",
       "phase": "P4",
@@ -323,7 +323,7 @@
     },
     {
       "key": "HUGHES",
-      "prose_key": "lean-p4",
+      "prose_key": "hughes",
       "label": "QuickCheck Property-Based Testing - Claessen and Hughes",
       "kind": "principle",
       "phase": "P4",
@@ -331,7 +331,7 @@
     },
     {
       "key": "PBTAGENT",
-      "prose_key": "lean-p4",
+      "prose_key": "pbtagent",
       "label": "Agentic Property-Based Testing - Hypothesis agent study",
       "kind": "principle",
       "phase": "P4",
@@ -339,7 +339,7 @@
     },
     {
       "key": "INVARIANTRUN",
-      "prose_key": "lean-p4",
+      "prose_key": "invariantrun",
       "label": "Stateful Invariant Runs over Random Call Sequences - Foundry and Hypothesis",
       "kind": "principle",
       "phase": "P4",
@@ -347,7 +347,7 @@
     },
     {
       "key": "METAMORPH",
-      "prose_key": "lean-p4",
+      "prose_key": "metamorph",
       "label": "Metamorphic Testing - T. Y. Chen",
       "kind": "principle",
       "phase": "P4",
@@ -355,7 +355,7 @@
     },
     {
       "key": "FUZZ",
-      "prose_key": "lean-p4",
+      "prose_key": "fuzz",
       "label": "Coverage-Guided Fuzzing - Michal Zalewski",
       "kind": "principle",
       "phase": "P4",
@@ -363,7 +363,7 @@
     },
     {
       "key": "CONTRACTTEST",
-      "prose_key": "lean-p4",
+      "prose_key": "contracttest",
       "label": "Consumer-Driven Contract Test - Ian Robinson",
       "kind": "principle",
       "phase": "P4",
@@ -371,7 +371,7 @@
     },
     {
       "key": "CHARTEST",
-      "prose_key": "lean-p4",
+      "prose_key": "chartest",
       "label": "Characterization Test, Legacy Only - Michael Feathers",
       "kind": "principle",
       "phase": "P4",
@@ -379,7 +379,7 @@
     },
     {
       "key": "AGENTQA",
-      "prose_key": "lean-p4",
+      "prose_key": "agentqa",
       "label": "Agent-Native QA over MCP",
       "kind": "principle",
       "phase": "P4",
@@ -387,7 +387,7 @@
     },
     {
       "key": "LLMJUDGE",
-      "prose_key": "lean-p4",
+      "prose_key": "llmjudge",
       "label": "LLM as a Judge",
       "kind": "principle",
       "phase": "P4",
@@ -395,7 +395,7 @@
     },
     {
       "key": "SANITIZE",
-      "prose_key": "lean-p4",
+      "prose_key": "sanitize",
       "label": "Sanitizer and Static Analysis Gate",
       "kind": "principle",
       "phase": "P4",
@@ -403,7 +403,7 @@
     },
     {
       "key": "CONVCOM",
-      "prose_key": "lean-p5",
+      "prose_key": "convcom",
       "label": "Conventional Commits",
       "kind": "principle",
       "phase": "P5",
@@ -411,7 +411,7 @@
     },
     {
       "key": "RULE5072",
-      "prose_key": "lean-p5",
+      "prose_key": "rule5072",
       "label": "50/72 Commit Format - Tim Pope",
       "kind": "principle",
       "phase": "P5",
@@ -419,7 +419,7 @@
     },
     {
       "key": "WHYNOTWHAT",
-      "prose_key": "lean-p5",
+      "prose_key": "whynotwhat",
       "label": "The Diff Records What, the Message Records Why",
       "kind": "principle",
       "phase": "P5",
@@ -427,7 +427,7 @@
     },
     {
       "key": "GITSTATE",
-      "prose_key": "lean-p5",
+      "prose_key": "gitstate",
       "label": "Git Is the State - stateless runtime, Kapale",
       "kind": "principle",
       "phase": "P5",
@@ -435,7 +435,7 @@
     },
     {
       "key": "BLAME",
-      "prose_key": "lean-p5",
+      "prose_key": "blame",
       "label": "git blame as the Index",
       "kind": "principle",
       "phase": "P5",
@@ -443,7 +443,7 @@
     },
     {
       "key": "BISECT",
-      "prose_key": "lean-p5",
+      "prose_key": "bisect",
       "label": "git bisect as the Regression Oracle - Linus Torvalds",
       "kind": "principle",
       "phase": "P5",
@@ -451,7 +451,7 @@
     },
     {
       "key": "SEMVER",
-      "prose_key": "lean-p5",
+      "prose_key": "semver",
       "label": "Semantic Versioning - Tom Preston-Werner",
       "kind": "principle",
       "phase": "P5",
@@ -459,7 +459,7 @@
     },
     {
       "key": "ADRN",
-      "prose_key": "lean-p5",
+      "prose_key": "adrn",
       "label": "ADR, Irreversible Forks Only - Michael Nygard",
       "kind": "principle",
       "phase": "P5",
@@ -467,7 +467,7 @@
     },
     {
       "key": "NODELETE",
-      "prose_key": "lean-p6",
+      "prose_key": "nodelete",
       "label": "Agents Avoid Deleting Code - Ebrahimi et al.",
       "kind": "principle",
       "phase": "P6",
@@ -475,7 +475,7 @@
     },
     {
       "key": "GUARDANDGO",
-      "prose_key": "lean-p6",
+      "prose_key": "guardandgo",
       "label": "Guard-and-Go Fallback Accumulation - Vector Labs",
       "kind": "principle",
       "phase": "P6",
@@ -483,7 +483,7 @@
     },
     {
       "key": "TYPE4",
-      "prose_key": "lean-p6",
+      "prose_key": "type4",
       "label": "Type-4 Semantic Clones in Agent Pull Requests",
       "kind": "principle",
       "phase": "P6",
@@ -491,7 +491,7 @@
     },
     {
       "key": "CHURN",
-      "prose_key": "lean-p6",
+      "prose_key": "churn",
       "label": "Rising Churn and Duplication - Harding and Kloster, GitClear",
       "kind": "principle",
       "phase": "P6",
@@ -499,7 +499,7 @@
     },
     {
       "key": "SLOPDRIFT",
-      "prose_key": "lean-p6",
+      "prose_key": "slopdrift",
       "label": "Behavioural Drift over Long Trajectories - Orlanski et al.",
       "kind": "principle",
       "phase": "P6",
@@ -507,7 +507,7 @@
     },
     {
       "key": "DELETIONGATE",
-      "prose_key": "lean-p6",
+      "prose_key": "deletiongate",
       "label": "Deletion-Completeness Check",
       "kind": "principle",
       "phase": "P6",
@@ -515,7 +515,7 @@
     },
     {
       "key": "DIFFBUDGET",
-      "prose_key": "lean-p6",
+      "prose_key": "diffbudget",
       "label": "Net-Negative Diff Target",
       "kind": "principle",
       "phase": "P6",
@@ -523,7 +523,7 @@
     },
     {
       "key": "REACHABLE",
-      "prose_key": "lean-p6",
+      "prose_key": "reachable",
       "label": "Reachability Analysis",
       "kind": "principle",
       "phase": "P6",
@@ -531,7 +531,7 @@
     },
     {
       "key": "TARPIT",
-      "prose_key": "lean-p6",
+      "prose_key": "tarpit",
       "label": "Out of the Tar Pit - Moseley and Marks",
       "kind": "principle",
       "phase": "P6",
@@ -539,7 +539,7 @@
     },
     {
       "key": "LEANSW",
-      "prose_key": "lean-p6",
+      "prose_key": "leansw",
       "label": "A Plea for Lean Software - Niklaus Wirth",
       "kind": "principle",
       "phase": "P6",
@@ -547,7 +547,7 @@
     },
     {
       "key": "KOLMOGOROV",
-      "prose_key": "lean-p6",
+      "prose_key": "kolmogorov",
       "label": "Kolmogorov Complexity - Kolmogorov and Chaitin",
       "kind": "principle",
       "phase": "P6",
@@ -555,7 +555,7 @@
     },
     {
       "key": "SMALLESTSET",
-      "prose_key": "lean-p7",
+      "prose_key": "smallestset",
       "label": "The Smallest Set of High-Signal Tokens",
       "kind": "principle",
       "phase": "P7",
@@ -563,7 +563,7 @@
     },
     {
       "key": "CONTEXTROT",
-      "prose_key": "lean-p7",
+      "prose_key": "contextrot",
       "label": "Context Rot - Hong et al.",
       "kind": "principle",
       "phase": "P7",
@@ -571,7 +571,7 @@
     },
     {
       "key": "REWORK",
-      "prose_key": "lean-p7",
+      "prose_key": "rework",
       "label": "Rework Loops Dominate Token Spend",
       "kind": "principle",
       "phase": "P7",
@@ -579,7 +579,7 @@
     },
     {
       "key": "PROGDISC",
-      "prose_key": "lean-p7",
+      "prose_key": "progdisc",
       "label": "Progressive Disclosure via SKILL.md",
       "kind": "principle",
       "phase": "P7",
@@ -587,7 +587,7 @@
     },
     {
       "key": "HEADERONLY",
-      "prose_key": "lean-p7",
+      "prose_key": "headeronly",
       "label": "Header Loads, Body Fires on Trigger",
       "kind": "principle",
       "phase": "P7",
@@ -595,7 +595,7 @@
     },
     {
       "key": "AGENTSMD",
-      "prose_key": "lean-p7",
+      "prose_key": "agentsmd",
       "label": "AGENTS.md Hierarchical, Not Encyclopaedic",
       "kind": "principle",
       "phase": "P7",
@@ -603,7 +603,7 @@
     },
     {
       "key": "NODUPEDOC",
-      "prose_key": "lean-p7",
+      "prose_key": "nodupedoc",
       "label": "Reference, Never Restate",
       "kind": "principle",
       "phase": "P7",
@@ -611,7 +611,7 @@
     },
     {
       "key": "SUBAGENT",
-      "prose_key": "lean-p7",
+      "prose_key": "subagent",
       "label": "Subagent Context Isolation",
       "kind": "principle",
       "phase": "P7",
@@ -619,7 +619,7 @@
     },
     {
       "key": "COMPACT",
-      "prose_key": "lean-p7",
+      "prose_key": "compact",
       "label": "Phase-Boundary Compaction",
       "kind": "principle",
       "phase": "P7",
@@ -627,7 +627,7 @@
     },
     {
       "key": "OBSCOMPRESS",
-      "prose_key": "lean-p7",
+      "prose_key": "obscompress",
       "label": "Observational Context Compression",
       "kind": "principle",
       "phase": "P7",
@@ -635,7 +635,7 @@
     },
     {
       "key": "MEMTOOL",
-      "prose_key": "lean-p7",
+      "prose_key": "memtool",
       "label": "Server-Side Memory Across Sessions",
       "kind": "principle",
       "phase": "P7",
@@ -643,7 +643,7 @@
     },
     {
       "key": "STABLEPREFIX",
-      "prose_key": "lean-p7",
+      "prose_key": "stableprefix",
       "label": "Stable Prefix for Cache Hits",
       "kind": "principle",
       "phase": "P7",
@@ -651,7 +651,7 @@
     },
     {
       "key": "TOOLBUDGET",
-      "prose_key": "lean-p7",
+      "prose_key": "toolbudget",
       "label": "Tool and MCP Definition Overhead",
       "kind": "principle",
       "phase": "P7",
@@ -659,7 +659,7 @@
     },
     {
       "key": "GREPFIRST",
-      "prose_key": "lean-p7",
+      "prose_key": "grepfirst",
       "label": "Exact-String Retrieval Before Embedding Retrieval",
       "kind": "principle",
       "phase": "P7",
@@ -667,7 +667,7 @@
     },
     {
       "key": "OUSTERHOUTC",
-      "prose_key": "lean-p8",
+      "prose_key": "ousterhoutc",
       "label": "Comments Capture What Code Cannot - John Ousterhout",
       "kind": "tension",
       "phase": "P8",
@@ -675,7 +675,7 @@
     },
     {
       "key": "NAURTHEORY",
-      "prose_key": "lean-p8",
+      "prose_key": "naurtheory",
       "label": "Programming as Theory Building - Peter Naur",
       "kind": "tension",
       "phase": "P8",
@@ -683,7 +683,7 @@
     },
     {
       "key": "TACIT",
-      "prose_key": "lean-p8",
+      "prose_key": "tacit",
       "label": "Tacit Knowledge Resists Specification",
       "kind": "tension",
       "phase": "P8",
@@ -691,7 +691,7 @@
     },
     {
       "key": "HYRUM",
-      "prose_key": "lean-p8",
+      "prose_key": "hyrum",
       "label": "Hyrum's Law - Hyrum Wright",
       "kind": "tension",
       "phase": "P8",
@@ -699,7 +699,7 @@
     },
     {
       "key": "REGEVIDENCE",
-      "prose_key": "lean-p8",
+      "prose_key": "regevidence",
       "label": "Regulated Environments Need an Evidence Trail",
       "kind": "tension",
       "phase": "P8",
@@ -707,7 +707,7 @@
     },
     {
       "key": "MAINTCOST",
-      "prose_key": "lean-p8",
+      "prose_key": "maintcost",
       "label": "Measured Maintenance Cost of Agent Code",
       "kind": "tension",
       "phase": "P8",
@@ -715,7 +715,7 @@
     },
     {
       "key": "SPECDRIFT",
-      "prose_key": "lean-p8",
+      "prose_key": "specdrift",
       "label": "Silent Spec-Code Drift - Grabowski",
       "kind": "tension",
       "phase": "P8",
@@ -723,7 +723,7 @@
     },
     {
       "key": "CTXEXPLODE",
-      "prose_key": "lean-p8",
+      "prose_key": "ctxexplode",
       "label": "Context Explosion in Whole-Repo Reasoning - Grabowski",
       "kind": "tension",
       "phase": "P8",
@@ -731,7 +731,7 @@
     },
     {
       "key": "FIXPOINT",
-      "prose_key": "lean-p9",
+      "prose_key": "fixpoint",
       "label": "Least Fixed Point - Kleene and Tarski",
       "kind": "principle",
       "phase": "P9",
@@ -739,7 +739,7 @@
     },
     {
       "key": "MONOTONE",
-      "prose_key": "lean-p9",
+      "prose_key": "monotone",
       "label": "Monotonic Improvement Only",
       "kind": "principle",
       "phase": "P9",
@@ -747,7 +747,7 @@
     },
     {
       "key": "REGRESSGUARD",
-      "prose_key": "lean-p9",
+      "prose_key": "regressguard",
       "label": "No Regression Across Sweeps",
       "kind": "principle",
       "phase": "P9",
@@ -755,7 +755,7 @@
     },
     {
       "key": "VARIANT",
-      "prose_key": "lean-p9",
+      "prose_key": "variant",
       "label": "Well-Founded Variant - Robert Floyd",
       "kind": "principle",
       "phase": "P9",
@@ -763,7 +763,7 @@
     },
     {
       "key": "BOUNDEDRETRY",
-      "prose_key": "lean-p9",
+      "prose_key": "boundedretry",
       "label": "Bounded Retry, Then Surface",
       "kind": "principle",
       "phase": "P9",
@@ -772,7 +772,7 @@
     {
       "key": "RICE",
       "entry": true,
-      "prose_key": "lean-p9",
+      "prose_key": "rice",
       "label": "Rice's Theorem - Henry Gordon Rice",
       "kind": "principle",
       "phase": "P9",
@@ -780,7 +780,7 @@
     },
     {
       "key": "HALTING",
-      "prose_key": "lean-p9",
+      "prose_key": "halting",
       "label": "Halting Problem - Alan Turing",
       "kind": "principle",
       "phase": "P9",
@@ -788,7 +788,7 @@
     },
     {
       "key": "LEHMAN",
-      "prose_key": "lean-p9",
+      "prose_key": "lehman",
       "label": "Lehman's Laws of Software Evolution - Meir Lehman",
       "kind": "principle",
       "phase": "P9",
@@ -796,7 +796,7 @@
     },
     {
       "key": "KNUTHOPT",
-      "prose_key": "lean-p9",
+      "prose_key": "knuthopt",
       "label": "Premature Optimization - Donald Knuth",
       "kind": "principle",
       "phase": "P9",
@@ -804,7 +804,7 @@
     },
     {
       "key": "LOWERBOUND",
-      "prose_key": "lean-p9",
+      "prose_key": "lowerbound",
       "label": "Lower Bound Reached - information-theoretic argument",
       "kind": "principle",
       "phase": "P9",
@@ -2122,6 +2122,13 @@
       "to": "ADRN",
       "kind": "backreference",
       "label": "a stalled variant is a stated assumption, not a stop",
+      "gates": []
+    },
+    {
+      "from": "COMPLETE",
+      "to": "G_FIXPOINT",
+      "kind": "forward",
+      "label": null,
       "gates": []
     }
   ],
