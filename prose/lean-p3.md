@@ -6,7 +6,7 @@ Principles in this phase are applied as work, from the lean method (AnEntrypoint
 
 ## Verbs
 
-Re-dispatch `instruction` at the start of each artifact and after any unfamiliar error. Every spool body carries session_id. Write only the artifacts the PRD names. Write and Edit perform the file mutation, and each write is followed by a Read of the same path from disk, so the disk content is the witness. A discrepancy between the disk and the plan sends the walk to root cause, never to a blind retry. Any divergence from the PRD's assumed shape is a new mutable and a `transition to=SHAPE`.
+Re-dispatch `instruction` at the start of each artifact and after any unfamiliar error. Every spool body carries session_id. Write only the artifacts the PRD names. `fs_write {path, content}` performs the file mutation, and each write is followed by `fs_read {path}` of the same path, so the disk content is the witness. A discrepancy between the disk and the plan sends the walk to root cause, never to a blind retry. Any divergence from the PRD's assumed shape is a new mutable and a `transition to=SHAPE`.
 
 Before changing a function's signature or behaviour, dispatch `callers {symbol}` to list the call sites the edit must keep valid. A caller the plan did not name is a new unknown. Use `codesearch {query}` for where a thing lives and `codeinsight {action:"outline", path}` for a file's overview. After writes, dispatch `codeinsight_index {}` so that the next callers answer reflects the change.
 
