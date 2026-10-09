@@ -8,7 +8,7 @@ A row closes only with a witness: a dispatch id from its own live run. A row wit
 
 ## Parallel PRD fan-out
 
-Fan-out: 12 slices. The target is 12 parallel subagents, and each slice is one worker with its own session id.
+Fan-out: one worker per independent slice, as many as the work allows, up to the machine limit the user has set. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap. Each worker takes its own session id.
 
 Every open row is resolved by its own parallel worker, with its own session id.
 
