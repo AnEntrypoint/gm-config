@@ -59,6 +59,13 @@
       "phase": null
     },
     {
+      "key": "COMPLETE",
+      "prose_key": "complete",
+      "label": "walk complete",
+      "kind": "terminal",
+      "phase": null
+    },
+    {
       "key": "JTBD",
       "prose_key": "lean-p1",
       "label": "Jobs To Be Done - Clayton Christensen",
@@ -1448,6 +1455,13 @@
     {
       "from": "G_SWEEP",
       "to": "FIXPOINT",
+      "kind": "forward",
+      "label": null,
+      "gates": []
+    },
+    {
+      "from": "G_SWEEP",
+      "to": "COMPLETE",
       "kind": "forward",
       "label": null,
       "gates": []
