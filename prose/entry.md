@@ -78,6 +78,9 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Stop a background shell or Monitor that has printed nothing for 10 minutes, before it holds a lock.
 - On every wake, tick, resume and completion, the orchestrator dispatches instruction, reads subagents_running and concurrency_shortfall, and launches the shortfall of independent slices before any other step. A running count well below available independent slices is a failure of this rule; the orchestrator logs it as one PRD line. It keeps launching while slices remain and headroom allows.
 - No branches: all work is on main; branch-creating verbs are refused.
+- Drop to 0 live on 2026-10-09 (13:33Z): eight resolvers finished in one window and nothing relaunched them in that turn. Successors were chosen by hand because slots.candidates came back empty while 779 rows were pending (pool-observe `candidates:` and `live_rows:` null). Refill from a scan of pending rows in the same turn, then log the empty candidate list as a defect row.
+- While slots.candidates is empty, read open rows through exec_js over the prd-list result (last block per id, status not resolved), not a raw prd-list: prd-list ignores limit and status, so one read costs about 35k tokens (row gm-prd-list-limit-status-and-prd-resolve-witness-id).
+- A nominated successor is launched only after its acceptance text is read. Two nominations in this cycle were title-only and unverified: trav-edge-check-relative-imports-skips-edge-root (a gate change) and tsl-only-shaders (a shader rewrite). Check both before any launch.
 
 ## Standing rules: lean traversal
 
