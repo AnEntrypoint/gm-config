@@ -55,7 +55,7 @@
       "key": "G_SURFACE",
       "prose_key": "g_surface",
       "label": "variant did not decrease",
-      "kind": "terminal",
+      "kind": "gate",
       "phase": null
     },
     {
@@ -2115,6 +2115,13 @@
       "to": "G_FIXPOINT",
       "kind": "backreference",
       "label": "the bound is already reached, stop here",
+      "gates": []
+    },
+    {
+      "from": "G_SURFACE",
+      "to": "ADRN",
+      "kind": "backreference",
+      "label": "a stalled variant is a stated assumption, not a stop",
       "gates": []
     }
   ],
