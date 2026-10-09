@@ -54,49 +54,73 @@ Surface divergence: a state that differs from the PRD's assumed shape is a new m
 
 ### UBIQ - Ubiquitous Language - Eric Evans
 
+Handover: Hands the domain terms resolved to type names to CLEANNAME so new identifiers carry those terms; nominated next node: CLEANNAME; cite Ubiquitous Language - Eric Evans.
+
 Take each domain term from the PRD rows and search the tree for it in dual mode, then in literal mode, including its synonyms. Where the domain term already exists as a type or a name, the row uses that name. Where it does not, the term becomes a type name in the signature. A domain term absent from the type fires the backreference to ILLEGAL, and the type is redrawn so that the term carries the rule rather than a loose string.
 
 ### CLEANNAME - Intention-Revealing Names - Robert C. Martin
+
+Handover: Hands intention-revealing names, once a literal codesearch shows no clash, to MILNER for type checking and to COMMENTSMELL for comment disposition; nominated next node: MILNER, COMMENTSMELL; cite Intention-Revealing Names - Robert C. Martin.
 
 Name every new function, type and field for what it means in the domain term list, not for what it does mechanically. Before a name is committed, run a literal codesearch for it. A reply with `exhaustive: true` and no clash is the witness. A name that cannot carry the meaning fires the backreference to UBIQ.
 
 ### MILNER - Well-Typed Programs Cannot Go Wrong - Robin Milner
 
+Handover: Hands the checker output and any stuck state the types admit to ILLEGAL, to make the invalid state unrepresentable; nominated next node: ILLEGAL; cite Well-Typed Programs Cannot Go Wrong - Robin Milner.
+
 Run the type checker of the touched language over the contract through exec_js. For a Rust crate, run cargo check for the package. For a TypeScript or JavaScript file, run the checker on that file. The witness is the checker's printed output with its exit code. A stuck state the signature admits, meaning a case the types do not forbid and no clause covers, fires the backreference to ILLEGAL.
 
 ### ILLEGAL - Make Illegal States Unrepresentable - Yaron Minsky
+
+Handover: Hands the type-shape representations that have no invalid constructor to PARSEDV for boundary parsing and to HUGHES for property reasoning; nominated next node: PARSEDV, HUGHES; cite Make Illegal States Unrepresentable - Yaron Minsky.
 
 For each type-shape obligation, pick the representation in which the invalid state has no constructor. Use enums for alternatives, newtypes for units, non-empty collections where emptiness is invalid, and separate types for states whose transition order matters. The witness is either a compile rejection of an exec_js probe that tries to build the invalid state, or the absence of any constructor in `codeinsight {action:"outline"}`. A type that cannot express the rule fires the backreference to DBC, and the rule becomes a precondition in the signature.
 
 ### PARSEDV - Parse, Don't Validate - Alexis King
 
+Handover: Hands the single parsed typed value at each entry boundary to WADLER, so the signature can be read as a theorem; nominated next node: WADLER; cite Parse, Don't Validate - Alexis King.
+
 At each entry boundary, parse the raw input once into the typed representation, and pass only that type inward. A check that repeats in the interior fires the backreference to ILLEGAL, because the parsed type should carry the fact. The witness is an exec_js run that sends a malformed input through the real entry point, printing the parse failure at the boundary, and a second run that prints the typed value for a valid input.
 
 ### WADLER - Theorems for Free - Philip Wadler
+
+Handover: Hands the written list of what each signature permits to DBC, which splits each row's contract into preconditions, invariants and postconditions; nominated next node: DBC; cite Theorems for Free - Philip Wadler.
 
 Read each signature as a theorem about what the function may do, because its type restricts its possible behaviours. Write down what the signature permits. A signature that permits what the contract forbids fires the backreference to MILNER. The witness pairs that written list with a live exec_js run in which the post-condition is evaluated on the real outputs of the function.
 
 ### DBC - Design by Contract - Bertrand Meyer
 
+Handover: Hands the three contract sets to CQS for query and command classification and to INDEPVER for an independent contract check; nominated next node: CQS, INDEPVER; cite Design by Contract - Bertrand Meyer.
+
 For each row, state the contract as three sets. Preconditions are what the caller must establish. Invariants are what the module keeps true across every call. Postconditions are what the function guarantees on return. Each item becomes a mutable of the matching kind, or a type constraint when the type can express it. A contract that lives in prose instead of the signature fires the backreference to WADLER. The witnesses for each kind are described in the Witness section.
 
 ### CQS - Command-Query Separation - Bertrand Meyer
+
+Handover: Hands the query and command classification to PARNAS, so each module's hidden decision is checked for leaks; nominated next node: PARNAS; cite Command-Query Separation - Bertrand Meyer.
 
 Declare every new function as either a query (it returns a value and changes no state) or a command (it changes state and returns at most a status). Enforce the split in the signature: a query takes its receiver by shared reference, and a command takes it by exclusive reference or returns a status type. Use callers to find every site the classification affects. A query found to mutate state fires the backreference to DBC. The mutation becomes an effect-boundary mutable typed for BUILD, and BUILD witnesses the boundary live.
 
 ### PARNAS - Information Hiding - David Parnas
 
+Handover: Hands each module's hidden decision and its leak count to DEEPMOD, which checks that each interface is small; nominated next node: DEEPMOD; cite Information Hiding - David Parnas.
+
 Each module hides one design decision (a data layout, an algorithm, an external format) behind its interface. Run a literal codesearch for each internal name of the hidden decision. Every hit outside the module's own files is an interface leak to fix. The witness is an exhaustive reply with zero hits outside the module. A decision that no module hides fires the backreference to DEEPMOD.
 
 ### DEEPMOD - Deep Modules - John Ousterhout
+
+Handover: Hands the deep modules with small interfaces to ACCEPTPORT, which checks that the core depends only on ports; nominated next node: ACCEPTPORT; cite Deep Modules - John Ousterhout.
 
 A module's interface is small relative to what it hides. Count the public names from `codeinsight {action:"outline", path}` and compare them with the size of the body they hide. A module whose interface is nearly as large as its body is shallow, and it is merged or re-cut. The witness is the outline output and the body size from the same run. An interface that needs prose before it can be used fires the backreference to OUSTERHOUTC, a standing tension. The reason is recorded in the names and types of the code, not in a comment.
 
 ### ACCEPTPORT - Ports and Adapters - Alistair Cockburn
 
+Handover: Hands the core that has no adapter leak to TOTALITY for total functions and to CONTRACTTEST for contract checks; nominated next node: TOTALITY, CONTRACTTEST; cite Ports and Adapters - Alistair Cockburn.
+
 Core logic depends only on ports, meaning the traits or interfaces it needs, and never on an adapter such as a database client, an HTTP framework or a process spawner. For each adapter's crate or package name, run a literal codesearch across the core module's files. Zero hits is the witness. An adapter that leaked into the core fires the backreference to PARNAS.
 
 ### COMMENTSMELL - A Comment Is a Deodorant for Bad Smells - Fowler and Beck
+
+Handover: No forward edge leaves COMMENTSMELL in fsm/graph.json, so no next node is nominated; its comment dispositions are its only output; nominated next node: none nominated; cite A Comment Is a Deodorant for Bad Smells - Fowler and Beck.
 
 Prose written to explain code is a smell. Dispatch the gm verb `grep` with body `{"mode":"comments"}` scoped to the touched paths. Each comment is then dispositioned. A comment that states a constraint the code cannot express is kept, and it moves into a type or a precondition wherever the type can carry it. A comment that explains a mechanism is removed by renaming the mechanism. Prose needed to explain code fires the backreference to CLEANNAME. The witness is the comment sweep's output with each comment's disposition beside it.
 

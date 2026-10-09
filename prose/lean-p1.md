@@ -72,33 +72,49 @@ Surface divergence: a state that differs from the PRD's assumed shape becomes a 
 
 ### JTBD - Jobs To Be Done - Clayton Christensen
 
+Handover: Hands the restated jobs and the constraint that makes the obvious approach wrong to XYPROB, so the reproduction targets the real symptom; nominated next node: XYPROB; cite Jobs To Be Done - Clayton Christensen.
+
 Before the first row is cut, restate the request as jobs: the situation the user is in, the outcome they hire the change to produce, and the constraint that makes the obvious approach wrong. Write the job into the title or the pre-condition text of every row it serves. A requirement inside the closure that serves no job the request states is not added as a row.
 
 ### XYPROB - XY Problem
+
+Handover: Hands the reproduced symptom and its witness to EARS, so each requirement is stated against the real problem; nominated next node: EARS; cite XY Problem.
 
 Search the problem in the wording the user used, and dispatch an exec_js command that reproduces the reported symptom itself, not a nearby one. The reproduction is the witness of the problem row. If the reproduction shows that the requested fix would not remove the symptom, or that the stated problem is not the real one, the backreference to JTBD fires. Return to JTBD with the underlying problem and re-cut the rows.
 
 ### EARS - EARS Requirements Syntax - Alistair Mavin
 
+Handover: Hands falsifiable EARS requirements, each with an exec_js-checkable outcome, to INVEST for row sizing; nominated next node: INVEST; cite EARS Requirements Syntax - Alistair Mavin.
+
 Write each requirement in one EARS template (ubiquitous, event-driven, state-driven, unwanted behaviour, or optional feature), with its trigger, its system response, and an observable outcome. Test falsifiability: the observable outcome must be something an exec_js run can return true or false on. A requirement that cannot be falsified fires the backreference to DBC. The requirement is then rewritten in CONTRACT as a precondition or postcondition before it enters the PRD.
 
 ### INVEST - INVEST - Bill Wake
+
+Handover: Hands rows that pass the independent, negotiable, valuable, estimable, small and testable checks to THINSLICE for vertical cutting; nominated next node: THINSLICE; cite INVEST - Bill Wake.
 
 Check each row for independent, negotiable, valuable, estimable, small and testable. Testable has a concrete meaning here: the row's witness plan names the exec_js dispatch that proves it. A row that cannot be proven that way is split until it can. A row that depends on another task fires the backreference to THINSLICE, and the dependency is recorded with depends_on on its mutable or in the row's pre-condition text.
 
 ### THINSLICE - Thin Vertical Slice - Alistair Cockburn
 
+Handover: Hands each thin vertical slice to SPIKE, where an unknown that search cannot settle gets a throwaway probe; nominated next node: SPIKE; cite Thin Vertical Slice - Alistair Cockburn.
+
 Cut each row as a thin vertical slice that crosses every layer the behaviour touches, from entry point to store. One real input then drives the whole path, and one exec_js run witnesses it. A slice that cuts across a module boundary fires the backreference to PARNAS. Re-cut it along the module's interface, not along its internals.
 
 ### SPIKE - Spike Solution - Kent Beck
+
+Handover: Hands the spike's printed output and the settled unknowns to YAGNI to cut scope to caller-backed rows; nominated next node: YAGNI; cite Spike Solution - Kent Beck.
 
 Where search cannot settle an unknown, spike it: a throwaway exec_js probe against the real service, run with a named command that is red-capable, deterministic and fast. The spike's printed output is the mutable's witness. Spike code is never shipped. If the unknown survives the spike, the backreference to LIVEPLAN fires and the plan is re-cut around the surviving unknown.
 
 ### YAGNI - YAGNI - Ron Jeffries
 
+Handover: Hands the caller-backed row set to LIVEPLAN as the current task's live plan; nominated next node: LIVEPLAN; cite YAGNI - Ron Jeffries.
+
 Every row's scope is the request's closure. A row that adds an option, an extension point or a generality is admitted only with a current caller named in its pre-condition text. Generality with one caller fires the backreference to TARPIT. That removal belongs to the pressure phase (P6), so the plan carries only the caller-backed shape.
 
 ### LIVEPLAN - Live Plan, Current Task Only
+
+Handover: Hands the live PRD rows to the G_CONTRACT gate, which admits only rows whose contract can be stated; nominated next node: G_CONTRACT; cite Live Plan, Current Task Only.
 
 The PRD holds rows for this request only. Each completed row closes with prd-resolve and its witness, so the list shrinks as the task proceeds. When the plan outlives its task, the backreference to G_START fires: the finished task is closed before any new plan is opened. The phase exits through LIVEPLAN into the G_CONTRACT gate.
 
