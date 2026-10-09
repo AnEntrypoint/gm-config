@@ -11,8 +11,8 @@ A row closes only with a witness: a dispatch id from its own live run. A row wit
 Every open row is resolved by its own parallel worker, with its own session id.
 
 1. Read the open rows with `prd-list` and `{"status":"pending"}`.
-2. For each open row, dispatch one worker in the same tool-call block. The worker session id is `<parent-session>-pw-<row-id>`, and the worker body carries the row id. Every worker uses the gm skill and codeinsight (`callers`/`impact`) first.
-3. A worker closes its row only with a witness dispatch id from its own live run. A row without a witness stays open.
+2. For each open row, spawn one worker as an Agent-tool subagent, all in one tool-call block. Its session id is `goal-s1-pw-<row-id>`, and its prompt opens with "use the gm skill for this; code questions go to codeinsight (`callers`/`impact`) first, then `codesearch`, and `Read` only a located path", then names the row id and the session id. The worker drives its row through the gm skill.
+3. A worker closes its row with `mcp__gm__gm` verb `prd-resolve`, body `{"id": "<row-id>", "witness_dispatch_id": "<dispatch id of the worker's own live run in this project>"}`. The witness is the dispatch id of a run the worker itself made, never the parent's or a sibling's. A row without a witness stays open.
 4. Record the fan-out as a note on the parent row with `prd-add` and id `pw-fanout-<n>`, listing each row id, worker session id, resolution status and witness dispatch id.
 5. A session with open rows and no running worker is a stall. Re-fan-out the open rows. A stall is not a stop.
 

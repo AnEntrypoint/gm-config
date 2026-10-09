@@ -216,6 +216,16 @@ Any uncertainty about the next move -- drift, a gate denial, a silent stretch in
 
 Transition: SESSION_ID threaded AND spool reachable -> dispatch `instruction` with `{"prompt":"<user request>"}` so plugkit derives orient_nouns + recall_hits; later same-chain dispatches may use empty body.
 
-## Concurrency: fan out to the limit
+## Concurrency: keep the execution slots full
 
-Keep subagents running up to the project's concurrency limit (the daemon's gm_processor_capacity; 4 on this build). At every node, count the independent slices and the open PRD rows that are not yet being worked. Dispatch one subagent per slice or per open row in a single tool-call block, each with its own session id (<parent>-<slice>), until the running count reaches the limit. A running count below the limit while independent work remains is a canary: re-fan-out at once, and record the shortfall as a PRD row. A subagent that ends early is re-dispatched with the same slice, not dropped. The walk advances when its slices return, never while a slice is unassigned.
+This rule binds the gm orchestrator: the session that loaded the gm skill and is driving the walk. Subagents run the slice they were given.
+
+gm_processor_capacity (4 on this build) is how many subagents execute at once. The orchestrator keeps the queue deeper than that, so the executing slots never idle:
+
+- Target: 12 subagents running or queued while work remains. This is the only target number. It is three times gm_processor_capacity, so the queue never drains.
+- The queue fills in order: open PRD rows first, one subagent per row (see complete.md, "Parallel PRD fan-out"), then independent node slices, one subagent per slice. Each subagent takes its own session id (<parent>-<slice>, or goal-s1-pw-<row-id> for a row) and is dispatched in one tool-call block.
+- A count below 12 with unassigned work is a canary: re-fan-out at once and record a PRD row naming the shortfall.
+- A subagent that ends early is re-dispatched with the same slice, never dropped.
+- The walk advances only when its slices have returned.
+
+Witness: while work remains, the subagent list shows at least 12 running or queued. When fewer than 12 units of work exist, every unit has a worker and the count equals the unit count.
