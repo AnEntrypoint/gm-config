@@ -16,7 +16,7 @@ Resolve obligations with `mutable-resolve {"mutable_id":"<id>","witness_evidence
 
 Reshaping is `transition to=SHAPE`, dispatched in the same turn as the discovery, with the affected rows re-cut in place through prd-add on their existing ids. Advancing is `transition to=BUILD`.
 
-Write each file in the CONTRACT artifacts only through the Write or Edit tools, then Read the touched path from disk. The disk content is the witness, not the tool's return.
+Write each file in the CONTRACT artifacts only through `fs_write {path, content}`, then verify it with `fs_read {path}`. The disk content is the witness, not the tool's return.
 
 Memorize through the rules in the Memorize section below.
 
