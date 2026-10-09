@@ -8,6 +8,8 @@ A row closes only with a witness: a dispatch id from its own live run. A row wit
 
 ## Parallel PRD fan-out
 
+Fan-out: 12 slices. The target is 12 parallel subagents, and each slice is one worker with its own session id.
+
 Every open row is resolved by its own parallel worker, with its own session id.
 
 1. Read the open rows with `prd-list` and `{"status":"pending"}`.
