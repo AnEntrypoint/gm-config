@@ -23,3 +23,13 @@ Publishing: workers do not commit or push. The parent session publishes every ch
 ## Automatic decisions
 
 When an instruction already settles a choice, apply it without asking. Commit identity: use the repository's configured identity; where none is set, use the identity the user approved for authorship (anentrypoint <admin@coas.co.za>) written as repository-local config, never global. Publishing: push every commit and bump every pin in the same delivery. Runner: a restart of agentplug is approved at any time; load a rebuilt plugin through the isolated recipe first, then restart. Ask only for a world-scoped one-way door.
+
+## Worker handover
+
+Every fan-out worker ends its reply with these three lines, in this order.
+
+- `successor:` a pending row from `prd-list {"status":"pending"}` with its row id and first action. Never invent an id; never leave the chain without one while pending rows remain.
+- `advanced:` the PRD row this worker advanced, by id, with its closing witness dispatch id or the blocker that kept it open.
+- `rhetoric:` the one-sentence motivation for the successor, copied verbatim from `next_choice.why` when present, otherwise the unresolved question that drove the row.
+
+The orchestrator reads these three lines on every completion, counts live `.gm/pool/*.live` heartbeats, and relaunches a successor from `successor:` in the same turn whenever the count is under 12 with pending rows open.
