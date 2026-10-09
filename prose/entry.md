@@ -50,7 +50,9 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 ## Standing rules: lean traversal
 
 - Hop = one named principle from the book "lean" (AnEntrypoint/lean skills/lean/SKILL.md), applied as work to every instance in scope in one pass.
+- Every hop runs as its own subagent (Agent tool), with its own SESSION_ID and a prompt that opens with the brick-wall opener (gm skill, codeinsight first). The orchestrator never performs hop work inline; it dispatches the hop, then reads its receipt.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
+- A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
 - Mutable = open question. It closes only when code run on this project answers it; that output is the witness. A question code cannot answer becomes a stated assumption filed as a PRD row and worked on; the user is asked only for world-scoped one-way doors (irreversible, money, another person, production, legal or safety), never to choose between options that make progress.
 - Before the next transition, every mutable the hop raised is answered or deferred.
 - Motivation travels: a hop's next_choice.why goes verbatim to the next hop.
