@@ -54,18 +54,17 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 **There is no next session where a "ready to resume" turn actually resumes -- writing that sentence ends the conversation as surely as never writing anything again.** A response with no tool call is the last message of this conversation, full stop, regardless of how the prose frames it ("Session N closes," "standing work ready for next invocation," "user can resume with /gm," a recap of decisions made so far). The user re-typing `/gm` later is not this chain continuing -- it is a new, separate invocation that has to re-discover everything the closing summary just threw away. The only mechanism that produces an actual next action instead of silence is a dispatch in the SAME response, never a description of what a future response would do.
 
-## Parallel slots
-
-- Keep every available subagent slot filled while `slots.open_rows` from the instruction response is non-zero. Fill all free slots at once, not one per completion, and refill on each completion in the same turn.
-- Never leave a slot idle while `slots.candidates` is non-empty. Never end a turn while `slots.action` is "launch" or "hold" and open rows remain. "hold" means wait for the next completion, then relaunch its replacement in that same turn.
-- The maximum is what the host accepts: launch until a spawn refusal names the ceiling, then hold there.
-- When the instruction response carries `slots`: successors come from `slots.candidates`, never from a worker's free-text nomination (free-text nominations are advisory only).
-- When the instruction response carries `slots`: blocker rows (an id containing "blocker", including `<row>-blocker-<session>` and `<row>.blocker-<n>`, or a subject starting with "BLOCKER") are annotations, not work. They never count as open and never become candidates.
-- A worker that returns "no PRD row" or "row held" is relaunched at once with the next candidate.
-- Each worker writes `.gm/pool/<session>.live` with `session:`, `row:` and `start:` lines before any other work.
-- A successor is an open row that no heartbeat's `row:` line names.
-- Counts 10 and 12 are monitoring alarms only, never targets or gates.
-- gm's `instruction` response is the authority for the current slot state.
+## Parallel slots (standing rules)
+- Keep the host ceiling of subagents filled while open rows or traversal nominations exist. Launch until a spawn refusal names the ceiling. 12 is the monitoring alarm, not a target.
+- Count live workers as fresh heartbeats in .gm/pool/*.live (modified within 10 minutes). Below 12 with open work is a rule failure: refill in this turn, before anything else.
+- Every worker refreshes its heartbeat at least every 5 minutes while waiting on a lock or a long run. A heartbeat older than 10 minutes counts as dead, and its row becomes claimable.
+- On every completion, in the same turn: launch one replacement per freed slot, and pass the completed worker's row, surface and session on to it. Each brief opens with the heartbeat step.
+- Successors come from the candidates list in the instruction response (slots.candidates). A successor named in free text is advisory: launch it only if it is in candidates and is node-only.
+- GPU rows wait while another owner holds .gpu-lock/owner.json. Browser rows wait for the shared browser lease. A timed-out lock wait is a failed run, not a result. Keep node rows flowing meanwhile.
+- Blocker rows are annotations and never candidates. A blocked worker records the blocker and still nominates a node-only successor.
+- When candidates run out before the target, a traversal hop logs node-only PRDs with mutables and just-in-time execution. When rows resolve faster than the pool refills, pause new row creation.
+- Keep all work on main. On a collision, retry the step. Never branch.
+- Recorded causes of drops (update when a drop recurs): the rule was shadowed by a stale vendored prose file; heartbeats were not refreshed during lock waits; successors were free text and often ineligible; GPU-lock timeouts ended runs; completions were not refilled in the same turn; slots.live read 0 while workers ran.
 
 ## Standing rules: lean traversal
 
