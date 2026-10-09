@@ -251,3 +251,5 @@ gm_processor_capacity (4 on this build) is how many subagents execute at once. T
 - The walk advances only when its slices have returned.
 
 Witness: while work remains and headroom allows, every open unit has a worker. The live count is bounded only by the spawn ceiling and headroom.
+
+- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator reads the live `.gm/pool/*.live` count and launches the available independent slices, so the step never lowers the count. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
