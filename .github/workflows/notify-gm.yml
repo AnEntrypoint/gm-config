@@ -17,4 +17,6 @@ jobs:
       - name: Dispatch submodule-released to AnEntrypoint/gm
         env:
           GH_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
-        run: gh api repos/AnEntrypoint/gm/dispatches -f event_type=submodule-released
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::warning::PUBLISHER_TOKEN is not set; skipping the submodule-released dispatch to AnEntrypoint/gm. gm picks up the pin on its next cron tick."; exit 0; fi
+          gh api repos/AnEntrypoint/gm/dispatches -f event_type=submodule-released
