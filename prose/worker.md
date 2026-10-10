@@ -12,7 +12,7 @@ Write `.gm/pool/<session>.live` in the project root with exactly three lines:
 
 Before writing, read every `.gm/pool/*.live`. If a fresh one (under 10 minutes old) names your row, stop and return `row held by <session>`.
 
-Refresh the heartbeat at least every 5 minutes while you wait on any lock or long run.
+Refresh the heartbeat at least every 5 minutes, at any gm call, not only while you wait on a lock or a long run.
 
 ## 2. Check the row
 
