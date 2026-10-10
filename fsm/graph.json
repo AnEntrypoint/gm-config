@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "source": "skills/dream-rsi/lean-graph.json (lean SKILL.md Graph section)",
+  "source": "hand-authored in this file; no generator produces it",
   "states": [
     {
       "key": "G_START",

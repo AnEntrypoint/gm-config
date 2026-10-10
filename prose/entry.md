@@ -6,7 +6,7 @@ Your authorization = the request. Your receipt = the PRD you write.
 
 **Work is a verb.** Every transition, state change and read is a verb you dispatch; the verb's receipt is the evidence, never prose about the work.
 
-Routing: `exec_js` is the default execution mechanism. Before any edit or phase work, dispatch `codesearch`, `callers`/`impact`, and `recall`/`memorize` to ground the change.
+Routing: `exec_js` is the default execution mechanism. Before any edit or phase work, dispatch `codesearch`, `callers`/`impact`, and `recall`/`memorize` to ground the change. Before choosing the means, state in one sentence the goal the change serves, kept separate from the attempted means.
 
 Peer continuity: when a peer session halts with rows open, send it a resume message naming the first open row, record a PRD row for the halt, and do not end the walk while that peer holds open rows.
 
@@ -24,9 +24,9 @@ The walk is the lean graph (the book "lean", AnEntrypoint/lean skills/lean/SKILL
 - P8 TENSIONS: accepted costs. When one fires, take a local exception and record the reason.
 - P9 CONVERGENCE: decide whether the sweep has reached its least fixed point.
 
-Gates must hold before the walk advances: G_START, G_CONTRACT, G_INDEP, G_NET, G_DONE, G_SWEEP.
+Gates shall hold before the walk advances: G_START, G_CONTRACT, G_INDEP, G_NET, G_DONE, G_SWEEP.
 
-The FSM graph must load before any nine-stage worker runs. Its node keys are the phase and gate keys above (P1..P9, G_*); `lean-p1..p9` and `complete` are invalid keys, and a COMPLETE-to-G_FIXPOINT path must exist. A graph that fails to load blocks every worker; fix it at source in gm-config.
+The FSM graph shall load before any nine-stage worker runs. Its node keys are the phase and gate keys above (P1..P9, G_*); `lean-p1..p9` and `complete` are invalid keys, and a COMPLETE-to-G_FIXPOINT path shall exist. A graph that fails to load blocks every worker; fix it at source in gm-config.
 
 Every principle node is applied as work, never recited: it changes the artifact, a dispatch, a mutable row or a recorded reason.
 
@@ -77,19 +77,19 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - A hop's subagent nominates the next hop by spawning it as a subagent itself, passing its `next_choice.why` verbatim. The chain is spawned by the hops, not driven one step at a time by the orchestrator.
 - All parallel work lands on `main`. No hop or executor opens a branch or a worktree to avoid a collision. A collision is recovered: re-read the row or file, reapply the change on the current state, retry. Collision avoidance by isolation is refused, since it serialises the pool.
 - Find the pool's ceiling at run time, never from a constant in these instructions. Spawn until a spawn refusal names the limit, then hold at or just below it for as long as work remains. Systems differ, so a number written here would be wrong somewhere. Whenever the running count drops well below the last ceiling while work is open, spawn again until the next refusal.
-- A drain is a failure. When the live count reaches 0, or falls under the last ceiling while work is open, the orchestrator spawns a full batch in the same turn, and before resuming it edits this prose to close the gap that let the pool drain. Short tasks finish before others start, so a ceiling probe must hold its subagents open with real work (a witness run), never with sleep; sleep is blocked, so an overlap test that depends on it measures nothing.
+- A drain is a failure. When the live count reaches 0, or falls under the last ceiling while work is open, the orchestrator spawns a full batch in the same turn, and before resuming it edits this prose to close the gap that let the pool drain. Short tasks finish before others start, so a ceiling probe shall hold its subagents open with real work (a witness run), never with sleep; sleep is blocked, so an overlap test that depends on it measures nothing.
 - PRD-resolving workers run the original nine stages in order for each row, each stage a subagent that passes its receipt to the next: SPECIFY (restate the row and its acceptance criteria, with the mutables it raises), PROVE (typed obligations: precondition, invariant, postcondition), EMIT (the change, or the witness that proves the row), STATE (idempotent replay and ownership of any state touched), CONC (concurrency and write ownership, with recovery on collision), SEC (secrets, injection, identity), RES (failure modes and partial failure), DECIDE (adversarial check of the receipt and the push or CI result), COMPLETE (resolve the row citing the receipt). A stage that cannot be executed is recorded as a blocker on that row, never skipped.
 - Witness outcomes are not PRD rows. A worker records its run in the witness log (`.gm/witness-log.md`, one line per run: witness, exit code, RESULT line, timestamp) and closes the parent row with `prd-resolve` citing that line. Adding an outcome row for each run inflated the pending count from about 380 to 681 while the parents never closed, so the count measured nothing about progress.
 - Duplicate outcome rows (`outcome-hop-*`, `cpu-hop-outcome-*`) are not progress: merge them into the base row.
 - Row ids are real. Read them with `prd-list {"status":"pending"}` filtered in exec_js; never invent one for a witness run. A row name absent from `.gm/prd.yml` cannot be resolved.
-- Read a row before writing it. `prd-add` on an existing id overwrites its subject, so a witness blocker on an existing row is appended to that row's text with its original subject kept.
+- Read a row before writing it. `prd-add` on an existing id is refused unless the body carries `overwrite:true`, which rescopes the row; a witness blocker on an existing row is appended to that row's text with its original subject kept.
 - `prd-resolve` needs `witness_evidence`. A resolution with `witness_dispatch_id_verified:false` is text evidence only: flag it for reopening if its criteria were not witnessed.
 - A launched batch with no queue drains. Measured 13 launched, 10 live: the first completions were not refilled. The orchestrator therefore keeps a queue of ready rows and launches as many as headroom allows at every spawn, so the live count stays up as tasks finish. A count under 12 with work open is logged as a canary alarm; the refill then runs to the spawn ceiling.
 - Keep the pool over-subscribed. Short tasks drain the live count fast, so the orchestrator keeps a queue of ready rows and hops larger than the pool, and refills each completion from it before the count can fall below the last measured ceiling. A measured live count under that ceiling with work open is a defect: refill, then fix this rule.
 - Refill on every completion. When any subagent finishes, spawn its replacement in the same turn from the open traversal nominations and the open PRD rows, and keep spawning until a spawn refusal names the limit. Never run below that limit with ready work waiting; a single running subagent while work is open is a defect.
 - Browsers are headful. Every Chromium launch uses `headless: false`; headless runs are refused. Each run closes the browser it opened, and before any new browser-using spawn, orphaned test Chrome (a remote-debugging-port or crawl-profile command line whose parent run has ended) is reaped. The user's own Chrome is never touched.
 - Completion refill. After every subagent completion, dispatch `instruction` and count live subagents from its `subagents_running` and `concurrency_shortfall` fields. While work is open (`prd-list` shows pending rows), launch gm-worker subagents in the same turn, before any other step: one per freed slot, plus one per shortfall slice, until a spawn refusal names the ceiling or headroom runs out. Re-count after each launch. No target count applies. The orchestrator nominates successors from real open rows on every completion; a worker never waits on the orchestrator to refill it.
-  - Headroom is checked before each launch. CPU at or above 80% or free memory under 2 GB means no launch; the resource cause is logged in the pool log (Windows: `Get-CimInstance Win32_Processor` LoadPercentage, `Get-CimInstance Win32_OperatingSystem` FreePhysicalMemory).
+  - Headroom is checked before each launch. CPU at or above 80% or free memory under 2 GB means no launch; the resource cause is logged in the pool log (Windows: `Get-CimInstance Win32_Processor` LoadPercentage, `Get-CimInstance Win32_OperatingSystem` FreePhysicalMemory. Linux: CPU busy percent is 100 minus the `id` column of `vmstat 1 2 | tail -1`, and free memory is the `MemAvailable` line of `/proc/meminfo`, in GiB).
   - Open-PRD growth between checks is a failure. Drain by dispatching gm-worker on open rows before any other step.
   - Canary: 12 is a monitoring threshold only, not a gate and not a launch target. A live count under 12 while pending rows are open raises a canary alarm. Alarms and resource stops are logged with the real count, UTC timestamp and pending-row count, read at the time of the check, never estimated.
   - A worker that ends at a blocker is not a replacement. Only live subagents are counted, never completed reports.
@@ -101,7 +101,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - No target count: keep as many workers running as open work and headroom allow, replacing each as it completes. 12 remains the canary only.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
-- A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
+- A hop's receipt shall name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
 - gm never stops while work it can still do remains. A turn ends only at the terminal state with `prd_pending_count=0`, or on a world-scoped one-way door. Any other stop is a defect: dispatch the next verb in the same turn.
 - A refusal about session ownership (`session_mismatch`, another session holds the chain, a lease or owner is named) is an instruction, never a stop. Confirm the named owner's lease is gone, then re-dispatch under the caller's own SESSION_ID. If the owner still holds a live lease, run the same work under a fresh SESSION_ID per subagent and continue; do not wait on the other session.
 - Every gate denial names the verb that satisfies it. Dispatch that verb in the same turn and re-dispatch the original; a denial followed by prose is a stop, and is refused by this rule.
@@ -121,7 +121,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 ## Grounded Dream-RSI replay
 
-Dream-RSI is a continuous core process. Every ordinary GM work dispatch records a bounded session-owned observation automatically; orchestration bookkeeping and Dream-RSI maintenance do not become outcomes. Metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent must use the accumulated observed world and its automatic replay receipt before selecting later exploration work. A replay result is evidence-bound planning input and dispatch admission policy, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy must be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
+Dream-RSI is a continuous core process. Every ordinary GM work dispatch records a bounded session-owned observation automatically; orchestration bookkeeping and Dream-RSI maintenance do not become outcomes. Metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent shall use the accumulated observed world and its automatic replay receipt before selecting later exploration work. A replay result is evidence-bound planning input and dispatch admission policy, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy shall be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
 
 ## Admission Filter
 
@@ -193,7 +193,7 @@ Every capability has exactly one sanctioned surface and the platform's native to
 | When | Dispatch |
 | --- | --- |
 | Orient on a named symbol, before reading it | `callers {symbol}` -> `edges`: each call site's path, line and calling function |
-| Before changing a function | `callers {symbol}`: every call site the edit must keep valid; `impact {symbol, max_depth}` lists what it depends on |
+| Before changing a function | `callers {symbol}`: every call site the edit shall keep valid; `impact {symbol, max_depth}` lists what it depends on |
 | Before deleting | `callers {symbol}` empty AND `codesearch {query:"<symbol>"}` shows no `references` |
 | Diff blast radius (before P5 RECORD) | `callers` for each function the diff changes, renames or removes; each caller outside the diff is a site to exercise |
 | File/area overview, cleanup sweep | `codeinsight {action:"outline", path}` / `{action:"find", symbol}` / `{action:"orphans"}` / `{action:"hotspots"}` / `{action:"impact", symbol, direction:"callers"}` |
@@ -230,7 +230,7 @@ This rule binds the gm orchestrator: the session that loaded the gm skill and is
 
 gm_processor_capacity (4 on this build) limits simultaneous subagent execution; dispatches beyond it are queued, and the orchestrator does not treat it as the number of subagents to launch:
 
-- The orchestrator launches as many independent slices as the work allows, up to the machine limit the user has set; no fixed launch number applies. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap.
+- The orchestrator launches as many independent slices as the work allows, up to the machine limit the user has set; no fixed launch number applies. A shortfall is available independent slices not yet launched, and the orchestrator shall close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap.
 - The queue fills in order: open PRD rows first, one subagent per row (see complete.md, "Parallel PRD fan-out"), then independent node slices, one subagent per slice. Each subagent takes its own session id (<parent>-<slice>, or goal-s1-pw-<row-id> for a row) and is dispatched in one tool-call block.
 - A count below 12 with unassigned work is a monitor-only canary alarm, logged with the count, timestamp and pending-row count. It is not a gate and not a refill trigger; fan-out continues to the spawn ceiling.
 - A subagent that ends early is re-dispatched with the same slice, never dropped.
