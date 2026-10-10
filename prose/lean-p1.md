@@ -122,13 +122,13 @@ Check each row for independent, negotiable, valuable, estimable, small and testa
 
 Handover: Hands each thin vertical slice to SPIKE, where an unknown that search cannot settle gets a throwaway probe; nominated next node: SPIKE; cite Thin Vertical Slice - Alistair Cockburn.
 
-Cut each row as a thin vertical slice that crosses every layer the behaviour touches, from entry point to store. One real input then drives the whole path, and one exec_js run witnesses it. A slice that cuts across a module boundary fires the backreference to PARNAS. Re-cut it along the module's interface, not along its internals.
+Cut each row as a thin vertical slice that crosses every layer the behaviour touches, from entry point to store. One real input then drives the whole path, and one exec_js run witnesses it. A slice is thin only when it passes that test: one real input, one entry point, one exec_js run. A slice that needs a second input or a second entry point is split until each piece passes. A slice that cuts across a module boundary fires the backreference to PARNAS. Re-cut it along the module's interface, not along its internals.
 
 ### SPIKE - Spike Solution - Kent Beck
 
 Handover: Hands the spike's printed output and the settled unknowns to YAGNI to cut scope to caller-backed rows; nominated next node: YAGNI; cite Spike Solution - Kent Beck.
 
-Where search cannot settle an unknown, spike it: a throwaway exec_js probe against the real service, run with a named command that is red-capable, deterministic and fast. The spike's printed output is the mutable's witness. Spike code is never shipped. If the unknown survives the spike, the backreference to LIVEPLAN fires and the plan is re-cut around the surviving unknown.
+Where search cannot settle an unknown, spike it: a throwaway exec_js probe against the real service, run with a named command that is red-capable, deterministic and fast. A spike is timeboxed to one exec_js dispatch and five minutes of wall clock; a spike that exceeds the box without settling the unknown fires the backreference to LIVEPLAN. The spike's printed output is the mutable's witness. Spike code is never shipped. If the unknown survives the spike, the backreference to LIVEPLAN fires and the plan is re-cut around the surviving unknown.
 
 ### YAGNI - YAGNI - Ron Jeffries
 
