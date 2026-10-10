@@ -109,7 +109,7 @@ Cross-Cutting Memory
 
 Rationale genuinely worth keeping -- the constraint being honoured, the failure mode prevented, the measurement that motivated a non-obvious shape -- goes in the commit message, `AGENTS.md`, or the recall store, where it is durable and searchable, never beside the line it describes. EXECUTE states the enforcement form of this rule and VERIFY blocks a transition on any comment in the diff; this is the same rule, not a softer one.
 
-**No standing test files, ever.** The `no-synthetic-test-files` predicate blocks test files and directories; verification is running the real code path and reading its output through `exec_js`. Do not pull in jest/mocha/vitest/pytest/unittest or any assertion/mocking framework. A mock standing in for real code is the same false-completion class as a hedged `prd-resolve`: it reports a pass that the real path never produced.
+**No standing test files, ever.** The `no-synthetic-test-files` predicate is diff-scoped as predicates.md:19 defines it: it blocks a diff that introduces a test file or test directory, and it does not flag a tracked one. A tracked test file is left byte-identical and reported as tracked. Verification is running the real code path and reading its output through `exec_js`. Do not pull in jest/mocha/vitest/pytest/unittest or any assertion/mocking framework. A mock standing in for real code is the same false-completion class as a hedged `prd-resolve`: it reports a pass that the real path never produced.
 
 ## Self-reconfiguration content shape
 

@@ -18,7 +18,7 @@ Dispatch the eight adversarial classes one at a time, each as its own exec_js pr
 
 For a multi-file diff, dispatch independent reviewers with the Agent tool. A reviewer gets the file list, the PRD rows and the changed signatures, never the implementer's reasoning. Its prompt opens with "use the gm skill for this; code questions go to codeinsight (callers/impact) first, then codesearch, and Read only a located path", carries its own SESSION_ID built from the parent id plus an index (for example "<parent_session_id>-sub1"), and says "assume this is broken, find why".
 
-Rows and mutables are handled with prd-add {"id":"<kebab-case-slug>","subject":"<what it proves or repairs>"}, prd-resolve {"id":"<row id>","witness_evidence":"<file:line or exec output>"}, mutable-add {"id":"<kebab-case-slug>","value":"<the unknown>","obligation_kind":"<kind>","depends_on":["<id>"]} and mutable-resolve {"mutable_id":"<id>","witness_evidence":"<witness>"}.
+Rows and mutables are handled with prd-add {"id":"<kebab-case-slug>","subject":"<what it proves or repairs>"}, prd-resolve {"id":"<row id>","witness_evidence":"<file:line or exec output>","witness_dispatch_id":"<dispatch id of your live run>"}, mutable-add {"id":"<kebab-case-slug>","value":"<the unknown>","obligation_kind":"<kind>","depends_on":["<id>"]} and mutable-resolve {"mutable_id":"<id>","witness_evidence":"<witness>"}.
 
 ## PRD rows
 
@@ -62,7 +62,7 @@ Handover: Presence witnessed on real inputs is handed to ORACLEBIAS so the probe
 
 Before claiming correctness, the agent names the one red-capable command that drives the reported behaviour on the real surface, runs it, and records the output. A pass is recorded as presence of the behaviour on that input. Each absence claim (no panic, no leak, no injection, no duplicate effect) moves into the adversarial classes or the SEC and RES sweeps, where it is witnessed on inputs that could falsify it.
 
-No standing test file is introduced. no-synthetic-test-files refuses a new *.test.* or *.spec.* file, a test or __tests__ directory, or a testing-framework import. Such a file is deleted, its assertions are re-expressed as an exec_js probe against the real boundary that prints observed values, and the probe is not committed.
+No standing test file is introduced. no-synthetic-test-files is diff-scoped as predicates.md:19 defines it: it is true when the working diff introduces no standing test file (*.test.*, *.spec.*, or a test, tests or __tests__ directory). A test file this walk created is deleted: untracked or staged as a new file now, and absent from both `git ls-files` and the untracked set recorded at session start. Its assertions are re-expressed as an exec_js probe against the real boundary that prints observed values, and the probe is not committed. A tracked test file, such as `gm-mcp/test/*`, is never deleted or edited by this rule: leave it byte-identical and report it as tracked.
 
 ### ORACLEBIAS - Implementation-Biased Test Generation - LLM test-generation study
 

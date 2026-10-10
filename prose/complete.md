@@ -8,13 +8,13 @@ A row closes only with a witness: a dispatch id from its own live run. A row wit
 
 ## Parallel PRD fan-out
 
-Fan-out: one worker per independent slice, as many as the work allows, up to the machine limit the user has set. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. 12 is a monitoring threshold for alerting only, never a target or a cap. Each worker takes its own session id.
+Fan-out: one worker per independent slice, as many as the work allows, up to the machine limit the user has set. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. The floor is 10 and the ceiling is the spawn refusal limit. Each worker takes its own session id.
 
 Every open row is resolved by its own parallel worker, with its own session id.
 
 1. Read the open rows with `prd-list` and `{"status":"pending"}`.
 2. For each open row, spawn one worker as an Agent-tool subagent, all in one tool-call block. Its session id is `goal-s1-pw-<row-id>`, and its prompt opens with "use the gm skill for this; code questions go to codeinsight (`callers`/`impact`) first, then `codesearch`, and `Read` only a located path", then names the row id and the session id. The worker drives its row through the gm skill.
-3. A worker closes its row with `mcp__gm__gm` verb `prd-resolve`, body `{"id": "<row-id>", "witness_dispatch_id": "<dispatch id of the worker's own live run in this project>"}`. The witness is the dispatch id of a run the worker itself made, never the parent's or a sibling's. A row without a witness stays open.
+3. A worker closes its row with `mcp__gm__gm` verb `prd-resolve`, body `{"id": "<row-id>", "witness_evidence": "<string: file:line or exec output specific to this row>", "witness_dispatch_id": "<dispatch id of the worker's own live run in this project>"}`. The witness is the dispatch id of a run the worker itself made, never the parent's or a sibling's. A row without a witness stays open.
 4. Record the fan-out as a note on the parent row with `prd-add` and id `pw-fanout-<n>`, listing each row id, worker session id, resolution status and witness dispatch id.
 5. A session with open rows and no running worker is a stall. Re-fan-out the open rows. A stall is not a stop.
 
@@ -22,7 +22,7 @@ Continuation: never stop while a row is open. Ask only for a world-scoped one-wa
 
 Publishing: workers do not commit or push. The parent session publishes every change in one delivery: commit with the work's own paths, push the submodule, bump the parent pin to the pushed commit, then push the parent. Nothing stays local. A walk is complete only when the PRD is empty and the worktree is clean; until then, the next node is dispatched.
 
-- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator dispatches `instruction`, counts live subagents from the instruction reply's `subagents_running` and `concurrency_shortfall`, and launches the available independent slices, so the step never lowers the count. Workers write no heartbeat files. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
+- Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator counts live subagents with ListAgents, the count of record, cross-checked against the fresh `.gm/pool/*.live` heartbeats (at most 5 minutes old), dispatches `instruction`, and launches the available independent slices, so the step never lowers the count. Every worker writes its `.gm/pool/<session>.live` heartbeat on start, refreshes it at least every 5 minutes, and deletes it on finish. The floor is 10 and the ceiling is the spawn refusal limit. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
 
 ## Automatic decisions
 
@@ -36,4 +36,4 @@ Every fan-out worker ends its reply with these three lines, in this order.
 - `advanced:` the PRD row this worker advanced, by id, with its closing witness dispatch id or the blocker that kept it open.
 - `rhetoric:` the one-sentence motivation for the successor, copied verbatim from `next_choice.why` when present, otherwise the unresolved question that drove the row.
 
-The orchestrator reads these three lines on every completion, counts live subagents from the instruction reply's `subagents_running` and `concurrency_shortfall`, and relaunches a successor from `successor:` in the same turn whenever the count is under 12 with pending rows open. Workers write no heartbeat files.
+The orchestrator reads these three lines on every completion, counts live subagents with ListAgents and the fresh `.gm/pool/*.live` heartbeats, and relaunches one successor from `successor:` in the same turn per freed slot while pending rows are open and live is under the ceiling. The floor is 10: a live count under 10 while pending rows are open is a shortfall, launched to the floor in the same turn.

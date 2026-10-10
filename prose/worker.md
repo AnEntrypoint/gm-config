@@ -12,7 +12,7 @@ Write `.gm/pool/<session>.live` in the project root with exactly three lines:
 
 Before writing, read every `.gm/pool/*.live`. If a fresh one (under 10 minutes old) names your row, stop and return `row held by <session>`.
 
-Refresh the heartbeat at least every 5 minutes while you wait on any lock or long run.
+Refresh the heartbeat at least every 5 minutes, at any gm call, not only while you wait on a lock or a long run.
 
 ## 2. Check the row
 
@@ -22,6 +22,8 @@ Read the last block for your row id in the gm store. The last block decides the 
 
 - Row resolver: run the nine stages on the row's own criteria.
 - Traversal hop: log node-only PRDs and resolve none.
+  - Each confirmed node-only row is prd-added at once, the moment it is confirmed. Never batch rows to the end of the hop.
+  - A hop with zero rows logged 15 minutes after its heartbeat start stops and returns a receipt: surfaces scanned, candidates checked, rows logged (0), and the reason.
 
 ## 4. Execution limits
 

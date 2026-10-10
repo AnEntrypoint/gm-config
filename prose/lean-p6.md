@@ -20,7 +20,7 @@ Re-dispatch instruction between deletions, after a failed build check, and whene
 
 ## PRD rows
 
-A superseded path, fallback, duplicate or dead symbol becomes a row the moment it is spotted: prd-add {"id":"<kebab-case-slug>","subject":"<the symbol or path and what replaces it>"}. Each removal closes with prd-resolve {"id":"<row id>","witness_evidence":"<zero-hit codesearch reply and build output for that symbol>"}. Identical witness text across rows is refused, so each row cites its own zero-hit reply.
+A superseded path, fallback, duplicate or dead symbol becomes a row the moment it is spotted: prd-add {"id":"<kebab-case-slug>","subject":"<the symbol or path and what replaces it>"}. Each removal closes with prd-resolve {"id":"<row id>","witness_evidence":"<zero-hit codesearch reply and build output for that symbol>","witness_dispatch_id":"<dispatch id of your live run>"}. Identical witness text across rows is refused, so each row cites its own zero-hit reply.
 
 A removal that cannot yet be proven safe is a row whose subject is the proof it needs, such as "prove the legacy parser has no callers in the crates outside the workspace", and that proof is run with codesearch against the other root. A row is never closed by reasoning that a symbol looks unused.
 
