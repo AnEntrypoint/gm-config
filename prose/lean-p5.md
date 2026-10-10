@@ -16,7 +16,7 @@ Before the transition, dispatch claim-audit, then residual-scan as the last writ
 
 ## PRD rows
 
-A need spotted during RECORD becomes a row at once with prd-add {"id":"<kebab-case-slug>","subject":"<what it repairs or proves>"}: a missing witness, a CI failure with a named cause, a completion claim with no witness, a dirty entry with no owner. Each row closes with prd-resolve {"id":"<row id>","witness_evidence":"<commit sha, CI run id, claim-audit line or file:line>"}.
+A need spotted during RECORD becomes a row at once with prd-add {"id":"<kebab-case-slug>","subject":"<what it repairs or proves>"}: a missing witness, a CI failure with a named cause, a completion claim with no witness, a dirty entry with no owner. Each row closes with prd-resolve {"id":"<row id>","witness_evidence":"<commit sha, CI run id, claim-audit line or file:line>","witness_dispatch_id":"<dispatch id of your live run>"}.
 
 The agent never writes deferral wording into a row or a transition note. Wording that moves a need to another time, another session, another person or a scope exclusion is not admitted. A need is a row now or it is not a need, and the transition note states what each row was closed by.
 
