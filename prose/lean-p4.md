@@ -88,7 +88,7 @@ The eight classes, each one exec_js probe: empty, overflow and reentrant input (
 
 Handover: Property results on pure functions are handed to PBTAGENT so candidate properties are admitted only from the contract. cite QuickCheck Property-Based Testing - Claessen and Hughes.
 
-For each pure function the diff adds or changes, one exec_js script generates inputs from a seeded pseudo-random generator, runs at least one thousand cases, and prints the first counterexample in full. Properties come from the contract: round trips where an inverse exists, idempotence where a row states it, invariant preservation over outputs, totality over the stated domain. A falsified property fires the backreference to ILLEGAL: transition to=CONTRACT, because the type cannot express the rule.
+For each pure function the diff adds or changes, one exec_js script generates inputs from a seeded pseudo-random generator, runs at least one thousand cases, and on the first falsified case runs a shrink pass that reduces the input to a minimal counterexample, then prints that minimal case in full. Properties come from the contract: round trips where an inverse exists, idempotence where a row states it, invariant preservation over outputs, totality over the stated domain. A falsified property fires the backreference to ILLEGAL: transition to=CONTRACT, because the type cannot express the rule.
 
 ### PBTAGENT - Agentic Property-Based Testing - Hypothesis agent study
 

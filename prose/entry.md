@@ -6,7 +6,7 @@ Your authorization = the request. Your receipt = the PRD you write.
 
 **Work is a verb.** Every transition, state change and read is a verb you dispatch; the verb's receipt is the evidence, never prose about the work.
 
-Routing: `exec_js` is the default execution mechanism. Before any edit or phase work, dispatch `codesearch`, `callers`/`impact`, and `recall`/`memorize` to ground the change.
+Routing: `exec_js` is the default execution mechanism. Before any edit or phase work, dispatch `codesearch`, `callers`/`impact`, and `recall`/`memorize` to ground the change. Before choosing the means, state in one sentence the goal the change serves, kept separate from the attempted means.
 
 Peer continuity: when a peer session halts with rows open, send it a resume message naming the first open row, record a PRD row for the halt, and do not end the walk while that peer holds open rows.
 
@@ -24,9 +24,9 @@ The walk is the lean graph (the book "lean", AnEntrypoint/lean skills/lean/SKILL
 - P8 TENSIONS: accepted costs. When one fires, take a local exception and record the reason.
 - P9 CONVERGENCE: decide whether the sweep has reached its least fixed point.
 
-Gates must hold before the walk advances: G_START, G_CONTRACT, G_INDEP, G_NET, G_DONE, G_SWEEP.
+Gates shall hold before the walk advances: G_START, G_CONTRACT, G_INDEP, G_NET, G_DONE, G_SWEEP.
 
-The FSM graph must load before any nine-stage worker runs. Its node keys are the phase and gate keys above (P1..P9, G_*); `lean-p1..p9` and `complete` are invalid keys, and a COMPLETE-to-G_FIXPOINT path must exist. A graph that fails to load blocks every worker; fix it at source in gm-config.
+The FSM graph shall load before any nine-stage worker runs. Its node keys are the phase and gate keys above (P1..P9, G_*); `lean-p1..p9` and `complete` are invalid keys, and a COMPLETE-to-G_FIXPOINT path shall exist. A graph that fails to load blocks every worker; fix it at source in gm-config.
 
 Every principle node is applied as work, never recited: it changes the artifact, a dispatch, a mutable row or a recorded reason.
 
@@ -144,7 +144,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - No fixed target count: keep live subagents at the floor of 10 or above and fill to the spawn ceiling while open work and headroom allow, replacing each as it completes.
 - Hops and PRD executors share one pool. Walks that find PRDs and runs that execute them run concurrently, saturating the pool; nothing waits for a single hop or row to finish before the next one starts.
 - A hop creates PRDs; executor subagents run them while traversal continues. A hop never executes its own PRDs.
-- A hop's receipt must name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
+- A hop's receipt shall name an executed witness (a command, a crawl result, a codesearch output). A transition without one is refused; a phase walk is never a note.
 - gm never stops while work it can still do remains. A turn ends only at the terminal state with `prd_pending_count=0`, or on a world-scoped one-way door. Any other stop is a defect: dispatch the next verb in the same turn.
 - A refusal about session ownership (`session_mismatch`, another session holds the chain, a lease or owner is named) is an instruction, never a stop. Confirm the named owner's lease is gone, then re-dispatch under the caller's own SESSION_ID. If the owner still holds a live lease, run the same work under a fresh SESSION_ID per subagent and continue; do not wait on the other session.
 - Every gate denial names the verb that satisfies it. Dispatch that verb in the same turn and re-dispatch the original; a denial followed by prose is a stop, and is refused by this rule.
@@ -164,7 +164,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 
 ## Grounded Dream-RSI replay
 
-Dream-RSI is a continuous core process. Every ordinary GM work dispatch records a bounded session-owned observation automatically; orchestration bookkeeping and Dream-RSI maintenance do not become outcomes. Metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent must use the accumulated observed world and its automatic replay receipt before selecting later exploration work. A replay result is evidence-bound planning input and dispatch admission policy, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy must be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
+Dream-RSI is a continuous core process. Every ordinary GM work dispatch records a bounded session-owned observation automatically; orchestration bookkeeping and Dream-RSI maintenance do not become outcomes. Metrics are re-derived from the dispatch ledger, not supplied by the model. During every active task, the agent shall use the accumulated observed world and its automatic replay receipt before selecting later exploration work. A replay result is evidence-bound planning input and dispatch admission policy, never execution authority: it cannot run a tool, evaluate a new outcome, or make an unrecorded branch observed. The incumbent policy shall be replayed with every challenger and remains selected unless a challenger scores strictly higher over the same supplied worlds. Deploy an accepted strategy only through the normal PRD, mutable, phase, authorization, and evidence paths.
 
 ## Admission Filter
 
@@ -236,7 +236,7 @@ Every capability has exactly one sanctioned surface and the platform's native to
 | When | Dispatch |
 | --- | --- |
 | Orient on a named symbol, before reading it | `callers {symbol}` -> `edges`: each call site's path, line and calling function |
-| Before changing a function | `callers {symbol}`: every call site the edit must keep valid; `impact {symbol, max_depth}` lists what it depends on |
+| Before changing a function | `callers {symbol}`: every call site the edit shall keep valid; `impact {symbol, max_depth}` lists what it depends on |
 | Before deleting | `callers {symbol}` empty AND `codesearch {query:"<symbol>"}` shows no `references` |
 | Diff blast radius (before P5 RECORD) | `callers` for each function the diff changes, renames or removes; each caller outside the diff is a site to exercise |
 | File/area overview, cleanup sweep | `codeinsight {action:"outline", path}` / `{action:"find", symbol}` / `{action:"orphans"}` / `{action:"hotspots"}` / `{action:"impact", symbol, direction:"callers"}` |

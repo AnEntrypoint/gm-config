@@ -2,7 +2,7 @@
 
 GENERATED from rs-plugkit's crates/plugkit-core/src/orchestrator/predicate_registry.rs's PREDICATE_REGISTRY -- do not hand-edit. Regenerate by dispatching the `predicates-md` verb (body ignored) against a project with the current plugkit.wasm loaded and replacing this file's body with the returned predicates_md field; a CI check in rs-plugkit diffs a fresh regeneration against its own committed copy and fails on drift, and this file must be kept in sync with that copy by the same discipline.
 
-Reference for `gates.predicate` in .gm/instructions/fsm/graph.json's `gates` array -- a predicate name here is the ONLY thing a graph's gates array can reference directly; a genuinely new condition needs a jit hook instead (see hooks/example.js) or a Rust change to add a new compiled predicate.
+Reference for `gates.predicate` in .gm/instructions/fsm/graph.json's `gates` array -- a predicate name here is the ONLY thing a graph's gates array can reference directly; a genuinely new condition needs a jit hook instead or a Rust change to add a new compiled predicate.
 
 - `residual-scan-fired` -- true while .gm/residual-check-fired parses as `<session_id>:<fired_at_ms>` and that session_id is the current one (or, with no session id stamped, the stamp is within policy.longgap_threshold_ms). It is NOT invalidated by unrelated dispatches -- only by a PRD/mutable write (prd-add, mutable-add, prd-defer, mutable-defer), which rewrites the marker to `invalidated:<verb>`. A prd-add that reports already_identical does not invalidate. The denial message names which case fired.
 - `prd-all-closed` -- true when .gm/prd.yml has zero rows with an open status (pending/in-progress, not completed)
