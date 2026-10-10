@@ -33,7 +33,14 @@ Read the last block for your row id in the gm store. The last block decides the 
 
 ## 5. Git
 
-No raw git in Bash. Commits, branches and worktrees go only through gm git verbs, and only when the orchestrator asks.
+Each worker commits and pushes its own scoped change in the same run. Do not wait for the orchestrator to ask.
+
+- Commit with `git_commit` and explicit `paths` naming only the files this run changed, then push with `git_push {"rev":"HEAD"}`. `git_finalize` with the same `paths` does both in one call. Never commit without `paths`.
+- Leave other lanes' modified or untracked files uncommitted. Read `git_status` first, and commit only the paths you changed.
+- Commit as lanmower, the configured git identity, with no trailers: no Co-Authored-By, Claude-Session or generated-by line. The message states the change and why it was made.
+- Stay on main. A worker creates no branch or worktree and never amends a pushed commit.
+- Read the pushed commit back with `git_show {"rev":"<sha>"}`, check its CI with `ci-status {"sha":"<sha>","github_repo":"<owner/name>"}`, and report the sha and CI state in your return. A pending or unknown CI state is reported as such, never as passing.
+- Raw git in Bash stays forbidden; every git operation goes through a gm git verb.
 
 ## 6. Blockers
 
