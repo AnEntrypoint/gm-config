@@ -12,7 +12,7 @@ Use `callers {symbol}` for the consumers of a public symbol the artifact touches
 
 The history a change needs is read with `git_log` and `git_show`, passing `path` to scope `git_log` to the touched file. A reason that lives only in a commit message is read from that commit. Use `git_diff` with `stat:true` for the size of a change. Use `git_finalize {message, paths:[...]}` for a documentation-only commit, or `git_commit` followed by `git_push`, so that the commit stages only the documentation paths.
 
-Record each theory sentence, decision reason or memory exception with `memorize-fire`. Record each open tension as a mutable with `mutable-add`, and resolve it with `mutable-resolve {mutable_id, witness_evidence}`. Record each newly spotted need with `prd-add`, and close each with `prd-resolve {id, witness_evidence}`. Read the open set with `mutable-list` and `prd-list`. Before a transition, dispatch `phase-status` to confirm the phase and the pending count.
+Record each theory sentence, decision reason or memory exception with `memorize-fire`. Record each open tension as a mutable with `mutable-add`, and resolve it with `mutable-resolve {mutable_id, witness_evidence}`. Record each newly spotted need with `prd-add`, and close each with `prd-resolve {id, witness_evidence, witness_dispatch_id}`. Read the open set with `mutable-list` and `prd-list`. Before a transition, dispatch `phase-status` to confirm the phase and the pending count.
 
 Nothing in this phase dispatches Glob, Grep, `find`, a shell `grep`, Bash git or PowerShell. The verbs above are the only surfaces.
 
