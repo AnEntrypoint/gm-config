@@ -22,6 +22,8 @@ Read the last block for your row id in the gm store. The last block decides the 
 
 - Row resolver: run the nine stages on the row's own criteria.
 - Traversal hop: log node-only PRDs and resolve none.
+  - Each confirmed node-only row is prd-added at once, the moment it is confirmed. Never batch rows to the end of the hop.
+  - A hop with zero rows logged 15 minutes after its heartbeat start stops and returns a receipt: surfaces scanned, candidates checked, rows logged (0), and the reason.
 
 ## 4. Execution limits
 
