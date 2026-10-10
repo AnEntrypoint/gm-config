@@ -148,3 +148,5 @@ the `gates/` or `residual/` prefix resolves against `messages.gates_dir` or
 keys outside those two namespaces. Every family -- prose, gates, residual, the FSM
 graph -- is reachable from this repo as a config source, matching what this repo's
 own directory layout implies.
+
+The notify-gm workflow needs an Actions secret named PUBLISHER_TOKEN, a token that can dispatch repository events to AnEntrypoint/gm; without it the job logs a warning and skips the dispatch, and gm picks up the new pin on its cron tick.
