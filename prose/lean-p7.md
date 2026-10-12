@@ -24,7 +24,7 @@ A need is either a row now or it is not a need. A row or a transition note in th
 
 ## Mutables
 
-A mutable in this phase is an open question about context spend, with a witness that would settle it. It is added with `mutable-add`. P7, P8 and P9 own no obligation kind of their own. An open item here is therefore added with the `obligation_kind` of the phase that discharges it: a question that changes a contract shape takes `precondition` or `type-shape`, and an observable output a consumer depends on takes `postcondition`. The kind names the owner, and the item is resolved in that owner's phase. The sweep closure needs zero pending rows, because the edge from G_DONE to G_SWEEP is gated by `lean-contract-recorded`, which refuses while any `.gm/prd.yml` row is open or the worktree is dirty.
+A mutable in this phase is an open question about context spend, with a witness that would settle it. It is added with `mutable-add`. P7, P8 and P9 own no obligation kind of their own. An open item here is therefore added with the `obligation_kind` of the phase that discharges it: a question that changes a contract shape takes `precondition` or `type-shape`, and an observable output a consumer depends on takes `postcondition`. The kind names the owner, and the item is resolved in that owner's phase. The sweep closure needs zero pending rows, because the edge from G_DONE to G_SWEEP is gated by `lean-contract-recorded`, which refuses while any `.gm/prd/` row is open or the worktree is dirty.
 
 Set `depends_on` to the ids of mutables this one needs resolved first. `mutable-add` refuses a cycle and names the full cycle path. Resolve a mutable with `mutable-resolve {mutable_id, witness_evidence}`, where the evidence is a `file:line`, a `codesearch` hit or an `exec_js` snippet. A prose claim is not evidence. Surface-to-mutable applies here too: state that diverges from the PRD's assumed shape becomes a new mutable with its name, its witness and its resume step. A witness that cannot be reached because a tool is broken makes a mutable to repair or replace the tool, then the witness is taken.
 
@@ -56,7 +56,7 @@ When a long session's reasoning degrades (a dispatch misreads a file read earlie
 
 Handover: a repeated artifact stops the loop and the affected rows are rescoped in place, so the walk passes the bodies it actually loaded to PROGDISC for disclosure review; cite Rework Loops Dominate Token Spend.
 
-Fan-out: none. The dispatch count and the rescope of rows write one shared surface, `.gm/prd.yml`, which has the parent as its single writer; the count runs in one session. Canary: a `rescoped` reply absent for a repeated row means the rescope did not run.
+Fan-out: none. The dispatch count and the rescope of rows write the row's own file under `.gm/prd/`, and each row file has one owner, so rescopes of two different rows never contend; the count runs in one session. Canary: a `rescoped` reply absent for a repeated row means the rescope did not run.
 
 Nominations (set): {PROGDISC}. Backreferences in from {}; out to {G_INDEP}.
 

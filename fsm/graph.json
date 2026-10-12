@@ -2186,7 +2186,7 @@
       "name": "lean-contract-recorded",
       "predicate": "lean-contract-recorded",
       "hook_mode": "predicate-only",
-      "message": "transition rejected (blocking, lean gate \"contract satisfied and recorded\"): a .gm/prd.yml row is still open or the worktree is not clean. Close every row and commit the change. The reason text in the commit message is not checked by code."
+      "message": "transition rejected (blocking, lean gate \"contract satisfied and recorded\"): a .gm/prd/ row file is still open or the worktree is not clean. Close every row and commit the change. The reason text in the commit message is not checked by code."
     },
     {
       "name": "prd-all-closed",
