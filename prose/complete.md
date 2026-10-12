@@ -8,7 +8,7 @@ A row closes only with a witness: a dispatch id from its own live run. A row wit
 
 ## Parallel PRD fan-out
 
-Fan-out: one worker per independent slice, as many as the work allows. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. The floor is the ceiling, and the ceiling is the spawn refusal limit -- measured 20, from a spawn refusal.
+Fan-out: one worker per independent slice, as many as the work allows. A shortfall is available independent slices not yet launched, and the orchestrator must close that shortfall before advancing. The floor is min(10, ceiling): `REFILL_FLOOR` at `rs-plugkit/crates/plugkit-core/src/orchestrator/pool_slots/mod.rs:17`, capped by the ceiling. The ceiling is the spawn refusal limit, measured 20.
 
 Every open row is resolved by its own parallel worker, with its own session id.
 
@@ -36,4 +36,4 @@ Every fan-out worker ends its reply with these three lines, in this order.
 - `advanced:` the PRD row this worker advanced, by id, with its closing witness dispatch id or the blocker that kept it open.
 - `rhetoric:` the one-sentence motivation for the successor, copied verbatim from `next_choice.why` when present, otherwise the unresolved question that drove the row.
 
-The orchestrator reads these three lines on every completion, counts live subagents with ListAgents and the fresh `.gm/pool/*.live` heartbeats, and relaunches one successor from `successor:` in the same turn per freed slot while pending rows are open and live is under the ceiling. The floor is the ceiling: a live count under the ceiling while pending rows are open is a shortfall, launched to the ceiling in the same turn. Dip causes and counter-instructions: `skills/gm-orchestrate/SKILL.md`, "Never let the pool dip".
+The orchestrator reads these three lines on every completion, counts live subagents with ListAgents and the fresh `.gm/pool/*.live` heartbeats, and relaunches one successor from `successor:` in the same turn per freed slot while pending rows are open and live is under the floor. The floor is min(10, ceiling): while pending rows are open, live subagents must be at least the floor, and a shortfall is launched to the floor in the same message. No turn ends and no completion report is made while live is under the floor and independent slices remain. Pass the ListAgents count as `body.live` on every `pool-observe` and `transition` call, because with no fresh record the gate reports count_of_record absent and does not deny. Dip causes and counter-instructions: `skills/gm-orchestrate/SKILL.md`, "Never let the pool dip".
