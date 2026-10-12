@@ -45,7 +45,7 @@ Monotonicity is enforced: a fixed condition is never traded for a new one. Rice 
 - Deferral wording is refused: "later", "for now", "follow-up" or a TODO stub does not stand in for finished work. Unfinished work becomes a PRD row.
 - The diff carries no graphical symbols, no secrets and no unchecked panics.
 - Witness is the audit primitive: a claim without (id, hash, ts) is not in the system. Measurement gates optimization claims, not effort.
-- `.gm/prd.yml` is the receipt. `.gm/mutables.yml` holds open conditions in one `depends_on` DAG across all phases. Scope is the closure of the destructive transform admissible over the session; the first build covers the closure, not a prefix.
+- `.gm/prd/` is the receipt: one file per row, `.gm/prd/<id>.yml`, and `.gm/prd-log.jsonl` is the append-only, hash-chained commit log a resolved row's material is moved into. `.gm/mutables/` and `.gm/mutables-log.jsonl` are the same for open conditions, which hang in one `depends_on` DAG across all phases. Scope is the closure of the destructive transform admissible over the session; the first build covers the closure, not a prefix.
 - Search goes through `codesearch` and the call-graph verbs, never host-native search.
 - Merge and consolidate every gm-instructivity change; a gm-instructivity change is never left unpublished.
 - Phase obligations live in each phase's prose, not here.
@@ -99,7 +99,7 @@ A hook that blocks a tool call throws an error carrying an imperative instructio
 
 ## State
 
-`cwd/.gm/`: `prd.yml`, `mutables.yml`, `exec-spool/{in,out}/`, `gm-fired-<sessionId>`, `gm.db` (shared libsql: memory index, code index, git-history index), `memories/*.md` (durable memory corpus), `disciplines/<ns>/`. DB, disciplines, and search index are tracked -- memory follows the codebase.
+`cwd/.gm/`: `prd/<id>.yml` (one file per PRD row) and `prd-log.jsonl` (the commit log a resolved row moves into), `mutables/<id>.yml` and `mutables-log.jsonl` (the same for mutables), `exec-spool/{in,out}/`, `gm-fired-<sessionId>`, `gm.db` (shared libsql: memory index, code index, git-history index), `memories/*.md` (durable memory corpus), `disciplines/<ns>/`. The folder is the index -- there is no second list to rebuild. The legacy single files `prd.yml` and `mutables.yml` are still read and are split into the folders on the first write; DB, disciplines, and search index are tracked -- memory follows the codebase.
 
 ## Spool ABI
 
