@@ -1,6 +1,6 @@
 # Pool worker: standing rules
 
-These rules hold for the whole run of every pool worker. The spawn carries only parameters: row, session, role and, for traversal, surface.
+These rules hold for the whole run of every pool worker. The spawn carries only parameters: row, session, role and, for traversal, `node` (one source file under a traversal root; `surface` is its legacy alias and names the same value).
 
 ## 1. Heartbeat first
 
