@@ -1,11 +1,11 @@
 # Agents Avoid Deleting Code - Ebrahimi et al.
 
-Principle `NODELETE`, phase P6 PRESSURE. Apply "Agents Avoid Deleting Code - Ebrahimi et al." to the work of the P6 PRESSURE phase.
+Principle `NODELETE`. Apply "Agents Avoid Deleting Code - Ebrahimi et al." to the work this node stands on. The node is entered from any neighbour that leads here and left to any neighbour it links to; its place in a walk is decided by the work it applies to, not by a bucket.
 
 Claims:
 - Agents add a new path beside an old one far more often than they remove the old one. A function or branch whose body the diff left in place, beside its replacement, is dead weight until its callers point at the replacement.
 - Every replacement the diff makes is followed by a search for the path it replaced. A call site still pointing at the old path is repointed to the replacement, and then the old path is removed in the same change.
-- An old path that survives beside its new one is a defect of this phase, never a style choice.
+- An old path that survives beside its new one is a defect of this node, never a style choice.
 
 Pre-deletion witness, run before each removal:
 1. callers {"symbol":"<name>","limit":50} returns no edges outside the removed path.

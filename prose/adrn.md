@@ -1,6 +1,6 @@
 # ADR, Irreversible Forks Only - Michael Nygard
 
-Principle `ADRN`, phase P5 RECORD. Apply "ADR, Irreversible Forks Only - Michael Nygard" to the work of the P5 RECORD phase.
+Principle `ADRN`. Apply "ADR, Irreversible Forks Only - Michael Nygard" to the work this node stands on. The node is entered from any neighbour that leads here and left to any neighbour it links to; its place in a walk is decided by the work it applies to, not by a bucket.
 
 Claims:
 - An architecture decision record is written only for a fork that no later commit can reverse: a storage format a reader depends on, a wire protocol, a public verb name, or a persistence choice other systems read.

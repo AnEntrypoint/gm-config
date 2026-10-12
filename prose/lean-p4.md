@@ -1,8 +1,10 @@
-# LEAN-P4 VERIFY
+# LEAN VERIFY
 
-VERIFY attacks the built change with a verifier that has not read the implementation. It finds every way the change is false by live execution against real inputs, and discharges every SEC and RES obligation with a witness that names the kind discharged. The phase exits when the eight adversarial classes each have a live witness, every SEC and RES mutable is resolved, a multi-file diff has an independent review witness, the sanitizer gate is clean, and transition to=PRESSURE is dispatched.
+This is a concern of the method, not a stage of a pipeline: it is entered from whichever node the work reaches it from, and left as soon as what it asks for holds. No concern gates entry to a set of nodes.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
+VERIFY attacks the built change with a verifier that has not read the implementation. It finds every way the change is false by live execution against real inputs, and discharges every SEC and RES obligation with a witness that names the kind discharged. The node exits when the eight adversarial classes each have a live witness, every SEC and RES mutable is resolved, a multi-file diff has an independent review witness, the sanitizer gate is clean, and transition to=PRESSURE is dispatched.
+
+Principles in this node are applied as work, from the lean method (AnEntrypoint/lean). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
 
 ## Verbs
 
@@ -32,7 +34,7 @@ Every SEC and RES obligation is added as a mutable when found, with obligation_k
 
 mutable-add refuses a depends_on that closes a cycle and names the cycle path. mutable-resolve refuses while a depends_on id is pending and names it; resolve dependencies first, in order, never around them. The gates sec-obligations-ready and res-obligations-ready refuse on any untyped or blocked pending kind of their family and name the offender.
 
-Each resolution's witness names the kind discharged and how. After two genuine failed attempts on one mutable, stop repeating the approach: add a fresh mutable with a new id and a narrower scope that states what the failures revealed, and transition to=SHAPE if that reshapes the plan. Closure requires mutables-all-resolved, so a pending mutable of any kind blocks it, including kinds owned by other phases.
+Each resolution's witness names the kind discharged and how. After two genuine failed attempts on one mutable, stop repeating the approach: add a fresh mutable with a new id and a narrower scope that states what the failures revealed, and transition to=SHAPE if that reshapes the plan. Closure requires mutables-all-resolved, so a pending mutable of any kind blocks it, including kinds owned by other nodes.
 
 ## Security obligations
 
@@ -74,7 +76,7 @@ Every probe's expected value comes from the row's pre and post conditions and th
 
 Handover: The independent verifier's probes are handed to ADVERSARIAL so a red reviewer tries to refute the change. cite Independence-Based Verification - Grabowski.
 
-The verifier is a separate agent with its own SESSION_ID. It receives the contract (rows, signatures, types, stated invariants) and the exec_js commands the phase will run, and nothing from the implementer's transcript. Its report lists each probe with the exact command and output. The implementer never writes the verifier's probes or edits its report. When the two turn out to share context, the backreference to ADVERSARIAL fires and a second independent agent re-runs the findings before any is accepted.
+The verifier is a separate agent with its own SESSION_ID. It receives the contract (rows, signatures, types, stated invariants) and the exec_js commands the node will run, and nothing from the implementer's transcript. Its report lists each probe with the exact command and output. The implementer never writes the verifier's probes or edits its report. When the two turn out to share context, the backreference to ADVERSARIAL fires and a second independent agent re-runs the findings before any is accepted.
 
 ### ADVERSARIAL - Adversarial Red-Blue Agent Verification - Thukkaram
 
@@ -175,10 +177,10 @@ A recurring failure class found by a probe is persisted when confirmed: memorize
 
 ## Transition
 
-The phase is entered from BUILD through G_INDEP, the gate for "verifier has not read the implementation". Its predicate lean-verifier-independent is advisory and always passes, so independence is held by dispatching a fresh verifier agent before transition {"to":"VERIFY"}, not by the gate.
+The node is entered from BUILD through G_INDEP, the gate for "verifier has not read the implementation". Its predicate lean-verifier-independent is advisory and always passes, so independence is held by dispatching a fresh verifier agent before transition {"to":"VERIFY"}, not by the gate.
 
-The exit runs SANITIZE to G_NET, the gate for "change closes net-negative, or states why not", whose predicate lean-net-negative is blocking: it passes only when added lines in the working diff are at most the removed lines. Leave with transition {"to":"PRESSURE"} once every mutable and row of this phase is resolved and the net count passes. A denial names next_dispatch; dispatch it first, which removes superseded or duplicated code in the same change, then re-dispatch transition {"to":"PRESSURE"}. The predicate reads no growth reason, so a growing change is refused until it shrinks.
+The exit runs SANITIZE to G_NET, the gate for "change closes net-negative, or states why not", whose predicate lean-net-negative is blocking: it passes only when added lines in the working diff are at most the removed lines. Leave with transition {"to":"PRESSURE"} once every mutable and row of this node is resolved and the net count passes. A denial names next_dispatch; dispatch it first, which removes superseded or duplicated code in the same change, then re-dispatch transition {"to":"PRESSURE"}. The predicate reads no growth reason, so a growing change is refused until it shrinks.
 
-Feedback routes each discovery to the earliest phase able to fix it. A gap between spec and code routes to SHAPE. A boundary or ownership defect routes to CONTRACT when the type cannot express the rule (ILLEGAL), and to BUILD when the repair is code. A panic, unchecked error or partial-failure repair routes to BUILD. A failing invariant or property routes to CONTRACT through DBC or ILLEGAL. A sanitizer finding the type system could have prevented routes to BUILD. An assertion that mirrors the code routes to G_INDEP for a fresh verifier. Take the graph edge whose label matches the discovery and re-walk from where it lands.
+Feedback routes each discovery to the earliest node able to fix it. A gap between spec and code routes to SHAPE. A boundary or ownership defect routes to CONTRACT when the type cannot express the rule (ILLEGAL), and to BUILD when the repair is code. A panic, unchecked error or partial-failure repair routes to BUILD. A failing invariant or property routes to CONTRACT through DBC or ILLEGAL. A sanitizer finding the type system could have prevented routes to BUILD. An assertion that mirrors the code routes to G_INDEP for a fresh verifier. Take the graph edge whose label matches the discovery and re-walk from where it lands.
 
 A gate denial is never retried blind: dispatch the next_dispatch verb the denial names, then continue. An identical denial repeated three times is escalated by the repeat threshold, and the escalation is read before any further dispatch.
