@@ -20,7 +20,7 @@ Every open row is resolved by its own parallel worker, with its own session id.
 
 Continuation: never stop while a row is open. Ask only for a world-scoped one-way door; every other unknown becomes a row.
 
-Publishing: workers do not commit or push. The parent session publishes every change in one delivery: commit with the work's own paths, push the submodule, bump the parent pin to the pushed commit, then push the parent. Nothing stays local. A walk is complete only when the PRD is empty and the worktree is clean; until then, the next node is dispatched.
+Publishing: workers do not commit or push. The parent session publishes every change in one delivery: commit with the work's own paths, push the submodule to its main, then push the parent; the parent gitlink tracks each submodule's main tip (bump-pins advances it). Nothing stays local. A walk is complete only when the PRD is empty and the worktree is clean; until then, the next node is dispatched.
 
 - Before and after every git_pull, git_push, merge, update or delivery step, the orchestrator counts live subagents with ListAgents, the count of record, cross-checked against the fresh `.gm/pool/*.live` heartbeats (at most 5 minutes old), dispatches `instruction`, and launches the available independent slices, so the step never lowers the count. Every worker writes its `.gm/pool/<session>.live` heartbeat on start, refreshes it at least every 5 minutes, and deletes it on finish. the same-turn refill is what holds the count at the ceiling, and no step lowers it. A delivery step is never a reason to drop running subagents; a step that cannot run while subagents are running is run by a subagent.
 
