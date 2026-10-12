@@ -140,7 +140,7 @@ Fan-out: each recall hit's live-tree re-verification is an independent slice: on
 
 Nominations (set): {STABLEPREFIX}. Backreferences in from {NAURTHEORY}; out to {COMPACT}.
 
-A fact that a resuming session needs and that the live tree cannot supply is written with `memorize-fire`, as one of the four memory types: user, feedback, project or reference. A recall that opens this phase is a lead. Re-verify that the named file, function or flag still exists before acting on it. A stale, superseded or wrong hit is removed on sight with `memorize-prune {key}`. For an uncertain set, `memorize-prune {query}` returns review-only candidates, and the chosen ones are removed by `{keys}`. The backreference NAURTHEORY to MEMTOOL ("the theory died with the session") is taken when a theory exists only in the window. Witness: a `recall` after the write returns the new key with its text, and after a prune the same query no longer returns the key.
+A fact that a resuming session needs and that the live tree cannot supply is written with `memorize-fire`; `kind` there is a storage tier (see entry-extended.md), not a memory type. A recall that opens this phase is a lead. Re-verify that the named file, function or flag still exists before acting on it. A stale, superseded or wrong hit is removed on sight with `memorize-prune {key}`. For an uncertain set, `memorize-prune {query}` returns review-only candidates, and the chosen ones are removed by `{keys}`. The backreference NAURTHEORY to MEMTOOL ("the theory died with the session") is taken when a theory exists only in the window. Witness: a `recall` after the write returns the new key with its text, and after a prune the same query no longer returns the key.
 
 ### STABLEPREFIX - Stable Prefix for Cache Hits
 
