@@ -2,7 +2,7 @@
 
 RECORD makes the verified change durable and explains it to the history. It commits exactly the change the contract describes, with a message that states the change type, the subject and the reason the contract changed, pushes it, watches CI on the pushed sha, and closes the PRD and mutable state so the sweep can judge the artifact whole. The phase exits when the commit is pushed, CI is green for that sha, the claim audit and residual scan are clean, every row and mutable is closed, and the contract-satisfied gate G_DONE has passed.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
 
 ## Verbs
 

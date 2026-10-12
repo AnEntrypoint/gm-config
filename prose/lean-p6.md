@@ -2,7 +2,7 @@
 
 PRESSURE removes what the change did not need. It finds every superseded path, fallback, duplicate, dead function and unreachable entry point the change left behind, deletes each one only after callers, codesearch and a build check prove nothing still depends on it, and keeps the diff net-negative or records why it is not. The phase exits when the deletion-completeness check and reachability analysis pass for every removed or superseded symbol, the diff budget holds, and transition to=RECORD is dispatched.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each principle's attribution is the label used in fsm/graph.json, given in its heading below.
 
 ## Verbs
 
