@@ -2,7 +2,7 @@
 
 BUILD writes the source that inhabits the CONTRACT phase's signatures. Every new function is total, every resource has exactly one owner, every operation replays to the same state, and every concurrent access is ordered by a sync point or provably disjoint. Each property is witnessed live. The phase writes only the artifacts the PRD names, verifies each one from disk, and exits when every STATE-kind and CONC-kind mutable is resolved, the diff passes the source hygiene predicates, and `transition to=VERIFY` is dispatched through the G_INDEP gate.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
 
 ## Verbs
 

@@ -2,7 +2,7 @@
 
 CONVERGENCE decides whether the sweep has reached its least fixed point. The sweep re-walks the whole artifact after the contract is recorded (G_DONE to G_SWEEP), and each sweep is checked for monotonic improvement, for regressions against earlier sweeps, for a variant that decreases, and for bounded retries. The phase ends in exactly one of two lean terminals. G_FIXPOINT is reached when a sweep changed nothing. G_SURFACE is reached when the variant did not decrease, or when one condition fired twice with no new information, and the ambiguity then belongs to a person and is not swept again. The walk stops only at phase COMPLETE with prd_pending of zero, reached through `transition to=COMPLETE`, and the final dispatch of the turn is `Skill(skill="gm-continue")`.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each principle's book and attribution is the label in its H3 heading, taken from fsm/graph.json.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each principle's book and attribution is the label in its H3 heading, taken from fsm/graph.json.
 
 ## Verbs
 

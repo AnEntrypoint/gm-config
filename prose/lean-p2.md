@@ -2,7 +2,7 @@
 
 CONTRACT writes each row's contract into types, names, signatures and obligations before any implementation exists. Each row is a proof goal. Its stated pre-conditions, invariants and post-conditions become typed signatures wherever the type can express them, and each remaining obligation becomes a PROVE-kind mutable discharged by a live witness. The phase replaces the former PROVE stage. It exits when every row's contract sits in its signatures, every contract-kind mutable is resolved and witnessed, and `transition to=BUILD` is dispatched.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
 
 ## Verbs
 

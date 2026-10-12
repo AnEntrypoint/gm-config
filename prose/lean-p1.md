@@ -2,7 +2,7 @@
 
 P1 SHAPE turns the request into a PRD that covers the whole closure of the request before any contract is written. It orients on the live tree rather than on recalled memory, names every in-spirit row, states each row's pre-conditions, invariants and post-conditions, resolves every grounding unknown with a witness, and types every contract-level or runtime-level unknown for the phase that will discharge it. The phase exits when no row is unshaped, no grounding unknown is open, and an expansion pass over the rows adds nothing new. The exit runs LIVEPLAN, then the G_CONTRACT gate, then CONTRACT.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each H3 below carries a principle key, then the attribution exactly as fsm/graph.json labels it.
 
 ## Verbs
 

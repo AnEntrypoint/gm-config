@@ -2,7 +2,7 @@
 
 CONTEXT ECONOMY keeps the tokens spent per unit of change low. It applies at every phase of the walk, not at one point in it. Its job is to make the main thread hold only the signal the current change needs: the instruction prose it is using, the search output it actually read, the recall hits it verified against the live tree, the tool definitions it dispatches, and the subagent replies it reduced to a conclusion plus a witness. The phase is entered whenever a backreference fires into it (the sweep condition "context spend rose per unit of change", or a retrieval that returned approximate matches). It exits when the measured spend per unit of change has stopped rising and the walk returns to the phase whose work it measured. The exit condition is a sweep in which no context-spend measure rose.
 
-Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean, skills/lean/SKILL.md). Each principle's book and attribution is the label in its H3 heading, taken from fsm/graph.json.
+Principles in this phase are applied as work, from the lean method (AnEntrypoint/lean). Each principle's book and attribution is the label in its H3 heading, taken from fsm/graph.json.
 
 ## Verbs
 

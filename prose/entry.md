@@ -12,7 +12,7 @@ Peer continuity: when a peer session halts with rows open, send it a resume mess
 
 ## Trajectory
 
-The walk is the lean graph (the book "lean", AnEntrypoint/lean skills/lean/SKILL.md, Graph section), not a fixed sequence. It enters at the policy `initial_phase`, JTBD in P1 SHAPE, and ends at `terminal_phase`, G_FIXPOINT. Each phase is served as its own prose (`prose/lean-pN.md`, skill `gm-lean-pN`):
+The walk is the lean graph (the book "lean", AnEntrypoint/lean, Graph section), not a fixed sequence. It enters at the policy `initial_phase`, JTBD in P1 SHAPE, and ends at `terminal_phase`, G_FIXPOINT. Each phase is served as its own prose (`prose/lean-pN.md`, skill `gm-lean-pN`):
 
 - P1 SHAPE: the request becomes a PRD covering its whole closure.
 - P2 CONTRACT: each row's contract becomes types, names, signatures and obligations.
