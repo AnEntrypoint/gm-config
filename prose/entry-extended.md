@@ -43,7 +43,7 @@ Route KV writes to `<cwd>/.gm/disciplines/<ns>/`. `@<name>` prefix sets namespac
 
 ## Memorize
 
-`kind` is a storage tier, not a memory type. `memorize-fire` passes it through to the tencentdb memory store, which keeps it as free text; the code defaults it to `l0` (memorize-fire) and `l1` (memory import). The four memory types, `user` (profile/role/preference), `feedback` (behavioral correction/confirmation), `project` (work context/deadlines/decisions) and `reference` (external-system pointer), classify what a memo records. Nothing in the code checks that classification against `kind`.
+`kind` is a storage tier, not a memory type. `memorize-fire` passes it through to the tencentdb memory store, which keeps it as free text; the code defaults it to `l0` (memorize-fire) and `l1` (memory import).
 
 **Exclusion principle.** Anything derivable from live project state -- code patterns, architecture, paths, git history, prior debugging -- never enters the store. Storing a derivable fact creates a second, driftable source of truth alongside the real one; the live tree always wins that race, so the memo only ever goes stale, never authoritative.
 
