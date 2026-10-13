@@ -105,24 +105,19 @@ never overwritten from anywhere else.
 
 ## Named-technique catalogues and their source
 
-Each phase's "Preferences (named, narrow)" section in `prose/*.md` catalogues
-the named techniques, principles and authors that scope that phase's judgment
-calls. The catalogues were substantially expanded from
+Named techniques are catalogued in the prose of each node, not in one section
+per phase. A principle node's file `prose/<key>.md` names the discipline that
+node applies, for example `prose/jtbd.md` applies "Jobs To Be Done - Clayton
+Christensen". The anchors were drawn from
 [AnEntrypoint/engage](https://github.com/AnEntrypoint/engage)'s `SKILL.md`
-Unified Anchor Workflow, a ~150-technique-across-8-phases reference graph.
+Unified Anchor Workflow.
 
-The expansion folded engage's named anchors into gm's existing 9-phase
-SPECIFY -> PROVE -> EMIT -> STATE -> CONC -> SEC -> RES -> DECIDE -> COMPLETE
-FSM as an enrichment of each phase's own preferences list, rather than
-adopting engage's control-flow graph (its own phase set, gate shape and
-loop-back edges) wholesale. Reason: gm's gates and predicates
-(`mutables-all-resolved`, `no-synthetic-test-files`, `idempotent-dispatch-replay-safe`,
-and the rest) are compiled Rust, evaluated against this exact 9-state shape --
-swapping in a different graph wholesale would break that wiring rather than
-extend it. A project wanting engage's actual control-flow graph instead of gm's
-can still do so by replacing `fsm/graph.json` per "What is configurable" above;
-this repo's own default stays on gm's proven 9-phase shape with the enriched
-catalogues.
+The walk runs on the graph in `fsm/graph.json`: 146 states (129 principles,
+8 tensions, 7 gates, 2 terminals) joined by 376 edges. It replaced the earlier
+nine-phase SPECIFY -> ... -> COMPLETE chain. Every gate predicate it names must
+exist in the compiled registry that `fsm/predicates.md` mirrors. A project
+wanting a different graph replaces `fsm/graph.json` per "What is configurable"
+above.
 
 ## Two ways an override silently does nothing
 
