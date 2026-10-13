@@ -112,10 +112,8 @@ validates its accepted body fields takes the field under any of the three
 spellings `SESSION_ID`, `session_id` or `sessionId`, so the all-caps spelling
 written here dispatches literally as written. Every fanned-out
 subagent mints its OWN SESSION_ID, distinct from the parent's and from every
-sibling's -- never inherit the parent's literal value. The daemon keys in-flight
-claims by the literal `(verb, session_id-N)` pair with no further partition, so
-concurrent subagents sharing one session_id collide on `<N>` even when each
-correctly prefixes it, silently reading each other's responses. A parent
+sibling's -- never inherit the parent's literal value. Concurrent subagents
+that share one session_id read each other's responses. A parent
 dispatching N subagents into the same project passes each a value derived from
 its own id plus an index (e.g. `<parent_session_id>-sub<k>`), never the bare
 parent id -- this is the interference-avoidance contract for concurrent gm
