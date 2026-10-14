@@ -71,7 +71,7 @@ Four config fields actually read from `gm.config.json`'s `memory.tencentdb_backe
 
 **When to actually reach for it:** a real, reachable signal, same bar as `tencentdb_backend` above -- the project's own recall corpus has grown large enough that `recall`'s top-k results visibly include stale/irrelevant entries, or the user names the need directly (a request to prune, tune retention, or inspect what memory is/isn't earning its keep). Absent one of those, plain `recall`/`memorize-fire` is sufficient; dispatching a `host_plugin_call("liqology", ...)` speculatively on every turn is the same over-fragmentation `tencentdb_backend`'s own guidance warns against.
 
-**`suggest_fsm_update` proposes, never mutates.** Given a caller-supplied pattern (`{phase, gate, recurrence_count, correction_summary}` -- the caller does the phase/gate correlation, since that data lives in gm's own session/PRD history, not inside the plugin), it shapes a candidate `fsm-propose-override` body (rationale, evidence, `applied: false`) for a human or a separate session to review and apply via the real `fsm-propose-override` verb. It never calls `fsm-propose-override` itself and never mutates FSM config directly -- a self-reconfiguration surface stays human-in-the-loop by design, same as every other FSM override path in this repo.
+**`suggest_fsm_update`** takes a caller-supplied `{phase, gate, recurrence_count, correction_summary}` pattern and returns a proposal for review.
 
 **When to dispatch the three on-demand verbs** (`record`/`prune_report` already fire automatically, above -- these three are agent-initiated):
 
