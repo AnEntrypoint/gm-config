@@ -107,10 +107,7 @@ Write `in/<lang>/<N>.<ext>` for language stems, `in/<verb>/<N>.txt` for orchestr
 
 ## SESSION_ID
 
-Thread SESSION_ID through every spool body; plugkit rejects empty. A verb that
-validates its accepted body fields takes the field under any of the three
-spellings `SESSION_ID`, `session_id` or `sessionId`, so the all-caps spelling
-written here dispatches literally as written. Every fanned-out
+Thread SESSION_ID through every spool body; plugkit rejects empty. Every fanned-out
 subagent mints its OWN SESSION_ID, distinct from the parent's and from every
 sibling's -- never inherit the parent's literal value. Concurrent subagents
 that share one session_id read each other's responses. A parent
@@ -147,7 +144,7 @@ Body fields for `literal`/`regex`: `whole_word`, `case_insensitive`, `path` (a s
 
 `filename` reads the same file set with the same `root`/`path` resolution. The `query` is a case-insensitive substring of each path relative to the root, or a glob when it contains `*`, `?`, `[` or `{`. The response carries `file_source`, `match_count`, `hits_truncated` when `k` cut the hit list, and `exhaustive`.
 
-**`git_log`, `git_diff` and `git_show` refuse unknown body fields.** A refusal names `unknown_fields` and `accepted_fields`; an ignored field would answer a different question. `SESSION_ID`, `cwd` and `repo` are always accepted. `git_log`: `path`/`paths` keep only commits that touch those pathspecs. `git_show`: the revision defaults to `HEAD`; `path` prints that file's content at the revision (`git show <rev>:./<path>`, relative to the working directory, reported as `object`); `rev: "<rev>:<path>"` does the same directly; `paths` limits a commit's diff to pathspecs. `path` with `paths`, `path` with `stat`, and `path` with a `rev` that already contains `:` are errors. Output past 60000 bytes is cut and reports `truncated: true` with `total_bytes`.
+**`git_log`, `git_diff` and `git_show` refuse unknown body fields.** A refusal names `unknown_fields` and `accepted_fields`; an ignored field would answer a different question. `cwd` and `repo` are always accepted. `git_log`: `path`/`paths` keep only commits that touch those pathspecs. `git_show`: the revision defaults to `HEAD`; `path` prints that file's content at the revision (`git show <rev>:./<path>`, relative to the working directory, reported as `object`); `rev: "<rev>:<path>"` does the same directly; `paths` limits a commit's diff to pathspecs. `path` with `paths`, `path` with `stat`, and `path` with a `rev` that already contains `:` are errors. Output past 60000 bytes is cut and reports `truncated: true` with `total_bytes`.
 
 ## Fast path (trivial requests)
 
