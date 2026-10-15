@@ -1,8 +1,5 @@
 name: notify-gm
 
-# Tells gm that its gm-config pin moved, so bump-pins runs within seconds
-# instead of waiting for its next cron tick.
-
 on:
   push:
     branches: [main]

@@ -1,7 +1,3 @@
-// Witness: the "Parallel slots (standing rules)" section of prose/entry.md
-// carries the declined-successor obligation. Usage:
-//   node scripts/witness-parallel-slots-decline.mjs [path-to-entry.md]
-// Exit 0 and "RESULT: PASS" when every check holds; exit 1 and "RESULT: FAIL" otherwise.
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
