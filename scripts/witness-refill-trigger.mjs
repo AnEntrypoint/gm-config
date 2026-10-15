@@ -1,9 +1,3 @@
-// Witness: the "Parallel slots (standing rules)" section of prose/entry.md names the host
-// completion notice as the refill trigger, records the measured wait-fallback distribution,
-// and the instructions code emits a launch list rather than a count alone.
-// Usage:
-//   node scripts/witness-refill-trigger.mjs [path-to-entry.md] [path-to-instructions-mod.rs]
-// Exit 0 and "RESULT: PASS" when every check holds; exit 1 and "RESULT: FAIL" otherwise.
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
