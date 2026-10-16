@@ -136,7 +136,6 @@
   },
 
   "sync": {
-    "debounce_ms": 15000,
-    "shallow": true
+    "debounce_ms": 15000
   }
 }
