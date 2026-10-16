@@ -163,7 +163,7 @@ Live witnesses must reflect the current code. Enumerate every cache between the 
 
 A log line that says the fixed code ran is not a witness that the defect is gone. The witness is the primary artifact the bug report named: the live response body, the live file, the live rendered value. Re-run the same diagnostic that found the bug against the same target.
 
-A subagent's finding, or a finding read from memory, is a hypothesis. Before acting on a claimed dead function, junk file or tracking state, run the check that confirms it on the live tree: callers and a codesearch identifier query, Read on the claimed path, git_log or git_show for tracking intent. An overturned premise is re-scoped with prd-add under the same id.
+A subagent's finding or a memory is a hypothesis. Before acting on a claimed dead function, junk file or tracking state, run the check that confirms it on the live tree: callers and a codesearch identifier query, Read on the claimed path, git_log or git_show for tracking intent. An overturned premise is re-scoped with prd-add under the same id.
 
 When a tool cannot produce a witness, the mutable is to make that tool reachable (fix it, replace it, or drive its protocol directly), then witness. Parking the mutable as blocked on an outside party is refused.
 
@@ -171,9 +171,7 @@ No mock, fake or stub stands in for a real dependency. Mock, Fake and Stub class
 
 ## Memory
 
-A witness that contradicts a memory deletes that memory file and its `MEMORY.md` line on sight.
-
-A recurring failure class found by a probe is saved as one memory file when it is confirmed, if a later task needs it: the class and the probe command that reproduces it. A diff, probe output or passing result is not a memory, because rows and history already hold it.
+A witness that contradicts a memory deletes that memory on sight: remove its file and its MEMORY.md line.
 
 ## Transition
 

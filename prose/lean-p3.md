@@ -16,7 +16,7 @@ Every build, subprocess, filesystem probe and live witness is an exec_js dispatc
 
 Each sweep finding is declared as a typed mutable before it is resolved: `mutable-add {"id":"<kebab-case slug>","obligation_kind":"<kind>","depends_on":[...],"status":"unknown"}`. The kinds are the STATE kinds (totality, ownership, replay, effect-boundary) and the CONC kinds (happens-before, disjointness, contention). Resolve each with `mutable-resolve {"mutable_id":"<id>","witness_evidence":"<live witness>"}`. Resolve rows with `prd-resolve {"id":"<row id>","witness_evidence":"<witness>"}`.
 
-Write the closure narrative to the commit message in ADRN. It never goes into the response body. Advance with `transition to=G_INDEP`. Reshaping goes to `transition to=EARS`, and a contract defect goes to `transition to=G_CONTRACT`.
+Write the closure narrative to the commit message in ADRN form. It never goes into the response body. Advance with `transition to=G_INDEP`. Reshaping goes to `transition to=EARS`, and a contract defect goes to `transition to=G_CONTRACT`.
 
 Route every mutation through the PRD, a mutable, or a memo. The audit tuple of each accepted write is its id, its witness hash and its timestamp.
 
@@ -108,7 +108,7 @@ Idempotent-dispatch-replay-safe is checked against the audit tuples of the repla
 
 ## Memory
 
-Decisions, owners, contention bounds and replay-safety results are not memories. Per-file edits, intermediate build output and the diff are not memories either, and the diff lives in git. When a witnessed run contradicts a memory file, delete the file and its `MEMORY.md` line.
+Save an unknown as a memory file only when a later task needs it. Decisions, per-file edits, build output and the diff are not memories; git and the PRD row hold them. A witnessed run that contradicts a memory file deletes the file and its MEMORY.md line.
 
 ## Transition
 

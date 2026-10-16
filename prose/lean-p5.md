@@ -26,11 +26,11 @@ The agent never writes deferral wording into a row or a transition note. Wording
 
 RECORD owns no obligation kind and creates no mutable. It must still leave no pending mutable, because mutables-all-resolved refuses on any pending row of any kind. Before the closing transition, list pending mutables with mutable-list and resolve each one with mutable-resolve {"mutable_id":"<id>","witness_evidence":"<witness>"} only when its witness exists. A mutable without a witness returns the chain to the node that owns its kind, as described under Transition.
 
-## Housekeeping and memory run on every finalize
+## Housekeeping and memory upkeep run on every finalize
 
 Every git_finalize opens a housekeeping run before the next cover begins. The run sweeps dead code, superseded paths, and PRD and mutable rows left stale by earlier passes, so a later session does not trip over them. It applies the removal checks of PRESSURE to the whole tree on each finalize, not only when a gate fires. Each removal is witnessed by a zero-hit codesearch and a build check. Each stale row is closed with prd-resolve or re-scoped with prd-add on its existing id.
 
-Memory runs in the same pass. An unknown that a later task needs is saved as a memory file when it is known, not at session end, where a context compaction or a crash would drop it. An unknown still unsaved when git_finalize runs is a residual, and it blocks the next cover.
+A correction the user gave that is still open when git_finalize runs is a residual, and it blocks the next cover.
 
 ## Principles
 
@@ -56,7 +56,7 @@ The body states why the change exists and why any contract changed, since the di
 
 Handover: Repository-tracked state is handed to BLAME so the history of each changed region is read before committing it. cite Git Is the State - stateless runtime, Kapale.
 
-Every piece of state a future reader must see is a commit, a PRD row, a mutable or a memory file. No notes or sidecar files live outside the repository. Before committing, git_status confirms that every touched path is tracked or deliberately ignored by the managed block. State that exists outside the repository fires the backreference to LIVEPLAN: move it into a commit or remove it, and rewrite the live plan to point at the commit.
+Every piece of state a future reader must see is a commit, a PRD row or an unknown. No notes or sidecar files live outside the repository, except the harness memory files. Before committing, git_status confirms that every touched path is tracked or deliberately ignored by the managed block. State that exists outside the repository fires the backreference to LIVEPLAN: move it into a commit or remove it, and rewrite the live plan to point at the commit.
 
 ### BLAME - git blame as the Index
 
@@ -97,7 +97,7 @@ CI failures have named shapes with one repair each. An import error is a missing
 
 ## Memory
 
-Before the commit, save each unknown that a later task needs as one memory file, with frontmatter name, description and metadata.type set to unknown, plus one line in MEMORY.md. An unknown still unsaved when the commit runs is a residual, and residual-scan refuses to converge on it. Save the fact, not the transcript. A memory file that the commit contradicts is deleted with its MEMORY.md line. Diffs, CI logs and passing results are not memories; git and CI already hold them.
+Before the commit, each unknown that a later task needs is saved as a memory: one flat file with frontmatter fields name, description and metadata.type (value unknown), and one line in MEMORY.md that points to it. An unknown still open when the commit runs is a residual, and residual-scan refuses to converge on it. A memory that the commit contradicts is deleted with its MEMORY.md line. Diffs, CI logs and passing results are not saved as memory; git and CI already hold them.
 
 ## Transition
 
