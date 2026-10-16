@@ -123,6 +123,11 @@
     "extra_scan_paths": []
   },
 
+  "git": {
+    "author_name": "lanmower",
+    "author_email": "almagestfraternite@gmail.com"
+  },
+
   "cache": {
     "enabled": true,
     "max_entries_per_namespace": 5000,
