@@ -17,7 +17,7 @@ English describing intent = liability when code encodes it; comments = liability
 
 ## Install
 
-`bun x skills add AnEntrypoint/gm` copies the skill directory into `~/.claude/skills/gm/` (and `~/.agents/skills/gm/`), installed as `/gm`. The `install.sh`/`install.ps1`/`bin/gm-install.js` installers, run beside `skills/` or with `GM_SKILL_SOURCE_DIR` set, place a link instead (a junction on Windows, a symlink elsewhere), so the installed `SKILL.md` and the checkout's are one file; with no local source they copy and announce it. No npx, no marketplace, no npm registry.
+`bun x skills add AnEntrypoint/gm` copies the skill directory into `~/.claude/skills/gm/` (and `~/.agents/skills/gm/`), installed as `/gm`. The `install.sh`/`install.ps1`/`bin/gm-install.js` installers, run beside `skills/` or with `GM_SKILL_SOURCE_DIR` set, place a link instead (a junction on Windows, a symlink elsewhere) so the installed `SKILL.md` and the checkout's are one file; with no local source they copy and announce it. No npx, no marketplace, no npm registry.
 
 ## Bootstrap
 
@@ -45,19 +45,17 @@ Route KV writes to `<cwd>/.gm/disciplines/<ns>/`. `@<name>` prefix sets namespac
 
 Memory is one flat file per fact. Save an unknown as a memory only when a later task needs it. Save nothing else as memory.
 
-Write each memory file in the harness memory directory. Give it the frontmatter fields `name`, `description` and `metadata.type` (value `unknown`). Add one line to `MEMORY.md` that points to the file.
+Write each memory as a file in the harness memory directory, the directory that holds MEMORY.md. The file has frontmatter with the fields name, description and metadata.type. Set metadata.type to unknown. Add one line to MEMORY.md that points to the file.
 
-To look up memory, read `MEMORY.md` and open the files it points to. A memory is a lead, not a fact. Re-verify its named path, symbol or flag before you act on it.
+To find a memory, read MEMORY.md and open the files it points to. A memory is a lead, not a fact: re-verify any named path, symbol or flag before you act on it. When a witness contradicts a memory, delete the file and its MEMORY.md line.
 
-When a witness contradicts a memory, delete the memory file and its `MEMORY.md` line.
-
-**Exclusion principle.** Anything derivable from live project state (code patterns, architecture, paths, git history, prior debugging) never becomes a memory. A stored derivable fact is a second source of truth that drifts. The live tree always wins, so such a memory only goes stale.
+Do not save a fact that the live tree can answer. The tree wins over a memory.
 
 ## Overridden-setting drift notification
 
 Every `instruction` response carries a `config_changed` array: config sources (prose, discipline policy, FSM vendor doc, `gm.config.json` -- any tier) that changed since this session was last told, delivered exactly once per session (`delivered_to` roster tracked server-side; never re-shown, never polled for). Each record: `{id, tier, old_sha, new_sha, changed, changed_count, changed_truncated, ts}` -- `changed` names the actual top-level keys that changed/were added/were removed when the source is a real `gm.config.json`-shaped document on both sides of the fetch, falling back to the bare file path when a real field diff isn't possible (a prose/FSM source, a fresh tier with no prior checkout).
 
-**This includes a tier this project's own `gm.config.json` shadows.** A `ProjectVendored` override wins resolution permanently -- nothing about having an override stops the lower tiers (`ProjectRepoSpec`, `UserRepoSpec`, `ImplicitDefaultRepo`, gm's own shared defaults; every tier the `Tier` enum in rs-plugkit's `config.rs` ranks below `ProjectVendored`) from continuing to change upstream behind it, and a `config_changed` record with a `tier` that does NOT match this session's actual resolved tier is exactly that: a setting your override masks has a new upstream value. Read it and judge -- most of the time the override was deliberate and the drift is irrelevant, but a `changed` roster naming a field the override itself doesn't touch, or a genuinely stale override predating a real upstream fix, is a real `prd-add` row: propose narrowing or dropping the override via the same `AskUserQuestion`-gated reconfiguration path (see "Config fit" in SPECIFY), never a silent edit. Never re-surface a `config_changed` record the session already drained -- the roster tracking exists precisely so this is told once, not on every turn.
+**This includes a tier this project's own `gm.config.json` shadows.** A `ProjectVendored` override wins resolution permanently -- nothing about having an override stops the lower tiers (`ProjectRepoSpec`, `UserRepoSpec`, `ImplicitDefaultRepo`, gm's own shared defaults; every tier the `Tier` enum in rs-plugkit's `config.rs` ranks below `ProjectVendored`) from continuing to change upstream behind it, and a `config_changed` record with a `tier` that does NOT match this session's actual resolved tier is exactly that: a setting your override masks has a new upstream value. Read it and judge -- most of the time the override was deliberate and the drift is irrelevant, but a `changed` roster naming a field the override itself doesn't touch, or a genuinely stale override predating a real upstream fix, is a real `prd-add` row: propose narrowing or dropping the override via the same `AskUserQuestion`-gated reconfiguration path (gm, Section 4), never a silent edit. Never re-surface a `config_changed` record the session already drained -- the roster tracking exists precisely so this is told once, not on every turn.
 
 ## Memory discipline (named, narrow)
 
@@ -65,7 +63,7 @@ Cross-Cutting Memory
 
 * GTD (David Allen) -- the PRD/mutables ledger is the trusted external system; nothing stays in head-memory across a turn.
 * Dreyfus Model (Stuart & Hubert Dreyfus) -- named-technique preferences exist so a novice-authored diff and an expert-authored diff converge on the same reviewed shape.
-* Zettelkasten (Niklas Luhmann) -- each memory file holds one fact and is found by its own name, not by a chronological log.
+* Zettelkasten (Niklas Luhmann) -- each memory file is one atomic, independently retrievable note; MEMORY.md is its index.
 
 ## Constraints
 
@@ -79,11 +77,10 @@ Cross-Cutting Memory
 
 **Names and structure carry meaning; comments do not.** A comment that says what the line does is duplication that must be kept in sync and will not be. When the urge to write one arrives, rename, extract, or restructure instead -- a name, a function boundary, or a small type IS the explanation, and a comment beside one is a second, driftable copy. This includes the paragraph-long rationale comment: explaining a WHY inline is the same violation at greater volume, not an exemption from it, and that explaining urge is the signal a name is doing too little.
 
-Rationale genuinely worth keeping -- the constraint being honoured, the failure mode prevented, the measurement that motivated a non-obvious shape -- goes in the commit message, `AGENTS.md`, or a memory file, where it is durable and searchable, never beside the line it describes. EXECUTE states the enforcement form of this rule and VERIFY blocks a transition on any comment in the diff; this is the same rule, not a softer one.
+Rationale genuinely worth keeping -- the constraint being honoured, the failure mode prevented, the measurement that motivated a non-obvious shape -- goes in the commit message, `AGENTS.md`, or a memory file, where it is durable and searchable, never beside the line it describes. No state-machine gate blocks a transition on a comment in the diff: the gate registry has no comment predicate. Comments are found by the comment sweep (`grep` with `{"mode":"comments"}`) and dispositioned by hand.
 
 **No standing test files, ever.** The `no-synthetic-test-files` predicate is diff-scoped as predicates.md:19 defines it: it blocks a diff that introduces a test file or test directory, and it does not flag a tracked one. A tracked test file is left byte-identical and reported as tracked. Verification is running the real code path and reading its output through `exec_js`. Do not pull in jest/mocha/vitest/pytest/unittest or any assertion/mocking framework. A mock standing in for real code is the same false-completion class as a hedged `prd-resolve`: it reports a pass that the real path never produced.
 
 ## Self-reconfiguration content shape
 
 Every `fsm-propose-override` proposal of `kind:"prose"` expresses its named-technique content as `body.anchors`, a non-empty array of `Anchor` values. An `Anchor` is `{name, author}`: exactly those two non-empty strings, no `url` or other key; `fsm_propose.rs` parses each entry at the boundary and refuses anything else. Anchors are attributed, not paraphrase. An anchor is a compact reference to a well-known, well-attributed technique from real literature -- "MECE (Barbara Minto)", never "split into groups that don't overlap and cover everything". Where the proposed prose lists more than one anchor and those anchors relate to each other, express the relation as a mermaid graph (`flowchart` with `-.->` edges), not a flat list. Never invent an edge: state only a relation genuinely known from the cited literature (a shared author, a documented dependency, an explicit "see also" in the technique's own source). If the proposal's synthesis surfaces a well-known, well-attributed technique missing from the target phase's existing anchor list, add it with correct attribution rather than leaving the gap unnamed -- and graph it in, don't just append it to a flat list. Never cite an external anchor-catalog website by name or URL; the anchor + author pair is the citation, self-contained regardless of where it was first indexed. This governs every prose-kind self-reconfiguration proposal on every project, not a one-time pass.
-

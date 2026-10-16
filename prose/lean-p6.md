@@ -159,9 +159,9 @@ The last witness before the transition is a build check of the whole crate or pa
 
 ## Memory
 
-Save only an unknown that recurs: the cause of dead code, such as a module whose every change leaves a superseded path behind, once the check that catches it is confirmed. Save it as one memory file with its MEMORY.md line. A memory that says a path is in use, when the zero-hit check proves it gone, is deleted with its MEMORY.md line.
+Save a memory only for an unknown: the recurring cause of dead code. When a deletion reveals a pattern that will recur, such as a module whose every change leaves a superseded path behind, save it as one flat file with frontmatter fields name, description and metadata.type (value unknown), once the check that catches the pattern is confirmed. Add one line to MEMORY.md that points to the file. A memory that says a path is in use, when the zero-hit check proves it gone, is deleted with its MEMORY.md line.
 
-Deleted symbol and file lists live in the commit and the rows. Diff stats live in git. Zero-hit replies live in the rows that cite them. None of them is a memory.
+Deleted symbol and file lists live in the commit and the rows. Diff stats live in git. Zero-hit replies live in the rows that cite them. None of them is saved as a memory.
 
 ## Transition
 

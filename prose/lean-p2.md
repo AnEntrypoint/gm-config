@@ -20,7 +20,7 @@ Reshaping is `transition to=EARS`, dispatched in the same turn as the discovery,
 
 Write each file in the CONTRACT artifacts only through `fs_write {path, content}`, then verify it with `fs_read {path}`. The disk content is the witness, not the tool's return.
 
-Save memory for unknowns only, under the rules in the Memory section below.
+Memorize through the rules in the Memorize section below.
 
 ## PRD rows
 
@@ -150,9 +150,11 @@ Process of elimination is the debugging method on every surface. For a hard bug,
 
 ## Memory
 
-When a contract change makes a memory file stale, delete the file and its `MEMORY.md` line.
+Save an unknown as a memory file only when a later task needs it. Settled contract facts and rejected representations are not memories. The signatures and the PRD row already hold them.
 
-Exec output, intermediate compiler errors and the contract text are not memories. The contract text already lives in the signatures.
+When a contract change makes a memory file stale, delete the file and its MEMORY.md line.
+
+Exec output, intermediate compiler errors and contract text are not memories. The signatures already hold the contract text.
 
 ## Transition
 
