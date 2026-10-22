@@ -68,7 +68,8 @@
     "recency_floor": 0.4,
     "cos_floor": 0.0,
     "dedup_jaccard_threshold": 0.7,
-    "half_life_ms": 2592000000
+    "half_life_ms": 2592000000,
+    "promotion_margin": 0.02
   },
 
   "rssearch": {
