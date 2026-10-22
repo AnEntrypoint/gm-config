@@ -94,7 +94,7 @@ Gate hooks execute from either the project-vendored tier or this config-repo tie
 | `fsm/predicates.md` | Generated reference of the gate predicates a graph may name. |
 | `gates/*.md`, `residual/*.md` | Operator-editable denial and residual-scan message text. |
 | `hooks/*.js` | Jit gate hooks, for conditions no compiled predicate covers. |
-| `gm.config.json` | Index budgets, RAG/embedding settings, BM25+vector scoring, vector table/index names, pipeline budgets, instruction-payload shape, discipline-note limits, claim-audit markers, cache budgets, sync debounce, the memory-md sync pass budgets (`memory_sync`), the opt-in TencentDB-Agent-Memory-compatible backend (`memory.tencentdb_backend`: enabled flag, data dir, embedding dimension, namespace routing). |
+| `gm.config.json` | Index budgets, RAG/embedding settings, BM25+vector scoring, vector table/index names, pipeline budgets, instruction-payload shape, discipline-note limits, claim-audit markers, cache budgets, sync debounce, the memory-md sync pass budgets (`memory_sync`). |
 
 A genuinely different workflow -- different phases, different order, different
 gates -- is established by replacing `fsm/graph.json` and the matching prose.
