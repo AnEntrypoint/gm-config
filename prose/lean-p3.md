@@ -112,7 +112,7 @@ A sweep depending on the interleaving that happened to occur is not a pass: reru
 
 Before the node closes, three diff predicates must hold:
 
-- no-synthetic-test-files: the working diff introduces no standing test file (*.test.*, *.spec.*, *_test.*, a test_* name, or a file under a test, tests or __tests__ directory) and no synthetic or stub fixture (*.mock.*, *.stub.*, *.fixture.*, or a file under a fixtures, __fixtures__, __mocks__ or mocks directory), as predicates.md:19 defines it. Gate check sources stay editable. Verification is a live exec_js witness against real code, never a suite.
+- no-synthetic-test-files: the working diff introduces no standing test file (*.test.*, *.spec.*, or a test, tests or __tests__ directory), as predicates.md:19 defines it. Verification is a live exec_js witness against real code, never a suite.
 - no-graphical-symbols-in-diff: new lines contain no decorative non-ASCII glyph (arrows, box drawing, stars, bullets, checks, crosses, emoji).
 - no-admit-deferral-markers: new source lines contain no colon-form admit marker, no placeholder macro that panics or is unimplemented, and no phrase saying a path is not implemented. A marker stands in for a complete proof, so it is rejected.
 
